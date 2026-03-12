@@ -1,0 +1,16 @@
+{
+    "venvPath": ".",
+    "venv": "venv",
+    "pythonVersion": "3.13",
+    "typeCheckingMode": "basic",
+    "reportMissingImports": "none",
+    "reportMissingModuleSource": "none",
+    "include": [
+        "engine.py",
+        "model.py",
+        "check_setup.py"
+    ],
+    "exclude": [
+        "venv"
+    ]
+}
