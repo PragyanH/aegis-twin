@@ -29,20 +29,22 @@ st.set_page_config(
 )
 
 # --- THEME & CSS (Glassmorphism + Dark Theme) ---
-NEON_GREEN = "#00ff88"
-NEON_RED = "#ff2d55"
+NEON_GREEN = "#00fff2"
+NEON_RED = "#ff007f"
 NEON_BLUE = "#00cfff"
 
 st.markdown(f"""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600;700&display=swap');
 
     html, body, [class*="css"] {{
         font-family: 'Inter', sans-serif;
-        background-color: #05070a;
+        background: radial-gradient(circle at center, #0B1120 0%, #000000 100%);
+        background-color: #0b1120;
         background-image: 
-            linear-gradient(rgba(0, 207, 255, 0.05) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0, 207, 255, 0.05) 1px, transparent 1px);
+            linear-gradient(rgba(0, 255, 242, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 255, 242, 0.03) 1px, transparent 1px);
         background-size: 40px 40px;
         background-position: center bottom;
         animation: cyber-pulse 4s linear infinite;
@@ -56,11 +58,10 @@ st.markdown(f"""
 
     /* Glassmorphism Card Style */
     .glass-card {{
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(14px);         
-        -webkit-backdrop-filter: blur(14px);
-        border: 1px solid rgba(0, 207, 255, 0.2); 
-        border-top: 1px solid rgba(255, 255, 255, 0.3);
+        background: rgba(17, 25, 40, 0.7);
+        backdrop-filter: blur(12px);         
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.1); 
         border-radius: 16px;
         padding: 24px;
         margin-bottom: 24px;
@@ -69,40 +70,53 @@ st.markdown(f"""
     }}
 
     .fleet-card {{
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(0, 255, 136, 0.3);
+        background: rgba(17, 25, 40, 0.7);
+        backdrop-filter: blur(12px);         
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 12px;
         padding: 16px;
         margin-bottom: 16px;
         text-align: center;
         transition: all 0.2s ease-in-out;
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
     }}
     .fleet-card:hover {{
-        border: 1px solid {NEON_BLUE};
-        box-shadow: 0 0 15px rgba(0, 207, 255, 0.4);
+        border: 1px solid {NEON_GREEN};
+        box-shadow: 0 0 15px rgba(0, 255, 242, 0.4);
     }}
 
     /* Neon Borders */
     .neon-safe {{
-        border: 1px solid rgba(0, 255, 136, 0.4);
-        box-shadow: 0 0 10px rgba(0, 255, 136, 0.1);
+        border: 1px solid rgba(0, 255, 242, 0.4);
+        box-shadow: 0 0 10px rgba(0, 255, 242, 0.1);
     }}
     
     .neon-compromised {{
-        border: 1px solid rgba(255, 45, 85, 0.5);
-        box-shadow: 0 0 15px rgba(255, 45, 85, 0.2);
+        border: 1px solid rgba(255, 0, 127, 0.5);
+        box-shadow: 0 0 15px rgba(255, 0, 127, 0.4);
     }}
     
     /* Pulsing Red Animation */
-    @keyframes pulse-red {{
-        0% {{ box-shadow: 0 0 0 0 rgba(255, 45, 85, 0.4); }}
-        70% {{ box-shadow: 0 0 0 15px rgba(255, 45, 85, 0); }}
-        100% {{ box-shadow: 0 0 0 0 rgba(255, 45, 85, 0); }}
+    @keyframes pulse {{
+        0% {{ box-shadow: 0 0 0 0 rgba(255, 0, 127, 0.6); }}
+        70% {{ box-shadow: 0 0 0 20px rgba(255, 0, 127, 0); }}
+        100% {{ box-shadow: 0 0 0 0 rgba(255, 0, 127, 0); }}
     }}
 
     .pulse-red {{
-        animation: pulse-red 2s infinite;
-        border: 1px solid rgba(255, 45, 85, 0.5) !important;
+        animation: pulse 2s infinite !important;
+        border: 1px solid #ff007f !important;
+    }}
+
+    @keyframes pulse-stress {{
+        0% {{ border: 1px solid rgba(255, 0, 127, 0.4); box-shadow: 0 0 0 0 rgba(255, 0, 127, 0.4); }}
+        70% {{ border: 1px solid rgba(255, 0, 127, 1); box-shadow: 0 0 10px 5px rgba(255, 0, 127, 0); }}
+        100% {{ border: 1px solid rgba(255, 0, 127, 0.4); box-shadow: 0 0 0 0 rgba(255, 0, 127, 0); }}
+    }}
+
+    .pulse-stress {{
+        animation: pulse-stress 1.5s infinite !important;
     }}
 
     @keyframes blinker {{
@@ -112,35 +126,39 @@ st.markdown(f"""
     /* Ghost Buttons */
     div.stButton > button {{
         background: transparent !important;
-        border: 1px solid #00cfff !important;
-        color: #00cfff !important;
+        border: 1px solid #00fff2 !important;
+        color: #00fff2 !important;
         border-radius: 8px !important;
         transition: all 0.3s ease !important;
     }}
     div.stButton > button:hover {{
-        background: rgba(0, 207, 255, 0.1) !important;
-        box-shadow: 0 0 10px rgba(0, 207, 255, 0.5) !important;
-        border: 1px solid #00ff88 !important;
-        color: #00ff88 !important;
+        background: rgba(0, 255, 242, 0.1) !important;
+        box-shadow: 0 0 10px rgba(0, 255, 242, 0.5) !important;
+        border: 1px solid #00fff2 !important;
+        color: #00fff2 !important;
     }}
 
     .section-header {{
+        font-family: 'Source Code Pro', monospace;
         font-size: 1.1rem;
-        font-weight: 600;
+        font-weight: 700;
         margin-bottom: 15px;
-        color: {NEON_BLUE};
+        color: {NEON_GREEN};
         text-transform: uppercase;
         letter-spacing: 1.2px;
     }}
 
     /* Sidebar styling */
     [data-testid="stSidebar"] {{
-        background-color: rgba(10, 12, 18, 0.95);
+        background-color: rgba(11, 17, 32, 0.85);
+        backdrop-filter: blur(12px);
         border-right: 1px solid rgba(255, 255, 255, 0.1);
     }}
 
     h1, h2, h3 {{
         color: white !important;
+        font-family: 'Source Code Pro', monospace !important;
+        text-transform: uppercase;
     }}
     
     /* Table Styling */
@@ -177,6 +195,16 @@ if 'threat_log' not in st.session_state:
     st.session_state.threat_log = []
 if 'remediation_log' not in st.session_state:
     st.session_state.remediation_log = []
+if 'math_mode_active' not in st.session_state:
+    st.session_state.math_mode_active = False
+if 'jsd_history' not in st.session_state:
+    st.session_state.jsd_history = [0.0] * 10
+if 'pulse_mse_history' not in st.session_state:
+    st.session_state.pulse_mse_history = [0.0] * 30
+if 'pulse_jsd_history' not in st.session_state:
+    st.session_state.pulse_jsd_history = [0.0] * 30
+if 'reconstruction_errors_history' not in st.session_state:
+    st.session_state.reconstruction_errors_history = [[0.0] * 20 for _ in range(4)]
 
 # --- MODEL CACHING ---
 @st.cache_resource
@@ -294,8 +322,25 @@ elif st.session_state.page == "dashboard":
     with torch.no_grad():
         mse_tensor = autoencoder.reconstruction_error(tensor_input)
         mse = float(mse_tensor.item())
+        output = autoencoder(tensor_input)
+        diff = tensor_input - output
+        mse_per_feature = torch.mean(diff ** 2, dim=1).squeeze().tolist()
+        
+    for i in range(4):
+        st.session_state.reconstruction_errors_history[i].append(mse_per_feature[i])
+        st.session_state.reconstruction_errors_history[i].pop(0)
 
     jsd = calculate_jsd(current_features, dev_baseline)
+    
+    # Update Pulse history
+    st.session_state.pulse_mse_history.append(mse)
+    st.session_state.pulse_mse_history.pop(0)
+    st.session_state.pulse_jsd_history.append(jsd)
+    st.session_state.pulse_jsd_history.pop(0)
+
+    # Update JSD history
+    st.session_state.jsd_history.append(jsd)
+    st.session_state.jsd_history.pop(0)
     trust_score = calculate_trust_score(mse, jsd)
 
     is_safe = trust_score >= 50
@@ -312,10 +357,18 @@ elif st.session_state.page == "dashboard":
         indicator_html = f"<span style='color: {NEON_RED}; animation: blinker 1s linear infinite;'>● CRITICAL</span>"
 
     # --- MAIN LAYOUT : BENTO GRID ---
+    st.markdown("""
+    <div style="background: rgba(0, 255, 242, 0.05); border: 1px solid rgba(0, 255, 242, 0.3); border-radius: 4px; padding: 5px; margin-bottom: 15px; box-shadow: 0 0 10px rgba(0,255,242,0.1);">
+        <marquee scrollamount="5" style="color: #00fff2; font-family: 'Source Code Pro', monospace; font-size: 14px; letter-spacing: 2px;">
+            // SYSTEM INTEGRITY: OPTIMAL &nbsp;&nbsp;&nbsp;&nbsp; // ENCODER LATENCY: 0.002ms &nbsp;&nbsp;&nbsp;&nbsp; // ACTIVE NODES: 10 &nbsp;&nbsp;&nbsp;&nbsp; // ENCRYPTION: AES-256
+        </marquee>
+    </div>
+    """, unsafe_allow_html=True)
+    
     st.markdown(f"""
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
         <h1 style="margin:0;">{device_info['icon']} Twin Dashboard: {device_info['name']}</h1>
-        <h3 style="margin:0; color:{status_color} !important; border: 1px solid {status_color}; padding: 8px 16px; border-radius: 8px;">
+        <h3 style="margin:0; color:{status_color} !important; border: 1px solid {status_color}; padding: 8px 16px; border-radius: 8px; box-shadow: 0 0 15px {status_color}40;">
             {indicator_html}
         </h3>
     </div>
@@ -385,15 +438,15 @@ elif st.session_state.page == "dashboard":
         fig_gauge = go.Figure(go.Indicator(
             mode = "gauge+number",
             value = trust_score,
-            number = {'font': {'color': 'white', 'size': 60}, 'suffix': "%"},
+            number = {'font': {'color': 'white', 'size': 75}, 'suffix': "%"},
             gauge = {
                 'axis': {'range': [0, 100], 'tickcolor': "white"},
                 'bar': {'color': status_color, 'thickness': 0.8},
                 'bgcolor': "rgba(0,0,0,0)",
                 'borderwidth': 0,
                 'steps': [
-                    {'range': [0, 50], 'color': 'rgba(255, 45, 85, 0.15)'},
-                    {'range': [50, 100], 'color': 'rgba(0, 255, 136, 0.15)'}
+                    {'range': [0, 50], 'color': 'rgba(255, 0, 127, 0.15)'},
+                    {'range': [50, 100], 'color': 'rgba(0, 255, 242, 0.15)'}
                 ],
                 'threshold': {
                     'line': {'color': 'white', 'width': 3},
@@ -405,11 +458,28 @@ elif st.session_state.page == "dashboard":
         fig_gauge.update_layout(
             paper_bgcolor='rgba(0,0,0,0)',
             plot_bgcolor='rgba(0,0,0,0)',
-            font={'color': "white", 'family': "Inter"},
-            height=320,
-            margin=dict(l=30, r=30, t=10, b=10)
+            font={'color': "white", 'family': "Source Code Pro"},
+            height=260,
+            margin=dict(l=20, r=20, t=10, b=10)
         )
         st.plotly_chart(fig_gauge, use_container_width=True)
+        
+        # Sub-container Feature Contribution Sparkline
+        fig_spark = go.Figure(go.Scatter(
+            y=st.session_state.jsd_history,
+            mode='lines',
+            line={'color': NEON_GREEN, 'width': 3, 'shape': 'spline'},
+            fill='tozeroy',
+            fillcolor=f'rgba(0, 255, 242, 0.15)'
+        ))
+        fig_spark.update_layout(
+            height=50, margin={'l': 0, 'r': 0, 't': 0, 'b': 0},
+            paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
+            xaxis={'visible': False}, yaxis={'visible': False, 'range': [0, 1]}
+        )
+        st.plotly_chart(fig_spark, use_container_width=True)
+        st.markdown("<div style='text-align:center; font-family:\"Source Code Pro\", monospace; font-size:12px; color:#00fff2; text-shadow: 0 0 5px #00fff2; margin-top:-10px;'>FEATURE CONTRIBUTION (JSD)</div>", unsafe_allow_html=True)
+        
         st.markdown('</div>', unsafe_allow_html=True)
 
     with top_col2:
@@ -426,44 +496,142 @@ elif st.session_state.page == "dashboard":
 
 
     # ===== MIDDLE ROW =====
-    st.markdown('<div class="glass-card">', unsafe_allow_html=True)
-    st.markdown('<div class="section-header">Feature Drift Analysis</div>', unsafe_allow_html=True)
+    # X-Factor Logic: Check for neural stress
+    stress_alert = mse > 0.15
+    stress_class = "pulse-stress" if stress_alert else ""
+    stress_border = "border: 1px solid #ff007f;" if stress_alert else "border: 1px solid rgba(0, 255, 242, 0.2);"
 
+    st.markdown(f'''
+    <div class="glass-card {stress_class}" style="box-shadow: 0 0 15px rgba(0, 255, 242, 0.2); {stress_border}">
+        <div class="section-header" style="display: flex; justify-content: space-between;">
+            <span>Feature Drift Analysis</span>
+            {'<span style="color: #ff007f; font-size: 0.8em; animation: blinker 0.8s infinite;">NEURAL STRESS DETECTED</span>' if stress_alert else ''}
+        </div>
+    ''', unsafe_allow_html=True)
+
+    col_left, col_right = st.columns(2)
     categories = ['Packet Size', 'IAT', 'Payload Entropy', 'Flow Symmetry']
 
-    fig_radar = go.Figure()
-    # Baseline
-    fig_radar.add_trace(go.Scatterpolar(
-        r=dev_baseline,
-        theta=categories,
-        fill='toself',
-        name=f'{device_info["type"]} Baseline',
-        line_color=NEON_BLUE,
-        fillcolor='rgba(0, 207, 255, 0.2)'
-    ))
-    # Current
-    fig_radar.add_trace(go.Scatterpolar(
-        r=current_features,
-        theta=categories,
-        fill='toself',
-        name='Current Traffic',
-        line_color=status_color,
-        fillcolor=f'rgba({255 if not is_safe else 0}, {45 if not is_safe else 255}, {85 if not is_safe else 136}, 0.3)'
-    ))
-    fig_radar.update_layout(
-        polar=dict(
-            radialaxis=dict(visible=True, range=[0, 1], gridcolor="rgba(255,255,255,0.1)"),
-            angularaxis=dict(gridcolor="rgba(255,255,255,0.1)"),
-            bgcolor="rgba(0,0,0,0)"
-        ),
-        paper_bgcolor='rgba(0,0,0,0)',
-        plot_bgcolor='rgba(0,0,0,0)',
-        font={'color': "white"},
-        height=400,
-        margin=dict(l=40, r=40, t=40, b=40)
-    )
-    st.plotly_chart(fig_radar, use_container_width=True)
+    with col_left:
+        fig_radar = go.Figure()
+        # Baseline
+        fig_radar.add_trace(go.Scatterpolar(
+            r=dev_baseline,
+            theta=categories,
+            fill='toself',
+            name=f'{device_info["type"]} Baseline',
+            line_color=NEON_BLUE,
+            fillcolor='rgba(0, 207, 255, 0.2)'
+        ))
+        # Current
+        fig_radar.add_trace(go.Scatterpolar(
+            r=current_features,
+            theta=categories,
+            fill='toself',
+            name='Current Traffic',
+            line_color=status_color,
+            fillcolor=f'rgba({255 if not is_safe else 0}, {45 if not is_safe else 255}, {85 if not is_safe else 136}, 0.3)'
+        ))
+        fig_radar.update_layout(
+            polar={
+                'radialaxis': {'visible': True, 'range': [0, 1], 'gridcolor': "rgba(255,255,255,0.1)"},
+                'angularaxis': {'gridcolor': "rgba(255,255,255,0.1)"},
+                'bgcolor': "rgba(0,0,0,0)"
+            },
+            paper_bgcolor='rgba(0,0,0,0)',
+            plot_bgcolor='rgba(0,0,0,0)',
+            font={'color': "white"},
+            height=360,
+            margin={'l': 40, 'r': 40, 't': 10, 'b': 10},
+            hovermode='closest'
+        )
+        st.plotly_chart(fig_radar, use_container_width=True, config={'displayModeBar': False})
+
+    with col_right:
+        st.markdown("<div style='text-align: center; color: #00fff2; font-weight: 600; margin-bottom: 5px; font-family: \"Source Code Pro\", monospace; font-size: 0.9em;'>Neural Health Monitor (Live Pulse)</div>", unsafe_allow_html=True)
+        
+        fig_pulse = go.Figure()
+        
+        # Grid lines to match Blueprint
+        fig_pulse.update_xaxes(showgrid=True, gridwidth=1, gridcolor='rgba(0, 255, 242, 0.05)', zeroline=False)
+        fig_pulse.update_yaxes(showgrid=True, gridwidth=1, gridcolor='rgba(0, 255, 242, 0.05)', zeroline=False)
+        
+        # Alert Boundary
+        fig_pulse.add_hline(y=0.15, line_dash="dot", line_color="white", line_width=1, annotation_text="ALERT BOUNDARY", annotation_position="top left", annotation_font={'size': 10, 'color': 'white'})
+        
+        # Reconstruction Error (MSE) - Neon Pink
+        fig_pulse.add_trace(go.Scatter(
+            y=st.session_state.pulse_mse_history,
+            name="MSE",
+            line={'color': '#ff007f', 'width': 3},
+            mode='lines',
+            hovertemplate="MSE: %{y:.4f}<extra></extra>"
+        ))
+        
+        # Statistical Friction (JSD) - Cyber Cyan
+        fig_pulse.add_trace(go.Scatter(
+            y=st.session_state.pulse_jsd_history,
+            name="JSD",
+            line={'color': '#00fff2', 'width': 3},
+            mode='lines',
+            hovertemplate="JSD: %{y:.4f}<extra></extra>"
+        ))
+        
+        fig_pulse.update_layout(
+            paper_bgcolor='rgba(0,0,0,0)',
+            plot_bgcolor='rgba(0,0,0,0)',
+            font={'color': "white", 'family': "Source Code Pro"},
+            height=360,
+            margin={'l': 30, 'r': 30, 't': 10, 'b': 10},
+            legend={'orientation': "h", 'yanchor': "bottom", 'y': 1.02, 'xanchor': "right", 'x': 1},
+            hovermode='x unified',
+            xaxis={'showticklabels': False}
+        )
+        
+        # Oscilloscope Glow Effect (simulated with shadow via custom CSS labels)
+        st.plotly_chart(fig_pulse, use_container_width=True, config={'displayModeBar': False})
+
+    st.markdown("<div style='color: #aaa; font-size: 0.85em; text-align: center; margin-top: 15px; font-style: italic;'>Dual-Sync Visualization: Mapping multidimensional geometric drift against temporal reconstruction residuals for 100% anomaly explainability.</div>", unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
+
+
+    # ===== NEURAL ENGINE & MATHEMATICS ROW =====
+    
+    # Toggle logic for math mode
+    def toggle_math_mode():
+        st.session_state.math_mode_active = not st.session_state.math_mode_active
+
+    st.markdown('<br>', unsafe_allow_html=True)
+    if not st.session_state.math_mode_active:
+        st.button("▶️ Initialize Live Math Engine", key=f"math_toggle_{dev_id}", on_click=toggle_math_mode, use_container_width=True)
+    else:
+        st.button("⏸️ Terminate Live Feed", key=f"math_toggle_{dev_id}", on_click=toggle_math_mode, use_container_width=True)
+        
+        # When active, wrap the section with a glowing Cyan border
+        st.markdown('''
+        <div class="glass-card" style="border: 1px solid #00fff2; box-shadow: 0 0 15px rgba(0, 255, 242, 0.2);">
+            <div class="section-header" style="color: #00fff2; text-shadow: 0 0 8px rgba(0, 255, 242, 0.5);">Neural Engine & Mathematics (Live Computing)</div>
+        ''', unsafe_allow_html=True)
+
+        col_math, col_neural = st.columns(2)
+
+        with col_math:
+            st.markdown("<div style='text-align: center; color: white; font-weight: 600; margin-bottom: 10px;'>The JSD Logic (Mathematical Engine)</div>", unsafe_allow_html=True)
+            live_jsd = calculate_jsd(current_features, dev_baseline)
+            st.latex(rf"JSD(P || Q) \approx {live_jsd:.4f}")
+            st.markdown(f"<div style='color: #00ff88; font-weight: bold; text-align: center; padding: 10px; border: 1px solid #00ff88; border-radius: 8px; margin-top: 10px; box-shadow: 0 0 10px rgba(0,255,136,0.2);'>Current Statistical Friction: {live_jsd:.4f}</div>", unsafe_allow_html=True)
+
+        with col_neural:
+            st.markdown("<div style='text-align: center; color: white; font-weight: 600; margin-bottom: 10px;'>The LSTM Encoder (Neural Architecture)</div>", unsafe_allow_html=True)
+            with torch.no_grad():
+                output = autoencoder(tensor_input)
+                diff = tensor_input - output
+                mse_calc = torch.mean(diff ** 2).item()
+            st.latex(rf"f_t = \sigma(W_f \cdot [h_{{t-1}}, x_t] + b_f) \implies MSE \approx {mse_calc:.4f}")
+            st.progress(min(max(mse_calc, 0.0), 1.0), text=f"Reconstruction Error (MSE): {mse_calc:.4f}")
+            st.markdown("<div style='color: #aaa; font-size: 0.85em; text-align: center; margin-top: 5px;'>If MSE > 0.1, the Twin is drifting from the Physical Device.</div>", unsafe_allow_html=True)
+
+        st.markdown('</div>', unsafe_allow_html=True)
 
 
     # ===== BOTTOM ROW =====
