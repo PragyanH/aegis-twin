@@ -37,4 +37,8 @@ SESSION_DEFAULTS = {
     "password_visible":              False,
     "register_mode":                 False,
     "last_alert_sent":               {},
+    # hardware / sniffer
+    "sniffer_active":                False,
+    "hw_active_device":              None,
+    "hw_calibrating":                False,
 }
