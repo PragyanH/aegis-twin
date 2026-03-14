@@ -117,20 +117,12 @@ def _compute_attack_pattern(
     current: List[float],
     packet_history: List[Dict[str, Any]],
 ) -> str:
-    """Guess a likely attack pattern based on simple heuristics.
-
-    This is intentionally lightweight and intended as a starting point for
-    more complex analysis (e.g., using ML / threat intelligence signatures).
-    """
-
-    # Feature index mapping is derived from the dashboard in app.py
-    # 0=Packet Size, 1=IAT, 2=Entropy, 3=Symmetry
+    """Guess a likely attack pattern based on simple heuristics."""
 
     deltas = [abs(c - b) for b, c in zip(baseline, current)]
     if not deltas:
         return "Unknown"
 
-    # Quick heuristics
     packet_size_delta, iat_delta, entropy_delta, symmetry_delta = deltas
 
     if packet_size_delta > 0.35 and entropy_delta > 0.25:
@@ -139,7 +131,6 @@ def _compute_attack_pattern(
     if iat_delta > 0.4 and symmetry_delta > 0.3:
         return "Botnet / Mass Scanning (burst traffic with irregular timing)"
 
-    # Look for stealthy command-and-control pattern in packet history
     if packet_history:
         recent = packet_history[:8]
         iat_list = [entry.get("IAT") for entry in recent if isinstance(entry.get("IAT"), (int, float))]
@@ -207,7 +198,6 @@ def _render_report_pdf(report: ForensicReportData, output_path: str) -> str:
 
     story = []
 
-    # Incident Header
     story.append(Paragraph("Incident Report", styles["Title"]))
     story.append(Spacer(1, 8))
 
@@ -234,7 +224,6 @@ def _render_report_pdf(report: ForensicReportData, output_path: str) -> str:
     story.append(info_table)
     story.append(Spacer(1, 14))
 
-    # Executive Summary
     story.append(Paragraph("Executive Summary", styles["SectionHeader"]))
     story.append(
         Paragraph(
@@ -247,7 +236,6 @@ def _render_report_pdf(report: ForensicReportData, output_path: str) -> str:
         )
     )
 
-    # Digital Twin Analysis
     story.append(Paragraph("Digital Twin Analysis", styles["SectionHeader"]))
     story.append(
         Paragraph(
@@ -281,7 +269,6 @@ def _render_report_pdf(report: ForensicReportData, output_path: str) -> str:
     story.append(metrics_table)
     story.append(Spacer(1, 10))
 
-    # Top Anomaly Features
     story.append(Paragraph("Top Anomaly Contributing Features", styles["SectionHeader"]))
     if report.top_anomalies:
         anomalies_data = [["Feature", "Delta"]] + [[k, f"{v:.3f}"] for k, v in report.top_anomalies]
@@ -305,7 +292,6 @@ def _render_report_pdf(report: ForensicReportData, output_path: str) -> str:
             )
         )
 
-    # Behavioral Timeline
     story.append(Spacer(1, 10))
     story.append(Paragraph("Behavioral Timeline", styles["SectionHeader"]))
     if report.threat_log:
@@ -316,12 +302,10 @@ def _render_report_pdf(report: ForensicReportData, output_path: str) -> str:
     else:
         story.append(Paragraph("No threat log entries were present at the time of report generation.", styles["Body"]))
 
-    # Possible Attack Pattern
     story.append(Spacer(1, 10))
     story.append(Paragraph("Possible Attack Pattern", styles["SectionHeader"]))
     story.append(Paragraph(report.attack_pattern, styles["Body"]))
 
-    # Risk Assessment
     story.append(Spacer(1, 10))
     story.append(Paragraph("Risk Assessment", styles["SectionHeader"]))
     story.append(
@@ -334,7 +318,6 @@ def _render_report_pdf(report: ForensicReportData, output_path: str) -> str:
         )
     )
 
-    # Recommended Remediation Actions
     story.append(Spacer(1, 10))
     story.append(Paragraph("Recommended Remediation Actions", styles["SectionHeader"]))
     remediation_steps = [
@@ -347,7 +330,6 @@ def _render_report_pdf(report: ForensicReportData, output_path: str) -> str:
     for step in remediation_steps:
         story.append(Paragraph(f"• {step}", styles["Body"]))
 
-    # Digital Evidence Snapshot
     story.append(Spacer(1, 10))
     story.append(Paragraph("Digital Evidence Snapshot", styles["SectionHeader"]))
     snap_data = [
@@ -370,7 +352,6 @@ def _render_report_pdf(report: ForensicReportData, output_path: str) -> str:
     )
     story.append(snap_table)
 
-    # Incident Signature
     story.append(Spacer(1, 10))
     story.append(Paragraph("Incident Signature", styles["SectionHeader"]))
     story.append(Paragraph(report.incident_signature, styles["Body"]))
@@ -381,11 +362,23 @@ def _render_report_pdf(report: ForensicReportData, output_path: str) -> str:
 
 
 def _get_cfg(key, default=None):
-    # Try st.secrets first (Streamlit Cloud), fall back to env var (local)
+    """Read config from st.secrets (Streamlit Cloud) or os.environ (local)."""
     try:
-        return st.secrets[key]
+        # Pass 1: flat key lookup
+        if key in st.secrets:
+            return st.secrets[key]
+        # Pass 2: search inside nested sections e.g. [smtp], [aegis], [forensics]
+        for section in st.secrets:
+            try:
+                section_data = st.secrets[section]
+                if hasattr(section_data, "__getitem__") and key in section_data:
+                    return section_data[key]
+            except Exception:
+                continue
     except Exception:
-        return os.environ.get(key, default)
+        pass
+    # Pass 3: fall back to environment variable (local .env via load_dotenv)
+    return os.environ.get(key, default)
 
 
 def send_forensic_report(
@@ -400,13 +393,9 @@ def send_forensic_report(
     smtp_password: Optional[str] = None,
 ) -> bool:
     """Send the generated PDF report via SMTP (TLS). Returns True on success."""
-    # smtp_host = smtp_host or os.environ.get("SMTP_SERVER")
-    # smtp_port = smtp_port or int(os.environ.get("SMTP_PORT", "587"))
-    # smtp_user = smtp_user or os.environ.get("SMTP_EMAIL")
-    # smtp_password = smtp_password or os.environ.get("SMTP_PASSWORD")
-    smtp_host = smtp_host or _get_cfg("SMTP_SERVER")
-    smtp_port = smtp_port or int(_get_cfg("SMTP_PORT", 587))
-    smtp_user = smtp_user or _get_cfg("SMTP_EMAIL")
+    smtp_host     = smtp_host     or _get_cfg("SMTP_SERVER")
+    smtp_port     = smtp_port     or int(_get_cfg("SMTP_PORT", 587))
+    smtp_user     = smtp_user     or _get_cfg("SMTP_EMAIL")
     smtp_password = smtp_password or _get_cfg("SMTP_PASSWORD")
 
     if not smtp_host or not smtp_user or not smtp_password:
@@ -456,7 +445,6 @@ def send_forensic_report(
             smtp_host,
             smtp_port,
         )
-        # propagate to caller so the UI can show a message if desired
         raise
 
 
@@ -495,12 +483,11 @@ def generate_and_send_report(
     )
     report.incident_signature = _incident_signature(report)
 
-    # Determine output directory
     now = datetime.datetime.utcnow().strftime("%Y%m%d_%H%M%S")
     safe_device_name = report.device_name.replace(" ", "_").replace("/", "_")
-    output_dir = output_dir or os.environ.get(
+    output_dir = output_dir or _get_cfg(
         "FORENSICS_OUTPUT_DIR",
-        os.environ.get("AEGIS_FORENSICS_OUT", "./reports"),
+        _get_cfg("AEGIS_FORENSICS_OUT", "./reports"),
     )
     output_path = os.path.join(
         output_dir,
@@ -509,8 +496,7 @@ def generate_and_send_report(
 
     pdf_path = _render_report_pdf(report, output_path)
 
-    # Send by email
-    recipient_email = recipient_email or os.environ.get("AEGIS_ALERT_RECIPIENT")
+    recipient_email = recipient_email or _get_cfg("AEGIS_ALERT_RECIPIENT")
     if recipient_email:
         send_forensic_report(
             recipient_email=recipient_email,
