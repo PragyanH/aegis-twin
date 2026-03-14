@@ -38,6 +38,7 @@ import hashlib
 import logging
 import os
 import statistics
+import streamlit as st
 from dataclasses import dataclass, field
 from email.message import EmailMessage
 from pathlib import Path
@@ -379,6 +380,14 @@ def _render_report_pdf(report: ForensicReportData, output_path: str) -> str:
     return str(output_path)
 
 
+def _get_cfg(key, default=None):
+    # Try st.secrets first (Streamlit Cloud), fall back to env var (local)
+    try:
+        return st.secrets[key]
+    except Exception:
+        return os.environ.get(key, default)
+
+
 def send_forensic_report(
     recipient_email: str,
     report_pdf_path: str,
@@ -391,10 +400,14 @@ def send_forensic_report(
     smtp_password: Optional[str] = None,
 ) -> bool:
     """Send the generated PDF report via SMTP (TLS). Returns True on success."""
-    smtp_host = smtp_host or os.environ.get("SMTP_SERVER")
-    smtp_port = smtp_port or int(os.environ.get("SMTP_PORT", "587"))
-    smtp_user = smtp_user or os.environ.get("SMTP_EMAIL")
-    smtp_password = smtp_password or os.environ.get("SMTP_PASSWORD")
+    # smtp_host = smtp_host or os.environ.get("SMTP_SERVER")
+    # smtp_port = smtp_port or int(os.environ.get("SMTP_PORT", "587"))
+    # smtp_user = smtp_user or os.environ.get("SMTP_EMAIL")
+    # smtp_password = smtp_password or os.environ.get("SMTP_PASSWORD")
+    smtp_host = smtp_host or _get_cfg("SMTP_SERVER")
+    smtp_port = smtp_port or int(_get_cfg("SMTP_PORT", 587))
+    smtp_user = smtp_user or _get_cfg("SMTP_EMAIL")
+    smtp_password = smtp_password or _get_cfg("SMTP_PASSWORD")
 
     if not smtp_host or not smtp_user or not smtp_password:
         raise ValueError(
