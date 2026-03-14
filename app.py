@@ -2,25 +2,31 @@
 Aegis-Twin · AI-Driven Digital Twin Dashboard
 ==============================================
 Enterprise Fleet Manager Edition.
-Includes a multi-device IoT Registry, Fleet Overview, and deep-dive
-anomaly dashboard powered by PyTorch and the LSTM Autoencoder engines.
 
 Run with: streamlit run app.py
 """
 
-import streamlit as st
-import numpy as np
+import os
+
 import pandas as pd
-import plotly.graph_objects as go
-import time
-import datetime
-import random
-import torch
+import streamlit as st
+from dotenv import load_dotenv
+import folium
+from streamlit_folium import st_folium
 
-from engine import calculate_trust_score, calculate_jsd
+from auth import create_user, has_users, init_db
+from auth_page import render_login_page
+from dashboard import render_device_dashboard
+from hardware_dashboard import render_hardware_dashboard
+from hardware_registry import HARDWARE_REGISTRY
 from model import LSTMAutoencoder
+from registry import IOT_REGISTRY, SESSION_DEFAULTS
+from sniffer import start_sniffer
+from ui import NEON_GREEN, NEON_RED, inject_css
 
-# --- PAGE CONFIG ---
+# ---------------------------------------------------------------------------
+# Page config
+# ---------------------------------------------------------------------------
 st.set_page_config(
     page_title="Aegis-Twin Fleet Manager",
     page_icon="🛡️",
@@ -28,630 +34,342 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# --- THEME & CSS (Glassmorphism + Dark Theme) ---
-NEON_GREEN = "#00fff2"
-NEON_RED = "#ff007f"
-NEON_BLUE = "#00cfff"
+# ---------------------------------------------------------------------------
+# Bootstrap
+# ---------------------------------------------------------------------------
+load_dotenv()
+init_db()
 
-st.markdown(f"""
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
-    @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600;700&display=swap');
+if not has_users():
+    admin_email    = os.environ.get("AEGIS_ADMIN_EMAIL")
+    admin_password = os.environ.get("AEGIS_ADMIN_PASSWORD")
+    if admin_email and admin_password:
+        try:
+            create_user(admin_email, admin_password)
+        except Exception:
+            pass
 
-    html, body, [class*="css"] {{
-        font-family: 'Inter', sans-serif;
-        background: radial-gradient(circle at center, #0B1120 0%, #000000 100%);
-        background-color: #0b1120;
-        background-image: 
-            linear-gradient(rgba(0, 255, 242, 0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0, 255, 242, 0.03) 1px, transparent 1px);
-        background-size: 40px 40px;
-        background-position: center bottom;
-        animation: cyber-pulse 4s linear infinite;
-        color: #e0e6ed;
-    }}
+inject_css()
 
-    @keyframes cyber-pulse {{
-        0% {{ background-position: 0 0; }}
-        100% {{ background-position: 40px 40px; }}
-    }}
+# ---------------------------------------------------------------------------
+# Session state defaults
+# ---------------------------------------------------------------------------
+for k, v in SESSION_DEFAULTS.items():
+    if k not in st.session_state:
+        st.session_state[k] = v
 
-    /* Glassmorphism Card Style */
-    .glass-card {{
-        background: rgba(17, 25, 40, 0.7);
-        backdrop-filter: blur(12px);         
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.1); 
-        border-radius: 16px;
-        padding: 24px;
-        margin-bottom: 24px;
-        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
-        transition: border 0.3s ease, box-shadow 0.3s ease;
-    }}
+# ---------------------------------------------------------------------------
+# Auth guard
+# ---------------------------------------------------------------------------
+if not st.session_state.authenticated:
+    render_login_page()
+    st.stop()
 
-    .fleet-card {{
-        background: rgba(17, 25, 40, 0.7);
-        backdrop-filter: blur(12px);         
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 12px;
-        padding: 16px;
-        margin-bottom: 16px;
-        text-align: center;
-        transition: all 0.2s ease-in-out;
-        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
-    }}
-    .fleet-card:hover {{
-        border: 1px solid {NEON_GREEN};
-        box-shadow: 0 0 15px rgba(0, 255, 242, 0.4);
-    }}
-
-    /* Neon Borders */
-    .neon-safe {{
-        border: 1px solid rgba(0, 255, 242, 0.4);
-        box-shadow: 0 0 10px rgba(0, 255, 242, 0.1);
-    }}
-    
-    .neon-compromised {{
-        border: 1px solid rgba(255, 0, 127, 0.5);
-        box-shadow: 0 0 15px rgba(255, 0, 127, 0.4);
-    }}
-    
-    /* Pulsing Red Animation */
-    @keyframes pulse {{
-        0% {{ box-shadow: 0 0 0 0 rgba(255, 0, 127, 0.6); }}
-        70% {{ box-shadow: 0 0 0 20px rgba(255, 0, 127, 0); }}
-        100% {{ box-shadow: 0 0 0 0 rgba(255, 0, 127, 0); }}
-    }}
-
-    .pulse-red {{
-        animation: pulse 2s infinite !important;
-        border: 1px solid #ff007f !important;
-    }}
-
-    @keyframes pulse-stress {{
-        0% {{ border: 1px solid rgba(255, 0, 127, 0.4); box-shadow: 0 0 0 0 rgba(255, 0, 127, 0.4); }}
-        70% {{ border: 1px solid rgba(255, 0, 127, 1); box-shadow: 0 0 10px 5px rgba(255, 0, 127, 0); }}
-        100% {{ border: 1px solid rgba(255, 0, 127, 0.4); box-shadow: 0 0 0 0 rgba(255, 0, 127, 0); }}
-    }}
-
-    .pulse-stress {{
-        animation: pulse-stress 1.5s infinite !important;
-    }}
-
-    @keyframes blinker {{
-        50% {{ opacity: 0; }}
-    }}
-
-    /* Ghost Buttons */
-    div.stButton > button {{
-        background: transparent !important;
-        border: 1px solid #00fff2 !important;
-        color: #00fff2 !important;
-        border-radius: 8px !important;
-        transition: all 0.3s ease !important;
-    }}
-    div.stButton > button:hover {{
-        background: rgba(0, 255, 242, 0.1) !important;
-        box-shadow: 0 0 10px rgba(0, 255, 242, 0.5) !important;
-        border: 1px solid #00fff2 !important;
-        color: #00fff2 !important;
-    }}
-
-    .section-header {{
-        font-family: 'Source Code Pro', monospace;
-        font-size: 1.1rem;
-        font-weight: 700;
-        margin-bottom: 15px;
-        color: {NEON_GREEN};
-        text-transform: uppercase;
-        letter-spacing: 1.2px;
-    }}
-
-    /* Sidebar styling */
-    [data-testid="stSidebar"] {{
-        background-color: rgba(11, 17, 32, 0.85);
-        backdrop-filter: blur(12px);
-        border-right: 1px solid rgba(255, 255, 255, 0.1);
-    }}
-
-    h1, h2, h3 {{
-        color: white !important;
-        font-family: 'Source Code Pro', monospace !important;
-        text-transform: uppercase;
-    }}
-    
-    /* Table Styling */
-    .stDataFrame {{
-        background: transparent !important;
-    }}
-</style>
-""", unsafe_allow_html=True)
-
-# --- IOT ENTERPRISE REGISTRY ---
-IOT_REGISTRY = {
-    "DEV-001": {"name": "AEGIS-PUMP-01", "type": "Pump", "sector": "1", "baseline": [0.4, 0.5, 0.3, 0.6], "icon": "🚰"},
-    "DEV-002": {"name": "Assembly Arm", "type": "Robotic Arm", "sector": "2", "baseline": [0.6, 0.3, 0.7, 0.5], "icon": "🦾"},
-    "DEV-003": {"name": "Grid Node 0X", "type": "Smart Grid Node", "sector": "3", "baseline": [0.3, 0.8, 0.4, 0.5], "icon": "⚡"},
-    "DEV-004": {"name": "Cryo-Storage A", "type": "Bio-Storage Fridge", "sector": "4", "baseline": [0.2, 0.6, 0.2, 0.8], "icon": "❄️"},
-    "DEV-005": {"name": "Mixer V-12", "type": "Chemical Mixer", "sector": "5", "baseline": [0.5, 0.5, 0.6, 0.4], "icon": "🧪"},
-    "DEV-006": {"name": "Security Cam 1", "type": "Camera", "sector": "6", "baseline": [0.8, 0.2, 0.4, 0.9], "icon": "📷"},
-    "DEV-007": {"name": "Security Cam 2", "type": "Camera", "sector": "7", "baseline": [0.8, 0.2, 0.3, 0.8], "icon": "📷"},
-    "DEV-008": {"name": "Coolant Pump", "type": "Pump", "sector": "8", "baseline": [0.5, 0.4, 0.4, 0.6], "icon": "⚙️"},
-    "DEV-009": {"name": "Welding Arm", "type": "Robotic Arm", "sector": "9", "baseline": [0.7, 0.2, 0.8, 0.4], "icon": "🤖"},
-    "DEV-010": {"name": "Main Grid Relay", "type": "Smart Grid Node", "sector": "7-G", "baseline": [0.4, 0.7, 0.5, 0.6], "icon": "🔌"},
-}
-
-# --- SESSION STATE ---
-if 'page' not in st.session_state:
-    st.session_state.page = "fleet"
-if 'active_device' not in st.session_state:
-    st.session_state.active_device = None
-if 'device_health' not in st.session_state:
-    st.session_state.device_health = {k: "Healthy" for k in IOT_REGISTRY.keys()}
-if 'packet_history' not in st.session_state:
-    st.session_state.packet_history = pd.DataFrame(columns=["Time", "Pkt Size", "IAT", "Entropy", "Symmetry", "Status"])
-if 'threat_log' not in st.session_state:
-    st.session_state.threat_log = []
-if 'remediation_log' not in st.session_state:
-    st.session_state.remediation_log = []
-if 'math_mode_active' not in st.session_state:
-    st.session_state.math_mode_active = False
-if 'jsd_history' not in st.session_state:
-    st.session_state.jsd_history = [0.0] * 10
-if 'pulse_mse_history' not in st.session_state:
-    st.session_state.pulse_mse_history = [0.0] * 30
-if 'pulse_jsd_history' not in st.session_state:
-    st.session_state.pulse_jsd_history = [0.0] * 30
-if 'reconstruction_errors_history' not in st.session_state:
-    st.session_state.reconstruction_errors_history = [[0.0] * 20 for _ in range(4)]
-
-# --- MODEL CACHING ---
+# ---------------------------------------------------------------------------
+# Model
+# ---------------------------------------------------------------------------
 @st.cache_resource
 def load_aegis_engine():
+    import torch
     model = LSTMAutoencoder()
-    model.eval()  # ensure inference mode
+    weights_path = "aegis_model.pth"
+    if os.path.exists(weights_path):
+        try:
+            model.load_state_dict(torch.load(weights_path, map_location="cpu"))
+            print("[model] Loaded trained weights from aegis_model.pth")
+        except Exception as e:
+            print(f"[model] Could not load weights: {e} — using random weights")
+    else:
+        print("[model] No trained weights found — using random weights")
+    model.eval()
     return model
 
 autoencoder = load_aegis_engine()
 
-def navigate_to_dashboard(dev_id):
-    st.session_state.active_device = dev_id
-    st.session_state.page = "dashboard"
-    st.session_state.packet_history = pd.DataFrame(columns=["Time", "Pkt Size", "IAT", "Entropy", "Symmetry", "Status"])
-    st.session_state.threat_log = []
+# ---------------------------------------------------------------------------
+# PAGE 1 — Fleet overview
+# ---------------------------------------------------------------------------
+def render_fleet_page():
 
-def navigate_to_fleet():
-    st.session_state.active_device = None
-    st.session_state.page = "fleet"
+    st.markdown("<h1 style='text-align:center;color:white;'>🌐 Enterprise Fleet Manager</h1>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align:center;color:#aaa;'>Click a hotspot on the map or a row in the registry to open its Digital Twin dashboard. <span style='color:#00ff88'>● Green = Healthy</span> | <span style='color:#ff2d55'>● Red = Compromised</span></p>", unsafe_allow_html=True)
 
-# ==========================================
-# PAGE 1: FLEET OVERVIEW
-# ==========================================
-if st.session_state.page == "fleet":
-    st.markdown("<h1 style='text-align: center; color: white;'>🌐 Enterprise Fleet Manager</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align: center; color: #aaa;'>Select a registered IoT device to enter its continuous monitoring Digital Twin dashboard.</p>", unsafe_allow_html=True)
-    st.markdown("---")
-    
-    # Create a 4-column grid
-    cols = st.columns(4)
-    for idx, (dev_id, info) in enumerate(IOT_REGISTRY.items()):
-        col = cols[idx % 4]
-        with col:
-            health = st.session_state.device_health.get(dev_id, 'Healthy')
-            h_color = NEON_GREEN if health == 'Healthy' else NEON_RED
-            h_text = "● ONLINE" if health == 'Healthy' else "● CRITICAL"
-            h_anim = "none" if health == 'Healthy' else "blinker 1s linear infinite"
-            
-            st.markdown(f"""
-            <div class="fleet-card">
-                <div style="font-size: 3rem;">{info['icon']}</div>
-                <h3 style="color: white; margin-bottom: 5px;">{info['name']}</h3>
-                <p style="color: #00cfff; font-size: 0.9em; margin-bottom: 5px;">ID: {dev_id}</p>
-                <p style="color: #aaa; font-size: 0.8em; margin-bottom: 15px;">Sector: {info['sector']} | Type: {info['type']}</p>
-                <div style="color: {h_color}; font-weight: bold; margin-bottom: 10px; animation: {h_anim};">{h_text}</div>
+    # --- Ticker Banner ---
+    ticker_text = "⬡ SYSTEM ONLINE · 10 NODES ACTIVE · SECTOR: RR NAGAR, BENGALURU · LSTM AUTOENCODER: RUNNING · DIGITAL TWINS: SYNCHRONIZED · THREAT LEVEL: NOMINAL · ENCRYPTION: AES-256-GCM · UPTIME: 99.98% · ANOMALY DETECTION: ENABLED · RECONSTRUCTION ERROR: NOMINAL · JSD DIVERGENCE: 0.00 ⬡"
+    st.markdown(f"""
+        <div style="background: rgba(0,255,242,0.03); border-top: 1px solid rgba(0,255,242,0.3); border-bottom: 1px solid rgba(0,255,242,0.3); padding: 8px 0; margin: 15px 0; overflow: hidden; white-space: nowrap;">
+            <div style="display: inline-block; white-space: nowrap; animation: ticker 40s linear infinite; font-family: 'Source Code Pro', monospace; color: #00fff2; font-size: 0.85rem; text-shadow: 0 0 5px rgba(0,255,242,0.5); letter-spacing: 1px;">
+                {ticker_text} &nbsp;&nbsp;&nbsp;&nbsp; {ticker_text} &nbsp;&nbsp;&nbsp;&nbsp; {ticker_text}
             </div>
-            """, unsafe_allow_html=True)
-            if st.button(f"View Digital Twin", key=f"btn_{dev_id}", use_container_width=True):
-                navigate_to_dashboard(dev_id)
-                st.rerun()
-                
-    st.markdown("---")
-    if st.session_state.remediation_log:
-        st.markdown("### 🛠️ Remediation History")
-        df_remedy = pd.DataFrame(st.session_state.remediation_log)
-        st.dataframe(df_remedy, use_container_width=True, hide_index=True)
+        </div>
+        <style>
+            @keyframes ticker {{ 0% {{ transform: translateX(0); }} 100% {{ transform: translateX(-33.33%); }} }}
+        </style>
+    """, unsafe_allow_html=True)
 
+    st.divider()
 
-# ==========================================
-# PAGE 2: DRILL-DOWN DASHBOARD
-# ==========================================
-elif st.session_state.page == "dashboard":
-    dev_id = st.session_state.active_device
-    device_info = IOT_REGISTRY[dev_id]
-    dev_baseline = device_info["baseline"]
+    # --- Split Layout: Map (Left) | Registry (Right) ---
+    col_map, col_reg = st.columns([6, 4])
 
-    # --- SIDEBAR & DEVICE REGISTRY ---
-    with st.sidebar:
-        st.markdown(f"<h1 style='text-align: center; color: {NEON_BLUE} !important;'>🛡️ Aegis Control</h1>", unsafe_allow_html=True)
-        st.markdown("---")
-        
-        # Back Button
-        if st.button("← Back to Fleet", use_container_width=True):
-            navigate_to_fleet()
-            st.rerun()
-            
-        st.markdown("<br>", unsafe_allow_html=True)
+    # Map initialization centered on JSS Academy, RR Nagar
+    center_lat, center_lon = 12.9026, 77.5001
+    m = folium.Map(location=[center_lat, center_lon], zoom_start=15, tiles="cartodb dark_matter", zoom_control=True)
 
-        # IoT Identity Card
+    # --- Counters for registry header ---
+    total_devices     = len(IOT_REGISTRY)
+    compromised_count = sum(1 for dev_id in IOT_REGISTRY if st.session_state.device_health.get(dev_id, "Healthy") != "Healthy")
+    healthy_count     = total_devices - compromised_count
+
+    # Build map markers
+    for idx, (dev_id, info) in enumerate(IOT_REGISTRY.items()):
+        health         = st.session_state.device_health.get(dev_id, "Healthy")
+        color          = NEON_GREEN if health == "Healthy" else NEON_RED
+        is_compromised = health != "Healthy"
+        pulse_class    = "map-pulsing-marker" if is_compromised else "map-static-marker"
+
+        tooltip_html = f"""
+        <div style="font-family:'Inter',sans-serif; background:rgba(17,25,40,0.95); color:white; padding:12px; border:1px solid {color}; border-radius:8px; box-shadow:0 0 10px {color}66; min-width:180px;">
+            <div style="font-size:1.5rem; margin-bottom:5px;">{info['icon']}</div>
+            <strong style="font-size:1.1rem; display:block; margin-bottom:2px;">{info['name']}</strong>
+            <code style="color:#00cfff; font-size:0.85em;">{dev_id}</code>
+            <div style="margin-top:8px; font-size:0.9em; color:#aaa;">
+                Type: {info['type']}<br>
+                Sector: {info['sector']}<br>
+                Status: <span style="color:{color}; font-weight:bold;">{health.upper()}</span>
+            </div>
+            <div style="margin-top:10px; font-size:0.8em; color:{color}; border-top:1px solid rgba(255,255,255,0.1); padding-top:5px;">
+                ▶ Click to open dashboard
+            </div>
+        </div>
+        """
+
+        icon_html = f"""
+        <div class="{pulse_class}" style="
+            background-color: {color};
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 0 15px {color};
+            cursor: pointer;
+        "></div>
+        """
+
+        folium.Marker(
+            location=[info['lat'], info['lon']],
+            popup=folium.Popup(tooltip_html, max_width=300),
+            tooltip=info['name'],
+            icon=folium.DivIcon(
+                icon_size=(20, 20),
+                icon_anchor=(10, 10),
+                html=icon_html,
+            ),
+            custom_id=dev_id
+        ).add_to(m)
+
+    # Custom CSS for map markers
+    st.markdown("""
+    <style>
+    @keyframes map-pulse {
+        0% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(255, 45, 85, 0.7); }
+        70% { transform: scale(1.1); box-shadow: 0 0 0 15px rgba(255, 45, 85, 0); }
+        100% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(255, 45, 85, 0); }
+    }
+    .map-pulsing-marker { animation: map-pulse 1.5s infinite; }
+    .map-static-marker:hover { transform: scale(1.2); transition: transform 0.2s ease; }
+    </style>
+    """, unsafe_allow_html=True)
+
+    with col_map:
+        output = st_folium(m, width="100%", height=500, key="fleet_map")
+
+    with col_reg:
         st.markdown(f"""
-            <div style="background: rgba(0, 207, 255, 0.05); padding: 15px; border-radius: 8px; border-left: 4px solid #00cfff; margin-bottom: 20px;">
-                <small style="color: #00cfff; font-weight: bold;">[ DEVICE REGISTRY ]</small><br>
-                <div style="display: flex; align-items: center; gap: 10px; margin-top: 5px;">
-                    <span style="font-size: 2em;">{device_info['icon']}</span>
-                    <div>
-                        <strong style="color: white; font-size: 1.1em;">{device_info['name']}</strong><br>
-                        <span style="color: #aaa; font-size: 0.9em;">ID: {dev_id}</span><br>
-                        <span style="color: #aaa; font-size: 0.9em;">Loc: Sector {device_info['sector']}</span>
-                    </div>
+        <div style="background:rgba(8,14,28,0.85);backdrop-filter:blur(20px);border:1px solid rgba(0,255,242,0.15);
+                    border-radius:12px;padding:20px 20px 10px 20px;margin-bottom:8px;">
+            <div style="font-family:'Source Code Pro',monospace;color:#00fff2;font-size:1.1rem;
+                        margin-bottom:12px;letter-spacing:1px;">// DEVICE REGISTRY</div>
+            <div style="display:flex;gap:10px;margin-bottom:4px;">
+                <div style="flex:1;background:rgba(0,255,136,0.08);border:1px solid rgba(0,255,136,0.3);
+                            border-radius:8px;padding:8px 12px;text-align:center;">
+                    <div style="color:#00ff88;font-size:1.4rem;font-weight:bold;">{total_devices}</div>
+                    <div style="color:#aaa;font-size:0.75rem;">TOTAL</div>
+                </div>
+                <div style="flex:1;background:rgba(0,255,136,0.08);border:1px solid rgba(0,255,136,0.3);
+                            border-radius:8px;padding:8px 12px;text-align:center;">
+                    <div style="color:#00ff88;font-size:1.4rem;font-weight:bold;">{healthy_count}</div>
+                    <div style="color:#aaa;font-size:0.75rem;">ACTIVE</div>
+                </div>
+                <div style="flex:1;background:rgba(255,45,85,0.08);border:1px solid rgba(255,45,85,0.3);
+                            border-radius:8px;padding:8px 12px;text-align:center;">
+                    <div style="color:#ff2d55;font-size:1.4rem;font-weight:bold;">{compromised_count}</div>
+                    <div style="color:#aaa;font-size:0.75rem;">CRITICAL</div>
                 </div>
             </div>
+        </div>
         """, unsafe_allow_html=True)
 
-        scan_active = st.toggle("📡 Live Scan Mode", value=True, key=f"scan_{dev_id}")
-        st.markdown("---")
-        
-        st.markdown("### Manual Traffic Injection")
-        # Initialize sliders around baseline
-        val_pkt_size = st.slider("Packet Size (Norm)", 0.0, 1.0, float(dev_baseline[0]), key=f"pkt_{dev_id}")
-        val_iat = st.slider("Inter-Arrival Time (Norm)", 0.0, 1.0, float(dev_baseline[1]), key=f"iat_{dev_id}")
-        val_entropy = st.slider("Entropy (Norm)", 0.0, 1.0, float(dev_baseline[2]), key=f"ent_{dev_id}")
-        val_symmetry = st.slider("Symmetry (Norm)", 0.0, 1.0, float(dev_baseline[3]), key=f"sym_{dev_id}")
+        # Search box
+        search_query = st.text_input(
+            "", placeholder="🔍 Search devices...",
+            key="registry_search",
+            label_visibility="collapsed",
+        )
 
-        st.markdown("---")
-        if st.button("Clear View Log", use_container_width=True, key=f"clear_{dev_id}"):
-            st.session_state.packet_history = pd.DataFrame(columns=["Time", "Pkt Size", "IAT", "Entropy", "Symmetry", "Status"])
-            st.session_state.threat_log = []
+        # Column headers (outside scroll container)
+        h1, h2, h3, h4, h5 = st.columns([1, 1.8, 2.2, 1.8, 1.2])
+        for col, label in zip([h1, h2, h3, h4, h5], ["", "ID", "NAME", "TYPE", "STATUS"]):
+            col.markdown(f"<span style='color:#555;font-size:0.78em;font-family:monospace;'>{label}</span>", unsafe_allow_html=True)
+        st.markdown("<hr style='margin:2px 0 4px 0;border-color:rgba(0,255,242,0.15);'>", unsafe_allow_html=True)
+
+        # st.container(height=N) is the ONLY reliable way to scroll native Streamlit widgets
+        scroll_box = st.container(height=310, border=False)
+
+        with scroll_box:
+            any_shown = False
+            for dev_id, info in IOT_REGISTRY.items():
+                search_text = f"{dev_id} {info['name']} {info['type']}".lower()
+                if search_query and search_query.lower() not in search_text:
+                    continue
+                any_shown = True
+                health     = st.session_state.device_health.get(dev_id, "Healthy")
+                color      = NEON_GREEN if health == "Healthy" else NEON_RED
+                status_txt = "● ONLINE" if health == "Healthy" else "● CRITICAL"
+
+                cb, c1, c2, c3, c4 = st.columns([1, 1.8, 2.2, 1.8, 1.2])
+                with cb:
+                    if st.button("▶", key=f"reg_nav_{dev_id}", help=f"Open {info['name']}"):
+                        st.session_state.active_device = dev_id
+                        st.session_state.page          = "dashboard"
+                        st.rerun()
+                c1.markdown(f"<span style='color:#00cfff;font-family:monospace;font-size:0.8em;'>{dev_id}</span>", unsafe_allow_html=True)
+                c2.markdown(f"<span style='color:white;font-size:0.8em;'>{info['icon']} {info['name']}</span>", unsafe_allow_html=True)
+                c3.markdown(f"<span style='color:#888;font-size:0.78em;'>{info['type']}</span>", unsafe_allow_html=True)
+                c4.markdown(f"<span style='color:{color};font-size:0.78em;font-weight:bold;'>{status_txt}</span>", unsafe_allow_html=True)
+                st.markdown("<hr style='margin:1px 0;border-color:rgba(255,255,255,0.04);'>", unsafe_allow_html=True)
+
+            if not any_shown:
+                st.markdown("<p style='color:#555;text-align:center;font-family:monospace;padding:20px;'>// NO DEVICES FOUND</p>", unsafe_allow_html=True)
+
+    # --- Handle map click navigation ---
+    if output and output.get("last_object_clicked"):
+        click_lat = output["last_object_clicked"]["lat"]
+        click_lon = output["last_object_clicked"]["lng"]
+
+        clicked_dev_id = None
+        for dev_id, info in IOT_REGISTRY.items():
+            if abs(info['lat'] - click_lat) < 0.0001 and abs(info['lon'] - click_lon) < 0.0001:
+                clicked_dev_id = dev_id
+                break
+
+        if clicked_dev_id:
+            st.session_state.active_device = clicked_dev_id
+            st.session_state.page          = "dashboard"
             st.rerun()
 
-    # --- AUTOENCODER INFERENCE ---
-    current_features = np.array([val_pkt_size, val_iat, val_entropy, val_symmetry])
-    feature_sequence = np.tile(current_features, (1, 10, 1))
-    tensor_input = torch.tensor(feature_sequence, dtype=torch.float32)
+    st.divider()
 
-    with torch.no_grad():
-        mse_tensor = autoencoder.reconstruction_error(tensor_input)
-        mse = float(mse_tensor.item())
-        output = autoencoder(tensor_input)
-        diff = tensor_input - output
-        mse_per_feature = torch.mean(diff ** 2, dim=1).squeeze().tolist()
-        
-    for i in range(4):
-        st.session_state.reconstruction_errors_history[i].append(mse_per_feature[i])
-        st.session_state.reconstruction_errors_history[i].pop(0)
+    # ── Real-Time Hardware Integration ────────────────────────────────────────
+    st.markdown("## 🔌 Real-Time Hardware Integration")
+    st.markdown(
+        "Live devices monitored via Scapy packet capture on your local network. "
+        "Requires administrator / root privileges."
+    )
 
-    jsd = calculate_jsd(current_features, dev_baseline)
-    
-    # Update Pulse history
-    st.session_state.pulse_mse_history.append(mse)
-    st.session_state.pulse_mse_history.pop(0)
-    st.session_state.pulse_jsd_history.append(jsd)
-    st.session_state.pulse_jsd_history.pop(0)
-
-    # Update JSD history
-    st.session_state.jsd_history.append(jsd)
-    st.session_state.jsd_history.pop(0)
-    trust_score = calculate_trust_score(mse, jsd)
-
-    is_safe = trust_score >= 50
-    status_color = NEON_GREEN if is_safe else NEON_RED
-    status_text = "SAFE" if is_safe else "COMPROMISED"
-
-    if is_safe:
-        st.session_state.device_health[dev_id] = "Healthy"
-        card_class = "neon-safe"
-        indicator_html = f"<span style='color: {NEON_GREEN};'>● ONLINE</span>"
-    else:
-        st.session_state.device_health[dev_id] = "Compromised"
-        card_class = "neon-compromised pulse-red"
-        indicator_html = f"<span style='color: {NEON_RED}; animation: blinker 1s linear infinite;'>● CRITICAL</span>"
-
-    # --- MAIN LAYOUT : BENTO GRID ---
-    st.markdown("""
-    <div style="background: rgba(0, 255, 242, 0.05); border: 1px solid rgba(0, 255, 242, 0.3); border-radius: 4px; padding: 5px; margin-bottom: 15px; box-shadow: 0 0 10px rgba(0,255,242,0.1);">
-        <marquee scrollamount="5" style="color: #00fff2; font-family: 'Source Code Pro', monospace; font-size: 14px; letter-spacing: 2px;">
-            // SYSTEM INTEGRITY: OPTIMAL &nbsp;&nbsp;&nbsp;&nbsp; // ENCODER LATENCY: 0.002ms &nbsp;&nbsp;&nbsp;&nbsp; // ACTIVE NODES: 10 &nbsp;&nbsp;&nbsp;&nbsp; // ENCRYPTION: AES-256
-        </marquee>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    st.markdown(f"""
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
-        <h1 style="margin:0;">{device_info['icon']} Twin Dashboard: {device_info['name']}</h1>
-        <h3 style="margin:0; color:{status_color} !important; border: 1px solid {status_color}; padding: 8px 16px; border-radius: 8px; box-shadow: 0 0 15px {status_color}40;">
-            {indicator_html}
-        </h3>
-    </div>
-    """, unsafe_allow_html=True)
-
-    # Trigger alerts implicitly based on state
-    if not is_safe:
-        st.error(f"CRITICAL: SECURITY BREACH. Unrecognized anomalies in Sector {device_info['sector']} ({device_info['type']}). INITIATING NETWORK QUARANTINE.", icon="🚨")
-        
-        # Remediate Action Hook
-        col_err1, col_err2 = st.columns([8, 2])
-        with col_err2:
-            if st.button("🔧 Remediate Device", use_container_width=True, key=f"remed_{dev_id}"):
-                # Log remediation
-                now_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                st.session_state.remediation_log.append({
-                    "Timestamp": now_str,
-                    "Device ID": dev_id,
-                    "Device Name": device_info['name'],
-                    "Sector": device_info['sector'],
-                    "Action Taken": "Quarantine Lifted & Params Reset"
-                })
-                # Heal the device globally
-                st.session_state.device_health[dev_id] = "Healthy"
-                # Reset sliders natively
-                st.session_state[f"pkt_{dev_id}"] = float(dev_baseline[0])
-                st.session_state[f"iat_{dev_id}"] = float(dev_baseline[1])
-                st.session_state[f"ent_{dev_id}"] = float(dev_baseline[2])
-                st.session_state[f"sym_{dev_id}"] = float(dev_baseline[3])
-                
-                st.session_state.threat_log = []
-                st.success("Remediation Complete.")
-                time.sleep(1.0)
-                st.rerun()
-
-    now_str = datetime.datetime.now().strftime("%H:%M:%S")
-    
-    if scan_active:
-        new_packet = {
-            "Time": now_str,
-            "Pkt Size": round(random.uniform(64, 1500), 1),
-            "IAT": round(random.uniform(0.001, 0.05), 4),
-            "Entropy": round(random.uniform(3, 7.5), 2),
-            "Symmetry": round(random.uniform(0.4, 0.9), 2),
-            "Status": "Safe" if is_safe else "Alert"
-        }
-        df_new = pd.DataFrame([new_packet])
-        st.session_state.packet_history = pd.concat([df_new, st.session_state.packet_history], ignore_index=True).head(12)
-
-        if not is_safe:
-            # Check if this precise second was logged to avoid massive duplicates 
-            # (though with sleep it's less an issue)
-            if not st.session_state.threat_log or st.session_state.threat_log[0]["time"] != now_str:
-                st.session_state.threat_log.insert(0, {
-                    "time": now_str,
-                    "msg": f"Anomalous flow detected! Trust dropped to {trust_score}%. MSE: {mse:.3f}"
-                })
-                st.session_state.threat_log = st.session_state.threat_log[:20]
-
-    # ===== TOP ROW =====
-    top_col1, top_col2 = st.columns([1, 1.5])
-
-    with top_col1:
-        st.markdown(f'<div class="glass-card {card_class}">', unsafe_allow_html=True)
-        st.markdown('<div class="section-header">System Trust Gauge</div>', unsafe_allow_html=True)
-        
-        fig_gauge = go.Figure(go.Indicator(
-            mode = "gauge+number",
-            value = trust_score,
-            number = {'font': {'color': 'white', 'size': 75}, 'suffix': "%"},
-            gauge = {
-                'axis': {'range': [0, 100], 'tickcolor': "white"},
-                'bar': {'color': status_color, 'thickness': 0.8},
-                'bgcolor': "rgba(0,0,0,0)",
-                'borderwidth': 0,
-                'steps': [
-                    {'range': [0, 50], 'color': 'rgba(255, 0, 127, 0.15)'},
-                    {'range': [50, 100], 'color': 'rgba(0, 255, 242, 0.15)'}
-                ],
-                'threshold': {
-                    'line': {'color': 'white', 'width': 3},
-                    'thickness': 0.9,
-                    'value': trust_score
-                }
-            }
-        ))
-        fig_gauge.update_layout(
-            paper_bgcolor='rgba(0,0,0,0)',
-            plot_bgcolor='rgba(0,0,0,0)',
-            font={'color': "white", 'family': "Source Code Pro"},
-            height=260,
-            margin=dict(l=20, r=20, t=10, b=10)
-        )
-        st.plotly_chart(fig_gauge, use_container_width=True)
-        
-        # Sub-container Feature Contribution Sparkline
-        fig_spark = go.Figure(go.Scatter(
-            y=st.session_state.jsd_history,
-            mode='lines',
-            line={'color': NEON_GREEN, 'width': 3, 'shape': 'spline'},
-            fill='tozeroy',
-            fillcolor=f'rgba(0, 255, 242, 0.15)'
-        ))
-        fig_spark.update_layout(
-            height=50, margin={'l': 0, 'r': 0, 't': 0, 'b': 0},
-            paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
-            xaxis={'visible': False}, yaxis={'visible': False, 'range': [0, 1]}
-        )
-        st.plotly_chart(fig_spark, use_container_width=True)
-        st.markdown("<div style='text-align:center; font-family:\"Source Code Pro\", monospace; font-size:12px; color:#00fff2; text-shadow: 0 0 5px #00fff2; margin-top:-10px;'>FEATURE CONTRIBUTION (JSD)</div>", unsafe_allow_html=True)
-        
-        st.markdown('</div>', unsafe_allow_html=True)
-
-    with top_col2:
-        st.markdown('<div class="glass-card">', unsafe_allow_html=True)
-        st.markdown('<div class="section-header">Live Packet Stream</div>', unsafe_allow_html=True)
-        
-        def color_status(val):
-            color = NEON_RED if val == 'Alert' else NEON_GREEN
-            return f'color: {color}'
-            
-        styled_df = st.session_state.packet_history.style.map(color_status, subset=['Status'])
-        st.dataframe(styled_df, use_container_width=True, hide_index=True, height=320)
-        st.markdown('</div>', unsafe_allow_html=True)
-
-
-    # ===== MIDDLE ROW =====
-    # X-Factor Logic: Check for neural stress
-    stress_alert = mse > 0.15
-    stress_class = "pulse-stress" if stress_alert else ""
-    stress_border = "border: 1px solid #ff007f;" if stress_alert else "border: 1px solid rgba(0, 255, 242, 0.2);"
-
-    st.markdown(f'''
-    <div class="glass-card {stress_class}" style="box-shadow: 0 0 15px rgba(0, 255, 242, 0.2); {stress_border}">
-        <div class="section-header" style="display: flex; justify-content: space-between;">
-            <span>Feature Drift Analysis</span>
-            {'<span style="color: #ff007f; font-size: 0.8em; animation: blinker 0.8s infinite;">NEURAL STRESS DETECTED</span>' if stress_alert else ''}
-        </div>
-    ''', unsafe_allow_html=True)
-
-    col_left, col_right = st.columns(2)
-    categories = ['Packet Size', 'IAT', 'Payload Entropy', 'Flow Symmetry']
-
-    with col_left:
-        fig_radar = go.Figure()
-        # Baseline
-        fig_radar.add_trace(go.Scatterpolar(
-            r=dev_baseline,
-            theta=categories,
-            fill='toself',
-            name=f'{device_info["type"]} Baseline',
-            line_color=NEON_BLUE,
-            fillcolor='rgba(0, 207, 255, 0.2)'
-        ))
-        # Current
-        fig_radar.add_trace(go.Scatterpolar(
-            r=current_features,
-            theta=categories,
-            fill='toself',
-            name='Current Traffic',
-            line_color=status_color,
-            fillcolor=f'rgba({255 if not is_safe else 0}, {45 if not is_safe else 255}, {85 if not is_safe else 136}, 0.3)'
-        ))
-        fig_radar.update_layout(
-            polar={
-                'radialaxis': {'visible': True, 'range': [0, 1], 'gridcolor': "rgba(255,255,255,0.1)"},
-                'angularaxis': {'gridcolor': "rgba(255,255,255,0.1)"},
-                'bgcolor': "rgba(0,0,0,0)"
-            },
-            paper_bgcolor='rgba(0,0,0,0)',
-            plot_bgcolor='rgba(0,0,0,0)',
-            font={'color': "white"},
-            height=360,
-            margin={'l': 40, 'r': 40, 't': 10, 'b': 10},
-            hovermode='closest'
-        )
-        st.plotly_chart(fig_radar, use_container_width=True, config={'displayModeBar': False})
-
-    with col_right:
-        st.markdown("<div style='text-align: center; color: #00fff2; font-weight: 600; margin-bottom: 5px; font-family: \"Source Code Pro\", monospace; font-size: 0.9em;'>Neural Health Monitor (Live Pulse)</div>", unsafe_allow_html=True)
-        
-        fig_pulse = go.Figure()
-        
-        # Grid lines to match Blueprint
-        fig_pulse.update_xaxes(showgrid=True, gridwidth=1, gridcolor='rgba(0, 255, 242, 0.05)', zeroline=False)
-        fig_pulse.update_yaxes(showgrid=True, gridwidth=1, gridcolor='rgba(0, 255, 242, 0.05)', zeroline=False)
-        
-        # Alert Boundary
-        fig_pulse.add_hline(y=0.15, line_dash="dot", line_color="white", line_width=1, annotation_text="ALERT BOUNDARY", annotation_position="top left", annotation_font={'size': 10, 'color': 'white'})
-        
-        # Reconstruction Error (MSE) - Neon Pink
-        fig_pulse.add_trace(go.Scatter(
-            y=st.session_state.pulse_mse_history,
-            name="MSE",
-            line={'color': '#ff007f', 'width': 3},
-            mode='lines',
-            hovertemplate="MSE: %{y:.4f}<extra></extra>"
-        ))
-        
-        # Statistical Friction (JSD) - Cyber Cyan
-        fig_pulse.add_trace(go.Scatter(
-            y=st.session_state.pulse_jsd_history,
-            name="JSD",
-            line={'color': '#00fff2', 'width': 3},
-            mode='lines',
-            hovertemplate="JSD: %{y:.4f}<extra></extra>"
-        ))
-        
-        fig_pulse.update_layout(
-            paper_bgcolor='rgba(0,0,0,0)',
-            plot_bgcolor='rgba(0,0,0,0)',
-            font={'color': "white", 'family': "Source Code Pro"},
-            height=360,
-            margin={'l': 30, 'r': 30, 't': 10, 'b': 10},
-            legend={'orientation': "h", 'yanchor': "bottom", 'y': 1.02, 'xanchor': "right", 'x': 1},
-            hovermode='x unified',
-            xaxis={'showticklabels': False}
-        )
-        
-        # Oscilloscope Glow Effect (simulated with shadow via custom CSS labels)
-        st.plotly_chart(fig_pulse, use_container_width=True, config={'displayModeBar': False})
-
-    st.markdown("<div style='color: #aaa; font-size: 0.85em; text-align: center; margin-top: 15px; font-style: italic;'>Dual-Sync Visualization: Mapping multidimensional geometric drift against temporal reconstruction residuals for 100% anomaly explainability.</div>", unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
-
-
-    # ===== NEURAL ENGINE & MATHEMATICS ROW =====
-    
-    # Toggle logic for math mode
-    def toggle_math_mode():
-        st.session_state.math_mode_active = not st.session_state.math_mode_active
-
-    st.markdown('<br>', unsafe_allow_html=True)
-    if not st.session_state.math_mode_active:
-        st.button("▶️ Initialize Live Math Engine", key=f"math_toggle_{dev_id}", on_click=toggle_math_mode, use_container_width=True)
-    else:
-        st.button("⏸️ Terminate Live Feed", key=f"math_toggle_{dev_id}", on_click=toggle_math_mode, use_container_width=True)
-        
-        # When active, wrap the section with a glowing Cyan border
-        st.markdown('''
-        <div class="glass-card" style="border: 1px solid #00fff2; box-shadow: 0 0 15px rgba(0, 255, 242, 0.2);">
-            <div class="section-header" style="color: #00fff2; text-shadow: 0 0 8px rgba(0, 255, 242, 0.5);">Neural Engine & Mathematics (Live Computing)</div>
-        ''', unsafe_allow_html=True)
-
-        col_math, col_neural = st.columns(2)
-
-        with col_math:
-            st.markdown("<div style='text-align: center; color: white; font-weight: 600; margin-bottom: 10px;'>The JSD Logic (Mathematical Engine)</div>", unsafe_allow_html=True)
-            live_jsd = calculate_jsd(current_features, dev_baseline)
-            st.latex(rf"JSD(P || Q) \approx {live_jsd:.4f}")
-            st.markdown(f"<div style='color: #00ff88; font-weight: bold; text-align: center; padding: 10px; border: 1px solid #00ff88; border-radius: 8px; margin-top: 10px; box-shadow: 0 0 10px rgba(0,255,136,0.2);'>Current Statistical Friction: {live_jsd:.4f}</div>", unsafe_allow_html=True)
-
-        with col_neural:
-            st.markdown("<div style='text-align: center; color: white; font-weight: 600; margin-bottom: 10px;'>The LSTM Encoder (Neural Architecture)</div>", unsafe_allow_html=True)
-            with torch.no_grad():
-                output = autoencoder(tensor_input)
-                diff = tensor_input - output
-                mse_calc = torch.mean(diff ** 2).item()
-            st.latex(rf"f_t = \sigma(W_f \cdot [h_{{t-1}}, x_t] + b_f) \implies MSE \approx {mse_calc:.4f}")
-            st.progress(min(max(mse_calc, 0.0), 1.0), text=f"Reconstruction Error (MSE): {mse_calc:.4f}")
-            st.markdown("<div style='color: #aaa; font-size: 0.85em; text-align: center; margin-top: 5px;'>If MSE > 0.1, the Twin is drifting from the Physical Device.</div>", unsafe_allow_html=True)
-
-        st.markdown('</div>', unsafe_allow_html=True)
-
-
-    # ===== BOTTOM ROW =====
-    st.markdown('<div class="glass-card">', unsafe_allow_html=True)
-    st.markdown('<div class="section-header">Threat Log</div>', unsafe_allow_html=True)
-
-    if not st.session_state.threat_log:
-        st.write("✅ System is secure. No recent threats logged.")
-    else:
-        for alert in st.session_state.threat_log:
+    hw_cols = st.columns(4)
+    for hw_idx, (hw_id, hw_info) in enumerate(HARDWARE_REGISTRY.items()):
+        with hw_cols[hw_idx % 4]:
             st.markdown(f"""
-            <div style="border-left: 4px solid {NEON_RED}; padding-left: 12px; margin-bottom: 8px; background: rgba(255, 45, 85, 0.08); padding-top: 8px; padding-bottom: 8px; border-radius: 4px;">
-                <span style="color: #888; font-size: 0.85em;">{alert['time']}</span> &nbsp;&nbsp; 
-                <span style="color: white;">{alert['msg']}</span>
-            </div>
-            """, unsafe_allow_html=True)
+            <div class="fleet-card" style="border:1px solid rgba(0,255,136,0.3);">
+                <div style="font-size:3rem;">{hw_info['icon']}</div>
+                <h3 style="color:white;margin-bottom:5px;">{hw_info['name']}</h3>
+                <p style="color:#00cfff;font-size:0.9em;margin-bottom:5px;">ID: {hw_id}</p>
+                <p style="color:#aaa;font-size:0.8em;margin-bottom:15px;">
+                    Sector: {hw_info['sector']} | Type: {hw_info['type']}
+                </p>
+                <div style="color:{NEON_GREEN};font-weight:bold;margin-bottom:10px;">
+                    ● LIVE
+                </div>
+            </div>""", unsafe_allow_html=True)
 
-    st.markdown('</div>', unsafe_allow_html=True)
+            with st.expander("⚙️ Device Setup"):
+                mac_input = st.text_input(
+                    "MAC Address",
+                    value=HARDWARE_REGISTRY[hw_id].get("mac", ""),
+                    placeholder="aa:bb:cc:dd:ee:ff",
+                    key=f"hw_mac_{hw_id}",
+                )
+                iface_input = st.text_input(
+                    "Network Interface",
+                    value=HARDWARE_REGISTRY[hw_id].get("iface", ""),
+                    placeholder="Wi-Fi (Windows) / wlan0 (Linux) / en0 (macOS)",
+                    key=f"hw_iface_{hw_id}",
+                )
+                if st.button("Connect & Start Sniffer", key=f"hw_connect_{hw_id}", width="stretch"):
+                    if mac_input and iface_input:
+                        HARDWARE_REGISTRY[hw_id]["mac"]   = mac_input.strip()
+                        HARDWARE_REGISTRY[hw_id]["iface"] = iface_input.strip()
+                        st.session_state["hw_mac"]   = mac_input.strip()
+                        st.session_state["hw_iface"] = iface_input.strip()
+                        try:
+                            start_sniffer(mac_input.strip(), iface_input.strip())
+                            st.session_state.sniffer_active = True
+                        except Exception as _sniffer_exc:
+                            st.error(f"Failed to start sniffer: {_sniffer_exc}")
+                    else:
+                        st.warning("Please enter both MAC address and interface name.")
 
-    # Application polling loop
-    if scan_active:
-        time.sleep(1.0)
-        st.rerun()
+                if st.session_state.sniffer_active:
+                    active_iface = HARDWARE_REGISTRY[hw_id].get("iface", "?")
+                    st.success(f"Sniffer active — capturing on {active_iface}")
+
+                if st.checkbox("Show Scapy resolved interface (debug)", key=f"hw_dbg_resolve_{hw_id}"):
+                    try:
+                        from sniffer import _resolve_iface, list_interfaces
+                        resolved = _resolve_iface(iface_input.strip() or "Wi-Fi")
+                        st.code(f"Input: '{iface_input}'\nResolved to: '{resolved}'", language=None)
+                        st.markdown("**All interfaces:**")
+                        for i in list_interfaces():
+                            st.code(i, language=None)
+                    except Exception as e:
+                        st.error(f"Debug error: {e}")
+
+            if st.session_state.sniffer_active:
+                if st.button("View Dashboard", key=f"hw_view_{hw_id}", width="stretch"):
+                    st.session_state.hw_active_device = hw_id
+                    st.session_state.page             = "hardware_dashboard"
+                    st.rerun()
+            else:
+                st.warning("Start the sniffer first to access the live dashboard.")
+
+    st.divider()
+
+    if st.session_state.remediation_log:
+        flattened_remediation = [item for sublist in st.session_state.remediation_log.values() for item in sublist]
+        if flattened_remediation:
+            st.markdown("### 🛠️ Remediation History")
+            st.dataframe(pd.DataFrame(flattened_remediation).sort_values("Timestamp", ascending=False), width="stretch", hide_index=True)
+
+    if st.session_state.audit_logs:
+        st.markdown("### 🧾 Audit Trail")
+        st.dataframe(pd.DataFrame(st.session_state.audit_logs), width="stretch", hide_index=True)
+
+
+# ---------------------------------------------------------------------------
+# Router
+# ---------------------------------------------------------------------------
+page = st.session_state.get("page", "fleet")
+
+if page == "fleet":
+    render_fleet_page()
+    st.stop()
+elif page == "dashboard":
+    render_device_dashboard(autoencoder)
+    st.stop()
+elif page == "hardware_dashboard":
+    render_hardware_dashboard(autoencoder)
+    st.stop()
+else:
+    st.session_state.page = "fleet"
+    st.rerun()
