@@ -1,4 +1,36 @@
-# Environment variables - never commit secrets
+# Environment variables
 .env
 .env.*
 !.env.example
+
+# Virtual environment
+venv/
+.venv/
+env/
+
+# Python artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+*.pth
+
+# Streamlit
+.streamlit/
+static/
+
+# IDEs
+.vscode/
+.idea/
+
+# Project-specific
+aegis_auth.db
+aegis_model.pth
+reports/
+PRD doc.docx
+PROGRESS.md
+PROJECT_ARCHITECTURE.md
+architecture.jpeg
+workflow.jpeg
