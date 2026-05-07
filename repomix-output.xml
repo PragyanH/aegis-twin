@@ -81,7 +81,9 @@ aegis-twin/engine.py
 aegis-twin/forensics.py
 aegis-twin/hardware_dashboard.py
 aegis-twin/hardware_registry.py
+aegis-twin/isolation_model.py
 aegis-twin/model.py
+aegis-twin/pi_sender.py
 aegis-twin/PRD doc.docx
 aegis-twin/PROGRESS.md
 aegis-twin/PROJECT_ARCHITECTURE.md
@@ -186,6 +188,7 @@ This section contains the contents of the repository's files.
 [branch "master"]
 	remote = origin
 	merge = refs/heads/master
+	vscode-merge-base = origin/master
 </file>
 
 <file path="aegis-twin/.git/description">
@@ -1194,6 +1197,151 @@ from model import LSTMAutoencoder
 from registry import IOT_REGISTRY, SESSION_DEFAULTS
 from sniffer import start_sniffer
 from ui import NEON_GREEN, NEON_RED, inject_css
+from isolation_model import add_baseline_sample, get_trust_score, get_status, train_model, load_model
+
+# Try to restore a previously trained model on startup
+if load_model():
+    _phase = "monitoring"
+    print("[Aegis] Restored trained model from disk → MONITORING phase")
+else:
+    print("[Aegis] No saved model found → LEARNING phase")
+
+
+
+
+import time as _time
+
+# Track phase and learning start globally
+_phase = "learning"
+_learning_start = _time.time()
+_pi_telemetry_log = []
+LEARNING_DURATION = 120   # seconds — ignored if force_train is called
+
+# ── Receive Pi telemetry ──────────────────────────────────────────────────────
+
+@app.route("/api/telemetry", methods=["POST"])
+def receive_telemetry():
+    global _phase, _pi_telemetry_log, _learning_start
+
+    data         = request.json
+    features_raw = data.get("network_features", {})
+    features     = [
+        features_raw.get("pkt_size",  0.0),
+        features_raw.get("iat",       0.0),
+        features_raw.get("entropy",   0.0),
+        features_raw.get("symmetry",  0.0),
+    ]
+
+    elapsed = _time.time() - _learning_start
+
+    if _phase == "learning":
+        add_baseline_sample(features)
+
+        # Auto-train after LEARNING_DURATION seconds
+        if elapsed >= LEARNING_DURATION:
+            try:
+                summary = train_model()
+                _phase  = "monitoring"
+                print(f"[Aegis] Auto-trained after {elapsed:.0f}s | {summary}")
+            except Exception as e:
+                print(f"[Aegis] Auto-train failed: {e}")
+
+        trust  = 95.0
+        status = "LEARNING"
+
+    else:
+        trust  = get_trust_score(features)
+        if trust < 30:
+            status = "CRITICAL"
+        elif trust < 60:
+            status = "WARNING"
+        else:
+            status = "NORMAL"
+
+    record = {
+        "timestamp":        data.get("timestamp"),
+        "device_id":        data.get("device_id"),
+        "trust_score":      trust,
+        "status":           status,
+        "phase":            _phase,
+        "telemetry":        data.get("telemetry", {}),
+        "network_features": features_raw,
+    }
+    _pi_telemetry_log.append(record)
+    _pi_telemetry_log = _pi_telemetry_log[-500:]   # keep last 500 only
+
+    return jsonify({"trust_score": trust, "status": status, "phase": _phase})
+
+
+# ── Force train (skip 2-min wait) ─────────────────────────────────────────────
+
+@app.route("/api/pi/force_train", methods=["POST"])
+def force_train():
+    """
+    Manually trigger training on whatever baseline samples collected so far.
+    Use this during the demo to skip the 2-minute learning wait.
+    Hit it after ~30 seconds of normal Pi traffic.
+    """
+    global _phase
+    try:
+        summary = train_model()
+        _phase  = "monitoring"
+        return jsonify({
+            "success": True,
+            "message": "Model trained. Now in MONITORING phase.",
+            "summary": summary,
+        })
+    except ValueError as e:
+        # Not enough samples yet
+        status = get_status()
+        return jsonify({
+            "success":          False,
+            "error":            str(e),
+            "samples_so_far":   status["baseline_samples"],
+            "samples_needed":   100,
+        }), 400
+
+
+# ── Pi status ─────────────────────────────────────────────────────────────────
+
+@app.route("/api/pi/status")
+def pi_status():
+    """Check current phase, sample count, model bounds — useful for debugging."""
+    return jsonify({
+        "phase":            _phase,
+        "elapsed_learning": round(_time.time() - _learning_start, 1),
+        "model_status":     get_status(),
+        "recent":           _pi_telemetry_log[-5:],
+    })
+
+
+# ── Reset (for back-to-back demos) ───────────────────────────────────────────
+
+@app.route("/api/pi/reset", methods=["POST"])
+def reset():
+    """
+    Full reset — wipes model and goes back to learning phase.
+    Use this between demo runs so judges see the full arc again.
+    """
+    global _phase, _learning_start, _pi_telemetry_log
+    from isolation_model import (
+        _baseline_buffer, _score_window, MODEL_PATH
+    )
+    import isolation_model as _im
+
+    _im._baseline_buffer = []
+    _im._score_window.clear()
+    _im._model      = None
+    _im._is_trained = False
+
+    if MODEL_PATH.exists():
+        MODEL_PATH.unlink()
+
+    _phase          = "learning"
+    _learning_start = _time.time()
+    _pi_telemetry_log = []
+
+    return jsonify({"success": True, "message": "Reset complete. Back to LEARNING phase."})
 
 # ---------------------------------------------------------------------------
 # Page config
@@ -3778,6 +3926,254 @@ def calibrate_baseline(mac: str) -> None:
             print(f"[calibration] [{hw_id}] Baseline updated → {baseline}")
 </file>
 
+<file path="aegis-twin/isolation_model.py">
+"""
+isolation_model.py — Isolation Forest anomaly detector for Aegis-Twin
+=======================================================================
+Replaces the LSTM Autoencoder for real hardware deployment on Raspberry Pi.
+Trained on ~2 min of normal thermostat traffic, scores live windows.
+
+Features (must match sniffer.py output):
+  0 – packet_size     (normalized 0-1)
+  1 – iat             (inter-arrival time, normalized 0-1)
+  2 – entropy         (payload entropy, normalized 0-1)
+  3 – symmetry        (flow symmetry ratio 0-1)
+"""
+
+import numpy as np
+import joblib
+from sklearn.ensemble import IsolationForest
+from pathlib import Path
+from collections import deque
+import threading
+
+# ── Config ───────────────────────────────────────────────────────────────────
+
+MODEL_PATH         = Path("aegis_isolation_forest.pkl")
+CONTAMINATION      = 0.05   # expect ~5% anomalies during training
+N_ESTIMATORS       = 100
+WINDOW_SIZE        = 20     # rolling window of samples for smoothing
+MIN_TRAIN_SAMPLES  = 100    # minimum samples before we can train
+
+# ── Shared state ─────────────────────────────────────────────────────────────
+
+_lock = threading.Lock()
+_model: IsolationForest | None = None
+_is_trained        = False
+_baseline_buffer:  list[list[float]] = []
+_score_window:     deque = deque(maxlen=WINDOW_SIZE)
+_score_min: float  = -0.5   # fallback defaults, overwritten after training
+_score_max: float  = -0.1
+
+
+# ── Baseline collection ───────────────────────────────────────────────────────
+
+def add_baseline_sample(features: list[float]) -> None:
+    """Add a feature vector to the baseline buffer during learning phase."""
+    global _baseline_buffer
+    with _lock:
+        _baseline_buffer.append(features)
+
+
+# ── Training ──────────────────────────────────────────────────────────────────
+
+def train_model() -> dict:
+    """
+    Train Isolation Forest on collected baseline samples.
+    Call this after ~2 minutes of normal traffic collection.
+    Returns training summary dict.
+    """
+    global _model, _is_trained, _score_min, _score_max
+
+    with _lock:
+        data = np.array(_baseline_buffer, dtype=np.float32)
+
+    if len(data) < MIN_TRAIN_SAMPLES:
+        raise ValueError(
+            f"Not enough baseline samples: {len(data)} < {MIN_TRAIN_SAMPLES}. "
+            "Let the device run longer in baseline mode."
+        )
+
+    model = IsolationForest(
+        n_estimators=N_ESTIMATORS,
+        contamination=CONTAMINATION,
+        random_state=42,
+        n_jobs=-1,   # use all cores (Raspberry Pi has 4)
+    )
+    model.fit(data)
+
+    # Compute real score bounds from YOUR data — no hardcoded guesses
+    scores = -model.score_samples(data)   # flip sign: higher = more anomalous
+    p5  = float(np.percentile(scores, 5))    # floor: most normal end
+    p95 = float(np.percentile(scores, 95))   # ceiling: edge of normal
+
+    with _lock:
+        _model      = model
+        _is_trained = True
+        _score_min  = p5
+        _score_max  = p95
+
+    # Save model + bounds together so load_model() restores everything
+    joblib.dump(
+        {"model": model, "score_min": _score_min, "score_max": _score_max},
+        MODEL_PATH,
+    )
+    print(
+        f"[IsolationForest] Trained on {len(data)} samples → saved to {MODEL_PATH}\n"
+        f"  score_min (p5)  = {p5:.4f}\n"
+        f"  score_max (p95) = {p95:.4f}"
+    )
+
+    return {
+        "samples_trained":     len(data),
+        "score_mean":          float(np.mean(scores)),
+        "score_std":           float(np.std(scores)),
+        "score_min":           _score_min,
+        "score_max":           _score_max,
+        "threshold_suggested": p95,
+    }
+
+
+# ── Load from disk ────────────────────────────────────────────────────────────
+
+def load_model() -> bool:
+    """Load a previously saved model + bounds from disk."""
+    global _model, _is_trained, _score_min, _score_max
+    if MODEL_PATH.exists():
+        saved = joblib.load(MODEL_PATH)
+        with _lock:
+            _model      = saved["model"]
+            _score_min  = saved["score_min"]
+            _score_max  = saved["score_max"]
+            _is_trained = True
+        print(
+            f"[IsolationForest] Loaded model from {MODEL_PATH}\n"
+            f"  score_min = {_score_min:.4f} | score_max = {_score_max:.4f}"
+        )
+        return True
+    return False
+
+
+# ── Scoring ───────────────────────────────────────────────────────────────────
+
+def score_sample(features: list[float]) -> dict:
+    """
+    Score a single feature vector against the trained model.
+
+    Returns:
+        {
+            "anomaly_score":  float (0.0–1.0, higher = more anomalous),
+            "is_anomaly":     bool,
+            "raw_score":      float (raw IF output, more negative = more anomalous),
+            "smoothed_score": float (rolling average over last WINDOW_SIZE samples),
+            "model_ready":    bool
+        }
+    """
+    global _score_window
+
+    if not _is_trained or _model is None:
+        return {
+            "anomaly_score":  0.0,
+            "is_anomaly":     False,
+            "raw_score":      0.0,
+            "smoothed_score": 0.0,
+            "model_ready":    False,
+        }
+
+    x = np.array([features], dtype=np.float32)
+
+    with _lock:
+        raw   = float(_model.score_samples(x)[0])
+        label = int(_model.predict(x)[0])    # -1 = anomaly, 1 = normal
+        s_min = _score_min
+        s_max = _score_max
+
+    neg_raw = -raw   # flip sign: higher value = more anomalous
+
+    # Normalize using YOUR data's actual p5–p95 bounds
+    span = s_max - s_min
+    if span < 1e-6:
+        # Degenerate case: all training scores were identical
+        anomaly_score = 0.0
+    else:
+        anomaly_score = float(np.clip((neg_raw - s_min) / span, 0.0, 1.0))
+
+    _score_window.append(anomaly_score)
+
+    return {
+        "anomaly_score":  anomaly_score,
+        "is_anomaly":     label == -1,
+        "raw_score":      raw,
+        "smoothed_score": float(np.mean(_score_window)),
+        "model_ready":    True,
+    }
+
+
+# ── Trust score (high-level) ──────────────────────────────────────────────────
+
+def get_trust_score(features: list[float]) -> float:
+    """
+    Score features and return a trust score in range 0–100.
+
+    During learning phase (model not trained): returns 95.0.
+    After training: 100 - (smoothed_anomaly_score * 100), clamped to [0, 100].
+    """
+    result = score_sample(features)
+
+    if not result["model_ready"]:
+        return 95.0   # learning phase — show near-perfect trust
+
+    smoothed = result.get("smoothed_score", result["anomaly_score"])
+    trust = 100.0 - (smoothed * 100.0)
+    return round(float(np.clip(trust, 0.0, 100.0)), 2)
+
+
+# ── Status ────────────────────────────────────────────────────────────────────
+
+def get_status() -> dict:
+    """Return current model status — useful for dashboard display."""
+    return {
+        "is_trained":        _is_trained,
+        "baseline_samples":  len(_baseline_buffer),
+        "model_path":        str(MODEL_PATH),
+        "ready_to_train":    len(_baseline_buffer) >= MIN_TRAIN_SAMPLES,
+        "score_min":         _score_min,
+        "score_max":         _score_max,
+    }
+
+
+# ── Quick self-test ───────────────────────────────────────────────────────────
+
+if __name__ == "__main__":
+    print("=" * 55)
+    print("  Isolation Forest — Self Test")
+    print("=" * 55)
+
+    # Simulate 150 normal samples
+    rng = np.random.default_rng(42)
+    normal_data = rng.normal(loc=[0.15, 0.30, 0.20, 0.50], scale=0.05, size=(150, 4))
+    normal_data = np.clip(normal_data, 0, 1).tolist()
+
+    for sample in normal_data:
+        add_baseline_sample(sample)
+
+    summary = train_model()
+    print(f"\nTraining summary: {summary}\n")
+
+    # Score a normal sample
+    normal_sample  = [0.15, 0.30, 0.20, 0.50]
+    attack_sample  = [0.05, 0.01, 0.90, 0.05]   # port scan profile
+
+    r_normal = score_sample(normal_sample)
+    r_attack = score_sample(attack_sample)
+
+    print(f"Normal sample  → anomaly_score={r_normal['anomaly_score']:.3f}  "
+          f"trust={get_trust_score(normal_sample):.1f}")
+    print(f"Attack sample  → anomaly_score={r_attack['anomaly_score']:.3f}  "
+          f"trust={get_trust_score(attack_sample):.1f}")
+    print("\nSelf-test complete.")
+</file>
+
 <file path="aegis-twin/model.py">
 """
 Aegis-Twin · Digital Twin Core
@@ -4077,6 +4473,288 @@ if __name__ == "__main__":
     print(f"Reconstruction Error (MSE) : {mse_loss.item():.6f}")
 
     print("\nModel Test Successful!")
+</file>
+
+<file path="aegis-twin/pi_sender.py">
+"""
+pi_sender.py — Runs ON the Raspberry Pi thermostat simulator.
+=============================================================
+Collects real system metrics (psutil) + simulated thermostat readings
+and POSTs telemetry to the Aegis-Twin laptop dashboard every few seconds.
+
+Run on Pi:
+    python3 pi_sender.py --server http://YOUR_LAPTOP_IP:5000
+
+Requirements on Pi:
+    pip3 install requests psutil
+"""
+
+import time
+import math
+import random
+import argparse
+import requests
+import psutil
+from datetime import datetime, timezone
+
+
+# ── Device identity ───────────────────────────────────────────────────────────
+
+DEVICE_ID   = "RPI-THERMOSTAT-01"
+DEVICE_NAME = "Living Room Thermostat"
+
+
+# ── Thermostat simulation ─────────────────────────────────────────────────────
+
+class ThermostatSimulator:
+    """
+    Simulates a realistic HVAC thermostat with:
+    - Sine-wave temperature cycling (like a real heating/cooling cycle)
+    - Humidity that drifts slowly
+    - HVAC state machine (IDLE → HEATING → IDLE → COOLING)
+    """
+
+    def __init__(self, setpoint: float = 22.0):
+        self.setpoint    = setpoint
+        self.temp        = setpoint + random.uniform(-1, 1)
+        self.humidity    = 55.0
+        self.hvac_state  = "IDLE"   # IDLE | HEATING | COOLING
+        self._start_time = time.time()
+
+    def update(self) -> dict:
+        t = time.time() - self._start_time
+
+        # Realistic sine-wave temperature drift (60-second HVAC cycle)
+        self.temp = (
+            self.setpoint
+            + 1.5 * math.sin(t / 60)
+            + random.gauss(0, 0.08)
+        )
+
+        # Humidity drifts slowly
+        self.humidity += random.gauss(0, 0.05)
+        self.humidity  = max(30.0, min(80.0, self.humidity))
+
+        # HVAC state based on temperature deviation
+        deviation = self.temp - self.setpoint
+        if deviation > 1.2:
+            self.hvac_state = "COOLING"
+        elif deviation < -1.2:
+            self.hvac_state = "HEATING"
+        else:
+            self.hvac_state = "IDLE"
+
+        return {
+            "temperature_actual":   round(self.temp, 2),
+            "temperature_setpoint": self.setpoint,
+            "humidity":             round(self.humidity, 2),
+            "hvac_state":           self.hvac_state,
+        }
+
+
+# ── Network feature sampler ───────────────────────────────────────────────────
+
+class NetworkFeatureSampler:
+    """
+    Generates realistic normalized network features for a thermostat.
+    
+    A real thermostat sends small, regular, low-entropy packets to a cloud API
+    (temperature updates, heartbeat pings). This simulates exactly that.
+
+    In a full deployment, these values would come from sniffer.py running
+    on the Pi — but for the hackathon demo, this synthetic generation is
+    realistic enough to train the Isolation Forest on.
+    """
+
+    # Normal thermostat network profile
+    NORMAL_PROFILE = {
+        "pkt_size": (0.12, 0.04),   # (mean, std) — small packets
+        "iat":      (0.35, 0.07),   # regular timing (not too fast, not slow)
+        "entropy":  (0.18, 0.04),   # low entropy — structured JSON payloads
+        "symmetry": (0.52, 0.08),   # balanced in/out (request + response)
+    }
+
+    def __init__(self):
+        self._packet_count = 0
+
+    def sample(self) -> dict:
+        """Return one set of normalized network features (all values 0–1)."""
+        self._packet_count += 1
+        features = {}
+        for name, (mean, std) in self.NORMAL_PROFILE.items():
+            val = random.gauss(mean, std)
+            features[name] = round(max(0.0, min(1.0, val)), 4)
+        return features
+
+    @property
+    def packet_count(self) -> int:
+        return self._packet_count
+
+
+# ── System metrics ────────────────────────────────────────────────────────────
+
+def get_system_metrics() -> dict:
+    """Collect real hardware metrics from the Raspberry Pi via psutil."""
+    cpu     = psutil.cpu_percent(interval=0.5)
+    mem     = psutil.virtual_memory()
+    disk    = psutil.disk_usage("/")
+    temps   = {}
+
+    # Raspberry Pi exposes CPU temp via psutil on Linux
+    try:
+        sensor_data = psutil.sensors_temperatures()
+        if sensor_data:
+            # Key is usually 'cpu_thermal' on Pi
+            for key in ("cpu_thermal", "coretemp", "thermal_zone0"):
+                if key in sensor_data:
+                    temps["cpu_temp_c"] = round(
+                        sensor_data[key][0].current, 1
+                    )
+                    break
+    except (AttributeError, NotImplementedError):
+        pass   # not available on all platforms
+
+    return {
+        "cpu_percent":    round(cpu, 1),
+        "memory_percent": round(mem.percent, 1),
+        "memory_used_mb": round(mem.used / 1024 / 1024, 1),
+        "disk_percent":   round(disk.percent, 1),
+        **temps,
+    }
+
+
+# ── Process anomaly check ─────────────────────────────────────────────────────
+
+def check_process_anomalies() -> list[str]:
+    """
+    Scan running processes for anything suspicious.
+    Flags processes with unusually high CPU that aren't expected on a thermostat.
+    """
+    EXPECTED = {"python3", "python", "bash", "sh", "sshd", "systemd"}
+    anomalies = []
+
+    for proc in psutil.process_iter(["name", "cpu_percent", "status"]):
+        try:
+            name = proc.info["name"]
+            cpu  = proc.info["cpu_percent"] or 0
+            if cpu > 40 and name not in EXPECTED:
+                anomalies.append(f"{name} (cpu={cpu}%)")
+        except (psutil.NoSuchProcess, psutil.AccessDenied):
+            pass
+
+    return anomalies
+
+
+# ── Main sender loop ──────────────────────────────────────────────────────────
+
+def build_payload(thermostat: ThermostatSimulator,
+                  net_sampler: NetworkFeatureSampler) -> dict:
+    """Assemble the full telemetry payload to POST to the laptop."""
+    return {
+        "device_id":        DEVICE_ID,
+        "device_name":      DEVICE_NAME,
+        "timestamp":        datetime.now(timezone.utc).isoformat(),
+        "telemetry":        {
+            **thermostat.update(),
+            **get_system_metrics(),
+            "process_anomalies": check_process_anomalies(),
+            "packet_count":      net_sampler.packet_count,
+        },
+        "network_features": net_sampler.sample(),
+    }
+
+
+def run(server: str, interval: float, verbose: bool) -> None:
+    endpoint  = f"{server}/api/telemetry"
+    thermostat = ThermostatSimulator(setpoint=22.0)
+    net        = NetworkFeatureSampler()
+
+    print(f"╔══════════════════════════════════════════╗")
+    print(f"║       Aegis-Twin  ·  Pi Sender           ║")
+    print(f"╠══════════════════════════════════════════╣")
+    print(f"║  Device  : {DEVICE_ID:<30}║")
+    print(f"║  Server  : {server:<30}║")
+    print(f"║  Interval: {interval}s{'':<27}║")
+    print(f"╚══════════════════════════════════════════╝\n")
+
+    consecutive_failures = 0
+
+    while True:
+        try:
+            payload = build_payload(thermostat, net)
+            r       = requests.post(endpoint, json=payload, timeout=5)
+            r.raise_for_status()
+            response        = r.json()
+            trust           = response.get("trust_score", "?")
+            status          = response.get("status", "?")
+            phase           = response.get("phase", "?")
+            consecutive_failures = 0
+
+            # Console output
+            ts  = payload["timestamp"][11:19]   # HH:MM:SS
+            tel = payload["telemetry"]
+            nf  = payload["network_features"]
+
+            status_icon = {"NORMAL": "✅", "WARNING": "⚠️ ", "CRITICAL": "🚨",
+                           "LEARNING": "🔵"}.get(status, "❓")
+
+            print(
+                f"[{ts}] {status_icon} trust={trust:>5} | phase={phase:<10} | "
+                f"temp={tel['temperature_actual']}°C "
+                f"hvac={tel['hvac_state']:<7} "
+                f"cpu={tel['cpu_percent']}%"
+            )
+
+            if verbose:
+                print(
+                    f"         net → pkt={nf['pkt_size']} iat={nf['iat']} "
+                    f"ent={nf['entropy']} sym={nf['symmetry']}"
+                )
+                if tel.get("process_anomalies"):
+                    print(f"         ⚠️  processes: {tel['process_anomalies']}")
+
+        except requests.exceptions.ConnectionError:
+            consecutive_failures += 1
+            print(f"[Pi Sender] ❌ Cannot reach {server} "
+                  f"(attempt {consecutive_failures}) — retrying...")
+            if consecutive_failures >= 5:
+                print("[Pi Sender] 5 consecutive failures. "
+                      "Check laptop IP and that app.py is running.")
+
+        except requests.exceptions.Timeout:
+            print("[Pi Sender] ⏱️  Request timed out — server busy?")
+
+        except Exception as e:
+            print(f"[Pi Sender] Unexpected error: {e}")
+
+        time.sleep(interval)
+
+
+# ── Entry point ───────────────────────────────────────────────────────────────
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="Aegis-Twin Pi Sender — streams thermostat telemetry to laptop"
+    )
+    parser.add_argument(
+        "--server",
+        default="http://localhost:5000",
+        help="Base URL of the Aegis-Twin laptop server (e.g. http://192.168.1.42:5000)"
+    )
+    parser.add_argument(
+        "--interval",
+        type=float,
+        default=3.0,
+        help="Seconds between telemetry pushes (default: 3.0)"
+    )
+    parser.add_argument(
+        "--verbose", "-v",
+        action="store_true",
+        help="Print network features and process anomalies each tick"
+    )
+    args = parser.parse_args()
+
+    run(server=args.server, interval=args.interval, verbose=args.verbose)
 </file>
 
 <file path="aegis-twin/PROGRESS.md">
