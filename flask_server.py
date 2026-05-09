@@ -1,408 +1,488 @@
 """
-pi_sender.py — Runs ON the Raspberry Pi IP security camera simulator.
-=============================================================
-Publishes telemetry to the Aegis-Twin laptop via MQTT.
-The laptop's flask_server.py subscribes and processes it.
+flask_server.py — Standalone Flask server for Aegis-Twin
+=========================================================
+Runs SEPARATELY from Streamlit (app.py).
+Receives Pi telemetry via MQTT, runs Isolation Forest scoring,
+writes results to telemetry.json for Streamlit to read.
 
-No physical camera required — simulates realistic IP camera
-network behaviour using REAL Pi system metrics (psutil network I/O,
-CPU, memory) to derive network features. Features reflect actual
-Pi network conditions — not fake random numbers.
+Run this FIRST, before streamlit:
+    python flask_server.py
 
-Run on Pi:
-    python3 pi_sender.py --broker 192.168.X.X
+Then in a second terminal:
+    streamlit run app.py
 
-Requirements on Pi:
-    pip3 install paho-mqtt psutil
-
-MQTT Topic structure:
-    aegis/telemetry        ← main telemetry payload (Pi publishes here)
-    aegis/status           ← flask_server publishes trust score back
+Requirements:
+    pip install flask flask-cors paho-mqtt paramiko
 """
 
-import time
-import random
-import argparse
+from __future__ import annotations
+
 import json
-import psutil
-import paho.mqtt.client as mqtt
+import os
+import threading
+import time
 from datetime import datetime, timezone
+from pathlib import Path
+
+import paramiko
+import paho.mqtt.client as mqtt
+from flask import Flask, jsonify, request
+from flask_cors import CORS
+from dotenv import load_dotenv
+
+load_dotenv()
+
+from isolation_model import (
+    add_baseline_sample,
+    get_status,
+    get_trust_score,
+    load_model,
+    score_sample,
+    train_model,
+)
+
+# ── App setup ─────────────────────────────────────────────────────────────────
+app = Flask(__name__)
+CORS(app)
+
+# ── Shared state file (bridge to Streamlit) ───────────────────────────────────
+TELEMETRY_FILE = Path("telemetry.json")
+
+# ── MQTT config ───────────────────────────────────────────────────────────────
+MQTT_BROKER = os.environ.get("MQTT_BROKER", "localhost")
+MQTT_PORT   = int(os.environ.get("MQTT_PORT", 1883))
+TOPIC_SUB   = "aegis/telemetry"   # Pi publishes here
+TOPIC_PUB   = "aegis/status"      # We publish trust score back to Pi
+_mqtt_client: mqtt.Client | None = None
+
+# ── SSH config for Pi remediation ─────────────────────────────────────────────
+PI_HOST     = os.environ.get("PI_HOST", "192.168.1.100")   # ← SET YOUR PI'S IP
+PI_USER     = os.environ.get("PI_USER", "pi")
+PI_PASSWORD = os.environ.get("PI_PASSWORD", "raspberry")
+
+# ── In-memory state ───────────────────────────────────────────────────────────
+_lock              = threading.Lock()
+_phase             = "learning"
+_learning_start    = time.time()
+_pi_telemetry_log: list[dict] = []
+LEARNING_DURATION  = 120
+
+# Attacker IP — detected automatically when CRITICAL fires
+_attacker_ip: str | None = None
+
+# Forensic report cooldown
+_last_forensic_time: float = 0.0
+FORENSIC_COOLDOWN = 60.0   # seconds
+
+# Try to restore a previously trained model on startup
+if load_model():
+    _phase = "monitoring"
+    print("[Aegis Flask] Restored trained model from disk → MONITORING phase")
+else:
+    print("[Aegis Flask] No saved model found → LEARNING phase")
 
 
-# ── Device identity ───────────────────────────────────────────────────────────
-
-DEVICE_ID   = "RPI-IPCAM-01"
-DEVICE_NAME = "Entrance IP Security Camera"
-
-# ── MQTT Topics ───────────────────────────────────────────────────────────────
-
-TOPIC_PUBLISH   = "aegis/telemetry"    # Pi → Laptop
-TOPIC_SUBSCRIBE = "aegis/status"       # Laptop → Pi (trust score back)
-MQTT_PORT       = 1883
-MQTT_KEEPALIVE  = 60
-
-
-# ── IP Camera simulation ──────────────────────────────────────────────────────
-
-class IPCameraSimulator:
-    """
-    Simulates a realistic IP security camera without a physical lens.
-
-    Behaviour modelled:
-    - Periodic heartbeat pings to NVR (every ~30s)
-    - Occasional motion-triggered burst (larger packets, higher rate)
-    - Idle stream: small keepalive packets at regular intervals
-    - Status fields: motion_detected, stream_active, recording
-    """
-
-    def __init__(self):
-        self.stream_active    = True
-        self.recording        = False
-        self.motion_detected  = False
-        self._start_time      = time.time()
-        self._last_motion     = 0.0
-        self._motion_duration = 0.0
-
-    def update(self) -> dict:
-        t       = time.time()
-        elapsed = t - self._start_time
-
-        # Motion events occur randomly ~every 45 seconds, last 8 seconds
-        if t - self._last_motion > 45 + random.uniform(-10, 10):
-            self._last_motion     = t
-            self._motion_duration = random.uniform(5, 10)
-
-        self.motion_detected = (t - self._last_motion) < self._motion_duration
-        self.recording       = self.motion_detected
-        self.stream_active   = True  # always streaming
-
-        return {
-            "device_type":     "IP Security Camera",
-            "stream_active":   self.stream_active,
-            "motion_detected": self.motion_detected,
-            "recording":       self.recording,
-            "uptime_seconds":  int(elapsed),
-            "fps_simulated":   15 if self.motion_detected else 5,
-        }
-
-    @property
-    def in_motion(self) -> bool:
-        return self.motion_detected
-
-
-# ── Real network feature sampler using psutil ─────────────────────────────────
-
-class NetworkFeatureSampler:
-    """
-    Derives the 4 normalized network features from REAL Pi network I/O
-    using psutil — no fake random numbers.
-
-    Features:
-      pkt_size  — avg bytes per packet from real network counters
-      iat       — inverse of recv packet rate (high flood rate = low iat)
-      entropy   — error + drop rate (spikes when Pi is overwhelmed)
-      symmetry  — sent / total bytes (drops during SYN flood — all inbound)
-
-    During a SYN flood:
-      - packets_recv spikes (thousands of SYN packets per second)
-      - bytes_recv spikes, bytes_sent stays low (Pi can't respond)
-      - symmetry → 0 (all inbound, nothing outbound)
-      - iat → 0 (packets arriving extremely fast)
-      - entropy → 1 (dropin spikes as Pi's buffer overflows)
-    """
-
-    MAX_BYTES_PER_PKT = 1500.0   # max Ethernet frame size
-    MAX_PKTS_PER_SEC  = 500.0    # above this = flooding (iat → 0)
-    MAX_ERROR_RATE    = 0.10     # 10% error/drop rate maps to entropy = 1.0
-
-    def __init__(self):
-        self._packet_count = 0
-        # Initial snapshot for delta calculation
-        self._prev_stats = psutil.net_io_counters()
-        self._prev_time  = time.time()
-
-    def sample(self, in_motion: bool = False) -> dict:
-        """
-        Compute real network features from actual Pi network I/O delta.
-        Falls back to safe defaults if psutil can't read counters.
-        """
-        self._packet_count += 1
-
-        try:
-            curr_stats = psutil.net_io_counters()
-            curr_time  = time.time()
-
-            dt = max(curr_time - self._prev_time, 0.1)  # avoid div by zero
-
-            # Deltas since last sample
-            d_bytes_sent = max(0, curr_stats.bytes_sent   - self._prev_stats.bytes_sent)
-            d_bytes_recv = max(0, curr_stats.bytes_recv   - self._prev_stats.bytes_recv)
-            d_pkts_sent  = max(0, curr_stats.packets_sent - self._prev_stats.packets_sent)
-            d_pkts_recv  = max(0, curr_stats.packets_recv - self._prev_stats.packets_recv)
-            d_errin      = max(0, curr_stats.errin  - self._prev_stats.errin)
-            d_dropin     = max(0, curr_stats.dropin - self._prev_stats.dropin)
-
-            # Save snapshot for next call
-            self._prev_stats = curr_stats
-            self._prev_time  = curr_time
-
-            total_pkts  = d_pkts_sent + d_pkts_recv
-            total_bytes = d_bytes_sent + d_bytes_recv
-
-            # ── pkt_size ──────────────────────────────────────────────────────
-            # avg bytes per packet, normalized to [0, 1]
-            if total_pkts > 0:
-                avg_bytes_per_pkt = total_bytes / total_pkts
-            else:
-                avg_bytes_per_pkt = 100.0   # idle keepalive
-            pkt_size = float(min(avg_bytes_per_pkt / self.MAX_BYTES_PER_PKT, 1.0))
-
-            # ── iat ───────────────────────────────────────────────────────────
-            # inverse of recv packet rate — high flood rate = low iat
-            pkts_per_sec = d_pkts_recv / dt
-            iat = float(max(0.0, 1.0 - (pkts_per_sec / self.MAX_PKTS_PER_SEC)))
-
-            # ── entropy ───────────────────────────────────────────────────────
-            # error + drop rate as buffer overflow signal
-            if total_pkts > 0:
-                error_rate = (d_errin + d_dropin) / max(total_pkts, 1)
-            else:
-                error_rate = 0.0
-            entropy = float(min(error_rate / self.MAX_ERROR_RATE, 1.0))
-            # Small baseline noise so entropy isn't exactly 0 during idle
-            entropy = float(max(0.0, min(entropy + random.gauss(0.05, 0.02), 1.0)))
-
-            # ── symmetry ──────────────────────────────────────────────────────
-            # sent / total bytes — drops to ~0 during SYN flood
-            if total_bytes > 0:
-                symmetry = float(d_bytes_sent / total_bytes)
-            else:
-                symmetry = 0.55   # idle default
-
-            # Camera sending video stream skews slightly outbound
-            if in_motion:
-                symmetry = float(min(symmetry + 0.10, 1.0))
-
-        except Exception:
-            # Safe normal defaults if psutil fails
-            pkt_size = 0.10
-            iat      = 0.40
-            entropy  = 0.05
-            symmetry = 0.55
-
-        return {
-            "pkt_size": round(pkt_size, 4),
-            "iat":      round(iat,      4),
-            "entropy":  round(entropy,  4),
-            "symmetry": round(symmetry, 4),
-        }
-
-    @property
-    def packet_count(self) -> int:
-        return self._packet_count
-
-
-# ── System metrics ────────────────────────────────────────────────────────────
-
-def get_system_metrics() -> dict:
-    cpu  = psutil.cpu_percent(interval=0.5)
-    mem  = psutil.virtual_memory()
-    disk = psutil.disk_usage("/")
-    temps = {}
-
+# ── SSH helper ────────────────────────────────────────────────────────────────
+def _ssh_run(commands: list[str]) -> dict:
+    """SSH into Pi and run a list of shell commands."""
+    results = []
     try:
-        sensor_data = psutil.sensors_temperatures()
-        if sensor_data:
-            for key in ("cpu_thermal", "coretemp", "thermal_zone0"):
-                if key in sensor_data:
-                    temps["cpu_temp_c"] = round(sensor_data[key][0].current, 1)
-                    break
-    except (AttributeError, NotImplementedError):
-        pass
+        ssh = paramiko.SSHClient()
+        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        ssh.connect(PI_HOST, username=PI_USER, password=PI_PASSWORD, timeout=10)
+        for cmd in commands:
+            _, stdout, stderr = ssh.exec_command(cmd)
+            out = stdout.read().decode().strip()
+            err = stderr.read().decode().strip()
+            results.append({"cmd": cmd, "out": out, "err": err})
+            print(f"[Aegis SSH] $ {cmd}")
+            if out: print(f"  → {out}")
+            if err: print(f"  ⚠️ {err}")
+        ssh.close()
+        return {"success": True, "results": results}
+    except Exception as e:
+        print(f"[Aegis SSH] ❌ SSH failed: {e}")
+        return {"success": False, "error": str(e)}
 
-    return {
-        "cpu_percent":    round(cpu, 1),
-        "memory_percent": round(mem.percent, 1),
-        "memory_used_mb": round(mem.used / 1024 / 1024, 1),
-        "disk_percent":   round(disk.percent, 1),
-        **temps,
-    }
+
+# ── Attacker IP detection ─────────────────────────────────────────────────────
+def _detect_attacker_ip(telemetry_log: list) -> str | None:
+    for record in reversed(telemetry_log[-20:]):
+        src = record.get("network_features", {}).get("src_ip")
+        if src and src not in ("0.0.0.0", "127.0.0.1", ""):
+            return src
+    return None
 
 
-# ── Process anomaly check ─────────────────────────────────────────────────────
+# ── Shared file writer ────────────────────────────────────────────────────────
+def _write_telemetry_file(record: dict) -> None:
+    try:
+        with _lock:
+            log_snapshot = _pi_telemetry_log[-100:]
+        payload = {
+            "latest":     record,
+            "log":        log_snapshot,
+            "phase":      _phase,
+            "model":      get_status(),
+            "written_at": datetime.now(timezone.utc).isoformat(),
+        }
+        TELEMETRY_FILE.write_text(json.dumps(payload, indent=2))
+    except Exception as e:
+        print(f"[Aegis Flask] Failed to write telemetry.json: {e}")
 
-def check_process_anomalies() -> list[str]:
-    EXPECTED = {"python3", "python", "bash", "sh", "sshd", "systemd"}
-    anomalies = []
-    for proc in psutil.process_iter(["name", "cpu_percent", "status"]):
+
+# ── Forensic report trigger ───────────────────────────────────────────────────
+def _trigger_forensic_report(data: dict, features: list, trust: float) -> None:
+    global _last_forensic_time
+    now = time.time()
+    if now - _last_forensic_time < FORENSIC_COOLDOWN:
+        return
+    _last_forensic_time = now
+
+    def _run():
         try:
-            name = proc.info["name"]
-            cpu  = proc.info["cpu_percent"] or 0
-            if cpu > 40 and name not in EXPECTED:
-                anomalies.append(f"{name} (cpu={cpu}%)")
-        except (psutil.NoSuchProcess, psutil.AccessDenied):
-            pass
-    return anomalies
+            from forensics import generate_and_send_report
+            import isolation_model as _im
+            baseline = list(_im._baseline_buffer[-1]) if _im._baseline_buffer else [0.15, 0.35, 0.18, 0.52]
+            device_data = {
+                "device_id":           data.get("device_id", "RPI-IPCAM-01"),
+                "device_name":         data.get("device_name", "Entrance IP Security Camera"),
+                "sector":              "IoT Security",
+                "timestamp":           data.get("timestamp", datetime.now(timezone.utc).isoformat()),
+                "trust_score":         trust,
+                "reconstruction_error": round(1.0 - (trust / 100.0), 4),
+                "jsd_value":           round(features[2], 4),
+                "baseline_features":   baseline,
+                "current_features":    features,
+                "packet_history":      [],
+                "threat_log": [{
+                    "time": datetime.now(timezone.utc).isoformat(),
+                    "msg":  (
+                        f"SYN Flood detected on IP Camera — trust dropped to {trust:.1f}. "
+                        f"pkt_size={features[0]:.3f} iat={features[1]:.3f} "
+                        f"entropy={features[2]:.3f} symmetry={features[3]:.3f}"
+                    ),
+                }],
+            }
+            pdf_path = generate_and_send_report(device_data)
+            print(f"[Aegis] 📄 Forensic report generated → {pdf_path}")
+        except Exception as e:
+            print(f"[Aegis] Forensic report failed: {e}")
+
+    threading.Thread(target=_run, daemon=True).start()
 
 
-# ── Payload builder ───────────────────────────────────────────────────────────
+# ── Core processing (shared by MQTT and HTTP) ─────────────────────────────────
+def _process_telemetry(data: dict) -> dict:
+    global _phase, _pi_telemetry_log, _learning_start
 
-def build_payload(camera: IPCameraSimulator,
-                  net_sampler: NetworkFeatureSampler) -> dict:
-    cam_status = camera.update()
-    return {
-        "device_id":        DEVICE_ID,
-        "device_name":      DEVICE_NAME,
-        "timestamp":        datetime.now(timezone.utc).isoformat(),
-        "telemetry": {
-            **cam_status,
-            **get_system_metrics(),
-            "process_anomalies": check_process_anomalies(),
-            "packet_count":      net_sampler.packet_count,
-        },
-        "network_features": net_sampler.sample(in_motion=camera.in_motion),
+    features_raw = data.get("network_features", {})
+    features = [
+        float(features_raw.get("pkt_size", 0.0)),
+        float(features_raw.get("iat",      0.0)),
+        float(features_raw.get("entropy",  0.0)),
+        float(features_raw.get("symmetry", 0.0)),
+    ]
+
+    elapsed = time.time() - _learning_start
+
+    if _phase == "learning":
+        add_baseline_sample(features)
+        if elapsed >= LEARNING_DURATION:
+            try:
+                summary = train_model()
+                _phase = "monitoring"
+                print(f"[Aegis] Auto-trained after {elapsed:.0f}s | {summary}")
+            except Exception as e:
+                print(f"[Aegis] Auto-train failed: {e}")
+        trust  = 95.0
+        status = "LEARNING"
+    else:
+        trust = get_trust_score(features)
+        if trust < 30:
+            status = "CRITICAL"
+        elif trust < 60:
+            status = "WARNING"
+        else:
+            status = "NORMAL"
+
+    if status == "CRITICAL":
+        sc = score_sample(features)
+        print(
+            f"[Aegis] 🚨 CRITICAL trust={trust:.1f} "
+            f"anomaly={sc['anomaly_score']:.3f} "
+            f"device={data.get('device_id', '?')}"
+        )
+        _trigger_forensic_report(data, features, trust)
+
+    record = {
+        "timestamp":       data.get("timestamp", datetime.now(timezone.utc).isoformat()),
+        "device_id":       data.get("device_id",   "UNKNOWN"),
+        "device_name":     data.get("device_name", "Unknown Device"),
+        "trust_score":     trust,
+        "status":          status,
+        "phase":           _phase,
+        "elapsed_learning": round(elapsed, 1),
+        "telemetry":       data.get("telemetry", {}),
+        "network_features": features_raw,
+        "model_status":    get_status(),
     }
+
+    with _lock:
+        _pi_telemetry_log.append(record)
+        _pi_telemetry_log = _pi_telemetry_log[-500:]
+
+    _write_telemetry_file(record)
+    return record
 
 
 # ── MQTT callbacks ────────────────────────────────────────────────────────────
-
-def on_connect(client, userdata, flags, rc):
+def _on_mqtt_connect(client, userdata, flags, rc):
     if rc == 0:
-        print("[Pi Sender] ✅ Connected to MQTT broker")
-        client.subscribe(TOPIC_SUBSCRIBE)
-        print(f"[Pi Sender] Subscribed to '{TOPIC_SUBSCRIBE}'")
+        client.subscribe(TOPIC_SUB, qos=1)
+        print(f"[Aegis MQTT] ✅ Connected | subscribed to '{TOPIC_SUB}'")
     else:
-        codes = {
-            1: "Wrong protocol version",
-            2: "Invalid client ID",
-            3: "Broker unavailable",
-            4: "Bad credentials",
-            5: "Not authorised",
-        }
-        print(f"[Pi Sender] ❌ Connection failed: {codes.get(rc, f'rc={rc}')}")
+        print(f"[Aegis MQTT] ❌ Connection failed rc={rc}")
 
 
-def on_disconnect(client, userdata, rc):
-    if rc != 0:
-        print(f"[Pi Sender] ⚠️  Unexpected disconnect (rc={rc}) — will auto-reconnect")
-
-
-def on_message(client, userdata, msg):
+def _on_mqtt_message(client, userdata, msg):
     try:
-        data   = json.loads(msg.payload.decode())
-        trust  = data.get("trust_score", "?")
-        status = data.get("status", "?")
-        phase  = data.get("phase", "?")
-
-        status_icon = {
-            "NORMAL":   "✅",
-            "WARNING":  "⚠️ ",
-            "CRITICAL": "🚨",
-            "LEARNING": "🔵",
-        }.get(status, "❓")
-
-        print(f"[Pi Sender] ← {status_icon} trust={trust} | status={status} | phase={phase}")
+        data = json.loads(msg.payload.decode())
     except Exception as e:
-        print(f"[Pi Sender] Failed to parse status message: {e}")
+        print(f"[Aegis MQTT] Bad payload: {e}")
+        return
+
+    record = _process_telemetry(data)
+
+    # Publish trust score back to Pi
+    client.publish(TOPIC_PUB, json.dumps({
+        "trust_score": record["trust_score"],
+        "status":      record["status"],
+        "phase":       record["phase"],
+    }), qos=0)
 
 
-def on_publish(client, userdata, mid):
-    pass
-
-
-# ── Main loop ─────────────────────────────────────────────────────────────────
-
-def run(broker: str, port: int, interval: float, verbose: bool) -> None:
-    camera = IPCameraSimulator()
-    net    = NetworkFeatureSampler()
-
-    print(f"╔══════════════════════════════════════════╗")
-    print(f"║   Aegis-Twin  ·  Pi Sender (IP Camera)  ║")
-    print(f"╠══════════════════════════════════════════╣")
-    print(f"║  Device  : {DEVICE_ID:<30}║")
-    print(f"║  Broker  : {broker:<30}║")
-    print(f"║  Port    : {port:<30}║")
-    print(f"║  Topic   : {TOPIC_PUBLISH:<30}║")
-    print(f"║  Interval: {interval}s{'':<27}║")
-    print(f"║  Features: REAL psutil network I/O      ║")
-    print(f"╚══════════════════════════════════════════╝\n")
-
+def start_mqtt(broker: str, port: int) -> mqtt.Client:
     try:
         client = mqtt.Client(
             callback_api_version=mqtt.CallbackAPIVersion.VERSION1,
-            client_id=DEVICE_ID,
+            client_id="aegis-flask-server",
             clean_session=True,
         )
     except AttributeError:
-        client = mqtt.Client(client_id=DEVICE_ID, clean_session=True)
+        client = mqtt.Client(client_id="aegis-flask-server", clean_session=True)
 
-    client.on_connect    = on_connect
-    client.on_disconnect = on_disconnect
-    client.on_message    = on_message
-    client.on_publish    = on_publish
-
+    client.on_connect = _on_mqtt_connect
+    client.on_message = _on_mqtt_message
     client.reconnect_delay_set(min_delay=1, max_delay=30)
-
-    print(f"[Pi Sender] Connecting to broker {broker}:{port} ...")
-    try:
-        client.connect(broker, port, keepalive=MQTT_KEEPALIVE)
-    except Exception as e:
-        print(f"[Pi Sender] ❌ Cannot connect to broker: {e}")
-        print("  → Is the broker running? Check IP and port.")
-        return
-
+    client.connect(broker, port, keepalive=60)
     client.loop_start()
-    time.sleep(1.5)
+    return client
 
-    while True:
-        try:
-            payload     = build_payload(camera, net)
-            payload_str = json.dumps(payload)
 
-            result = client.publish(
-                TOPIC_PUBLISH,
-                payload=payload_str,
-                qos=1,
-                retain=False,
-            )
+# ── Flask routes ──────────────────────────────────────────────────────────────
+@app.route("/health")
+def health():
+    return jsonify({
+        "status": "ok",
+        "phase":  _phase,
+        "time":   datetime.now(timezone.utc).isoformat(),
+    })
 
-            if result.rc == mqtt.MQTT_ERR_SUCCESS:
-                ts  = payload["timestamp"][11:19]
-                tel = payload["telemetry"]
-                nf  = payload["network_features"]
 
-                motion_flag = "🎥 MOTION" if tel["motion_detected"] else "💤 IDLE  "
+@app.route("/api/telemetry", methods=["POST"])
+def receive_telemetry():
+    """HTTP fallback — works if Pi uses HTTP instead of MQTT."""
+    data   = request.get_json(force=True, silent=True) or {}
+    record = _process_telemetry(data)
+    return jsonify({
+        "trust_score": record["trust_score"],
+        "status":      record["status"],
+        "phase":       record["phase"],
+    })
 
-                print(
-                    f"[{ts}] 📤 Published | "
-                    f"{motion_flag} | "
-                    f"cpu={tel['cpu_percent']}% | "
-                    f"pkt={nf['pkt_size']} iat={nf['iat']} "
-                    f"ent={nf['entropy']} sym={nf['symmetry']}"
-                )
 
-                if verbose and tel.get("process_anomalies"):
-                    print(f"         ⚠️  processes: {tel['process_anomalies']}")
-            else:
-                print(f"[Pi Sender] ⚠️  Publish failed (rc={result.rc})")
+@app.route("/api/pi/force_train", methods=["POST"])
+def force_train():
+    global _phase
+    try:
+        summary = train_model()
+        _phase  = "monitoring"
+        print(f"[Aegis Flask] Force trained! {summary}")
+        return jsonify({
+            "success": True,
+            "message": "Model trained. Now in MONITORING phase.",
+            "summary": summary,
+        })
+    except ValueError as e:
+        st = get_status()
+        return jsonify({
+            "success":      False,
+            "error":        str(e),
+            "samples_so_far": st["baseline_samples"],
+            "samples_needed": 100,
+        }), 400
 
-        except Exception as e:
-            print(f"[Pi Sender] Unexpected error: {e}")
 
-        time.sleep(interval)
+@app.route("/api/pi/status")
+def pi_status():
+    with _lock:
+        recent = _pi_telemetry_log[-5:]
+    return jsonify({
+        "phase":            _phase,
+        "elapsed_learning": round(time.time() - _learning_start, 1),
+        "model_status":     get_status(),
+        "recent":           recent,
+    })
+
+
+@app.route("/api/pi/reset", methods=["POST"])
+def reset():
+    global _phase, _learning_start, _pi_telemetry_log, _attacker_ip, _last_forensic_time
+    import isolation_model as _im
+    from isolation_model import MODEL_PATH
+
+    with _im._lock:
+        _im._baseline_buffer = []
+        _im._score_window.clear()
+        _im._model     = None
+        _im._is_trained = False
+        _im._score_min  = -0.5
+        _im._score_max  = -0.1
+
+    if MODEL_PATH.exists():
+        MODEL_PATH.unlink()
+        print("[Aegis Flask] Deleted saved model.")
+
+    with _lock:
+        _phase              = "learning"
+        _learning_start     = time.time()
+        _pi_telemetry_log   = []
+        _attacker_ip        = None
+        _last_forensic_time = 0.0
+
+    if TELEMETRY_FILE.exists():
+        TELEMETRY_FILE.unlink()
+
+    print("[Aegis Flask] Full reset complete → LEARNING phase")
+    return jsonify({"success": True, "message": "Reset complete. Back to LEARNING phase."})
+
+
+@app.route("/api/telemetry/latest")
+def latest_telemetry():
+    with _lock:
+        if not _pi_telemetry_log:
+            return jsonify({"error": "No telemetry received yet"}), 404
+        latest = _pi_telemetry_log[-1]
+    return jsonify(latest)
+
+
+@app.route("/api/telemetry/log")
+def telemetry_log():
+    n = min(int(request.args.get("n", 50)), 500)
+    with _lock:
+        log = _pi_telemetry_log[-n:]
+    return jsonify({"count": len(log), "log": log})
+
+
+# ── Remediation routes ────────────────────────────────────────────────────────
+@app.route("/api/pi/remediate", methods=["POST"])
+def remediate():
+    global _attacker_ip
+    import isolation_model as _im
+
+    # Clear rolling anomaly window for immediate dashboard recovery
+    with _im._lock:
+        _im._score_window.clear()
+
+    # Try to detect attacker IP from recent telemetry
+    with _lock:
+        detected = _detect_attacker_ip(_pi_telemetry_log)
+        if detected:
+            _attacker_ip = detected
+            print(f"[Aegis] Detected attacker IP: {_attacker_ip}")
+
+    # Build iptables + sysctl commands for SYN flood defense
+    commands = [
+        "sudo sysctl -w net.ipv4.tcp_syncookies=1",
+        "sudo sysctl -w net.ipv4.tcp_synack_retries=2",
+        "sudo sysctl -w net.ipv4.tcp_max_syn_backlog=128",
+        "sudo iptables -A INPUT -m conntrack --ctstate INVALID -j DROP",
+        "sudo iptables -A INPUT -p tcp --syn -m limit --limit 10/s --limit-burst 20 -j ACCEPT",
+        "sudo iptables -A INPUT -p tcp --syn -j DROP",
+    ]
+
+    if _attacker_ip:
+        commands.insert(0, f"sudo iptables -I INPUT 1 -s {_attacker_ip} -j DROP")
+        commands.insert(1, f"sudo iptables -I OUTPUT 1 -d {_attacker_ip} -j DROP")
+        print(f"[Aegis] Blocking attacker IP: {_attacker_ip}")
+
+    commands.append("sudo iptables -L INPUT -n --line-numbers | head -15")
+    commands.append("sudo sysctl net.ipv4.tcp_syncookies")
+
+    ssh_result = _ssh_run(commands)
+
+    rules_applied = [
+        "SYN cookies enabled (tcp_syncookies=1)",
+        "SYN-ACK retries reduced to 2",
+        "Max SYN backlog reduced to 128",
+        "INVALID packets dropped",
+        "SYN rate limited to 10/sec",
+        "SYN flood packets dropped at kernel",
+    ]
+    if _attacker_ip:
+        rules_applied.insert(0, f"Attacker IP blocked: {_attacker_ip}")
+
+    event = {
+        "timestamp":   datetime.now(timezone.utc).isoformat(),
+        "event":       "REMEDIATION_TRIGGERED",
+        "ssh_success": ssh_result["success"],
+        "attacker_ip": _attacker_ip,
+        "rules_applied": rules_applied,
+    }
+
+    with _lock:
+        if _pi_telemetry_log:
+            _pi_telemetry_log.append({
+                **_pi_telemetry_log[-1],
+                "status":    "REMEDIATING",
+                "timestamp": event["timestamp"],
+                "event":     event,
+            })
+
+    print(f"[Aegis Flask] 🛡️ Remediation complete | SSH OK: {ssh_result['success']}")
+    return jsonify({"success": True, "event": event, "ssh": ssh_result})
+
+
+@app.route("/api/pi/clear_rules", methods=["POST"])
+def clear_rules():
+    global _attacker_ip
+    result = _ssh_run([
+        "sudo iptables -F",
+        "sudo iptables -X",
+        "sudo iptables -P INPUT ACCEPT",
+        "sudo iptables -P OUTPUT ACCEPT",
+        "sudo iptables -P FORWARD ACCEPT",
+        "sudo sysctl -w net.ipv4.tcp_syncookies=0",
+        "sudo sysctl -w net.ipv4.tcp_synack_retries=5",
+        "sudo sysctl -w net.ipv4.tcp_max_syn_backlog=2048",
+        "echo 'Pi iptables cleared — ready for next demo'",
+    ])
+    _attacker_ip = None
+    print("[Aegis Flask] Pi rules cleared — ready for next demo run")
+    return jsonify({"success": result["success"], "detail": result})
 
 
 # ── Entry point ───────────────────────────────────────────────────────────────
-
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description="Aegis-Twin Pi Sender — streams IP camera telemetry via MQTT"
-    )
-    parser.add_argument("--broker",   default="localhost")
-    parser.add_argument("--port",     type=int,   default=1883)
-    parser.add_argument("--interval", type=float, default=3.0)
-    parser.add_argument("--verbose", "-v", action="store_true")
-    args = parser.parse_args()
+    print("╔══════════════════════════════════════════════╗")
+    print("║  Aegis-Twin · Flask + MQTT Server           ║")
+    print("╠══════════════════════════════════════════════╣")
+    print(f"║  MQTT Broker : {MQTT_BROKER}:{MQTT_PORT:<24}║")
+    print("║  Flask       : http://0.0.0.0:5000          ║")
+    print("║  Health      : http://localhost:5000/health ║")
+    print(f"║  Pi SSH Host : {PI_HOST:<30}║")
+    print("╚══════════════════════════════════════════════╝")
 
-    run(broker=args.broker, port=args.port,
-        interval=args.interval, verbose=args.verbose)
+    _mqtt_client = start_mqtt(MQTT_BROKER, MQTT_PORT)
+    app.run(host="0.0.0.0", port=5000, debug=False, threaded=True)

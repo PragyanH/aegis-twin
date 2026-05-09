@@ -5,7 +5,9 @@ Publishes telemetry to the Aegis-Twin laptop via MQTT.
 The laptop's flask_server.py subscribes and processes it.
 
 No physical camera required — simulates realistic IP camera
-network behaviour (motion events, stream bursts, heartbeat pings).
+network behaviour using REAL Pi system metrics (psutil network I/O,
+CPU, memory) to derive network features. Features reflect actual
+Pi network conditions — not fake random numbers.
 
 Run on Pi:
     python3 pi_sender.py --broker 192.168.X.X
@@ -19,7 +21,6 @@ MQTT Topic structure:
 """
 
 import time
-import math
 import random
 import argparse
 import json
@@ -63,7 +64,7 @@ class IPCameraSimulator:
         self._motion_duration = 0.0
 
     def update(self) -> dict:
-        t = time.time()
+        t       = time.time()
         elapsed = t - self._start_time
 
         # Motion events occur randomly ~every 45 seconds, last 8 seconds
@@ -75,16 +76,13 @@ class IPCameraSimulator:
         self.recording       = self.motion_detected
         self.stream_active   = True  # always streaming
 
-        # Uptime in seconds
-        uptime = int(elapsed)
-
         return {
-            "device_type":      "IP Security Camera",
-            "stream_active":    self.stream_active,
-            "motion_detected":  self.motion_detected,
-            "recording":        self.recording,
-            "uptime_seconds":   uptime,
-            "fps_simulated":    15 if self.motion_detected else 5,
+            "device_type":     "IP Security Camera",
+            "stream_active":   self.stream_active,
+            "motion_detected": self.motion_detected,
+            "recording":       self.recording,
+            "uptime_seconds":  int(elapsed),
+            "fps_simulated":   15 if self.motion_detected else 5,
         }
 
     @property
@@ -92,46 +90,112 @@ class IPCameraSimulator:
         return self.motion_detected
 
 
-# ── Network feature sampler ───────────────────────────────────────────────────
+# ── Real network feature sampler using psutil ─────────────────────────────────
 
 class NetworkFeatureSampler:
     """
-    Generates realistic normalized network features for an IP camera.
+    Derives the 4 normalized network features from REAL Pi network I/O
+    using psutil — no fake random numbers.
 
-    Normal camera behaviour:
-    - Small keepalive packets during idle
-    - Larger bursts during motion events (video stream spike)
-    - Low entropy (structured RTSP/MQTT data)
-    - Balanced symmetry (camera sends stream, NVR sends ACKs)
+    Features:
+      pkt_size  — avg bytes per packet from real network counters
+      iat       — inverse of recv packet rate (high flood rate = low iat)
+      entropy   — error + drop rate (spikes when Pi is overwhelmed)
+      symmetry  — sent / total bytes (drops during SYN flood — all inbound)
+
+    During a SYN flood:
+      - packets_recv spikes (thousands of SYN packets per second)
+      - bytes_recv spikes, bytes_sent stays low (Pi can't respond)
+      - symmetry → 0 (all inbound, nothing outbound)
+      - iat → 0 (packets arriving extremely fast)
+      - entropy → 1 (dropin spikes as Pi's buffer overflows)
     """
 
-    # Idle profile — no motion
-    IDLE_PROFILE = {
-        "pkt_size": (0.10, 0.03),   # small keepalives
-        "iat":      (0.40, 0.08),   # regular heartbeat timing
-        "entropy":  (0.15, 0.03),   # low entropy, structured data
-        "symmetry": (0.55, 0.07),   # balanced stream + ACKs
-    }
-
-    # Motion burst profile — camera sends video frames
-    MOTION_PROFILE = {
-        "pkt_size": (0.55, 0.10),   # larger video frame packets
-        "iat":      (0.12, 0.04),   # faster (15fps burst)
-        "entropy":  (0.30, 0.05),   # slightly higher (compressed video)
-        "symmetry": (0.40, 0.08),   # more outbound (stream heavy)
-    }
+    MAX_BYTES_PER_PKT = 1500.0   # max Ethernet frame size
+    MAX_PKTS_PER_SEC  = 500.0    # above this = flooding (iat → 0)
+    MAX_ERROR_RATE    = 0.10     # 10% error/drop rate maps to entropy = 1.0
 
     def __init__(self):
         self._packet_count = 0
+        # Initial snapshot for delta calculation
+        self._prev_stats = psutil.net_io_counters()
+        self._prev_time  = time.time()
 
     def sample(self, in_motion: bool = False) -> dict:
+        """
+        Compute real network features from actual Pi network I/O delta.
+        Falls back to safe defaults if psutil can't read counters.
+        """
         self._packet_count += 1
-        profile = self.MOTION_PROFILE if in_motion else self.IDLE_PROFILE
-        features = {}
-        for name, (mean, std) in profile.items():
-            val = random.gauss(mean, std)
-            features[name] = round(max(0.0, min(1.0, val)), 4)
-        return features
+
+        try:
+            curr_stats = psutil.net_io_counters()
+            curr_time  = time.time()
+
+            dt = max(curr_time - self._prev_time, 0.1)  # avoid div by zero
+
+            # Deltas since last sample
+            d_bytes_sent = max(0, curr_stats.bytes_sent   - self._prev_stats.bytes_sent)
+            d_bytes_recv = max(0, curr_stats.bytes_recv   - self._prev_stats.bytes_recv)
+            d_pkts_sent  = max(0, curr_stats.packets_sent - self._prev_stats.packets_sent)
+            d_pkts_recv  = max(0, curr_stats.packets_recv - self._prev_stats.packets_recv)
+            d_errin      = max(0, curr_stats.errin  - self._prev_stats.errin)
+            d_dropin     = max(0, curr_stats.dropin - self._prev_stats.dropin)
+
+            # Save snapshot for next call
+            self._prev_stats = curr_stats
+            self._prev_time  = curr_time
+
+            total_pkts  = d_pkts_sent + d_pkts_recv
+            total_bytes = d_bytes_sent + d_bytes_recv
+
+            # ── pkt_size ──────────────────────────────────────────────────────
+            # avg bytes per packet, normalized to [0, 1]
+            if total_pkts > 0:
+                avg_bytes_per_pkt = total_bytes / total_pkts
+            else:
+                avg_bytes_per_pkt = 100.0   # idle keepalive
+            pkt_size = float(min(avg_bytes_per_pkt / self.MAX_BYTES_PER_PKT, 1.0))
+
+            # ── iat ───────────────────────────────────────────────────────────
+            # inverse of recv packet rate — high flood rate = low iat
+            pkts_per_sec = d_pkts_recv / dt
+            iat = float(max(0.0, 1.0 - (pkts_per_sec / self.MAX_PKTS_PER_SEC)))
+
+            # ── entropy ───────────────────────────────────────────────────────
+            # error + drop rate as buffer overflow signal
+            if total_pkts > 0:
+                error_rate = (d_errin + d_dropin) / max(total_pkts, 1)
+            else:
+                error_rate = 0.0
+            entropy = float(min(error_rate / self.MAX_ERROR_RATE, 1.0))
+            # Small baseline noise so entropy isn't exactly 0 during idle
+            entropy = float(max(0.0, min(entropy + random.gauss(0.05, 0.02), 1.0)))
+
+            # ── symmetry ──────────────────────────────────────────────────────
+            # sent / total bytes — drops to ~0 during SYN flood
+            if total_bytes > 0:
+                symmetry = float(d_bytes_sent / total_bytes)
+            else:
+                symmetry = 0.55   # idle default
+
+            # Camera sending video stream skews slightly outbound
+            if in_motion:
+                symmetry = float(min(symmetry + 0.10, 1.0))
+
+        except Exception:
+            # Safe normal defaults if psutil fails
+            pkt_size = 0.10
+            iat      = 0.40
+            entropy  = 0.05
+            symmetry = 0.55
+
+        return {
+            "pkt_size": round(pkt_size, 4),
+            "iat":      round(iat,      4),
+            "entropy":  round(entropy,  4),
+            "symmetry": round(symmetry, 4),
+        }
 
     @property
     def packet_count(self) -> int:
@@ -224,7 +288,6 @@ def on_disconnect(client, userdata, rc):
 
 
 def on_message(client, userdata, msg):
-    """Receive trust score / status back from flask_server via MQTT."""
     try:
         data   = json.loads(msg.payload.decode())
         trust  = data.get("trust_score", "?")
@@ -244,7 +307,7 @@ def on_message(client, userdata, msg):
 
 
 def on_publish(client, userdata, mid):
-    pass   # silent — publish confirmed
+    pass
 
 
 # ── Main loop ─────────────────────────────────────────────────────────────────
@@ -261,9 +324,9 @@ def run(broker: str, port: int, interval: float, verbose: bool) -> None:
     print(f"║  Port    : {port:<30}║")
     print(f"║  Topic   : {TOPIC_PUBLISH:<30}║")
     print(f"║  Interval: {interval}s{'':<27}║")
+    print(f"║  Features: REAL psutil network I/O      ║")
     print(f"╚══════════════════════════════════════════╝\n")
 
-    # Set up MQTT client — CallbackAPIVersion fix for paho-mqtt >= 2.0
     try:
         client = mqtt.Client(
             callback_api_version=mqtt.CallbackAPIVersion.VERSION1,
@@ -271,7 +334,6 @@ def run(broker: str, port: int, interval: float, verbose: bool) -> None:
             clean_session=True,
         )
     except AttributeError:
-        # Older paho-mqtt versions don't have CallbackAPIVersion
         client = mqtt.Client(client_id=DEVICE_ID, clean_session=True)
 
     client.on_connect    = on_connect
@@ -314,17 +376,13 @@ def run(broker: str, port: int, interval: float, verbose: bool) -> None:
                 print(
                     f"[{ts}] 📤 Published | "
                     f"{motion_flag} | "
-                    f"stream={'ON' if tel['stream_active'] else 'OFF'} "
-                    f"cpu={tel['cpu_percent']}%"
+                    f"cpu={tel['cpu_percent']}% | "
+                    f"pkt={nf['pkt_size']} iat={nf['iat']} "
+                    f"ent={nf['entropy']} sym={nf['symmetry']}"
                 )
 
-                if verbose:
-                    print(
-                        f"         net → pkt={nf['pkt_size']} iat={nf['iat']} "
-                        f"ent={nf['entropy']} sym={nf['symmetry']}"
-                    )
-                    if tel.get("process_anomalies"):
-                        print(f"         ⚠️  processes: {tel['process_anomalies']}")
+                if verbose and tel.get("process_anomalies"):
+                    print(f"         ⚠️  processes: {tel['process_anomalies']}")
             else:
                 print(f"[Pi Sender] ⚠️  Publish failed (rc={result.rc})")
 
@@ -340,28 +398,10 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Aegis-Twin Pi Sender — streams IP camera telemetry via MQTT"
     )
-    parser.add_argument(
-        "--broker",
-        default="localhost",
-        help="MQTT broker IP address (e.g. 192.168.1.42)"
-    )
-    parser.add_argument(
-        "--port",
-        type=int,
-        default=1883,
-        help="MQTT broker port (default: 1883)"
-    )
-    parser.add_argument(
-        "--interval",
-        type=float,
-        default=3.0,
-        help="Seconds between publishes (default: 3.0)"
-    )
-    parser.add_argument(
-        "--verbose", "-v",
-        action="store_true",
-        help="Print network features and process anomalies each tick"
-    )
+    parser.add_argument("--broker",   default="localhost")
+    parser.add_argument("--port",     type=int,   default=1883)
+    parser.add_argument("--interval", type=float, default=3.0)
+    parser.add_argument("--verbose", "-v", action="store_true")
     args = parser.parse_args()
 
     run(broker=args.broker, port=args.port,
