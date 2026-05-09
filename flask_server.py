@@ -183,14 +183,17 @@ def _on_mqtt_message(client, userdata, msg):
 
 
 def start_mqtt(broker: str, port: int) -> mqtt.Client:
-    client = mqtt.Client(client_id="aegis-flask-server", clean_session=True)
+    client = mqtt.Client(
+        callback_api_version=mqtt.CallbackAPIVersion.VERSION1,
+        client_id="aegis-flask-server",
+        clean_session=True
+    )
     client.on_connect = _on_mqtt_connect
     client.on_message = _on_mqtt_message
     client.reconnect_delay_set(min_delay=1, max_delay=30)
     client.connect(broker, port, keepalive=60)
     client.loop_start()
     return client
-
 
 # ── Flask routes ──────────────────────────────────────────────────────────────
 
