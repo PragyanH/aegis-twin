@@ -303,25 +303,44 @@ def render_fleet_page():
 
     pi_data = read_pi_telemetry()
     if pi_data:
-        trust  = pi_data["latest"]["trust_score"]
-        phase  = pi_data["phase"]
-        status = pi_data["latest"]["status"]
-        device = pi_data["latest"].get("device_id", "Pi Device")
+        trust   = pi_data["latest"]["trust_score"]
+        phase   = pi_data["phase"]
+        status  = pi_data["latest"]["status"]
+        device  = pi_data["latest"].get("device_id", "RPI-IPCAM-01")
 
-        color = "#00ff88" if trust >= 60 else "#ffb300" if trust >= 30 else "#ff2d55"
+        # Pull camera-specific telemetry fields if available
+        tel             = pi_data["latest"].get("telemetry", {})
+        motion_detected = tel.get("motion_detected", False)
+        stream_active   = tel.get("stream_active", True)
+        recording       = tel.get("recording", False)
+        fps             = tel.get("fps_simulated", 5)
+        uptime          = tel.get("uptime_seconds", 0)
+        cpu             = tel.get("cpu_percent", 0)
+
+        color       = "#00ff88" if trust >= 60 else "#ffb300" if trust >= 30 else "#ff2d55"
         phase_badge = "🔵 LEARNING" if phase == "learning" else "✅ MONITORING"
+        motion_badge = "🎥 MOTION DETECTED" if motion_detected else "💤 IDLE"
+        rec_badge    = "⏺ RECORDING" if recording else ""
 
         st.markdown(f"""
         <div style="background:rgba(17,25,40,0.8);border:1px solid {color};border-radius:12px;
                     padding:20px;margin-bottom:20px;box-shadow:0 0 20px {color}33;">
-            <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
                 <div>
                     <div style="color:#aaa;font-size:0.85em;font-family:monospace;">
-                        🖥️ {device} &nbsp;·&nbsp; {phase_badge}
+                        📷 {device} &nbsp;·&nbsp; {phase_badge}
                     </div>
                     <div style="color:{color};font-size:2.5rem;font-weight:bold;margin-top:4px;">
                         {trust:.1f}
                         <span style="font-size:1rem;color:#aaa;">/ 100 trust</span>
+                    </div>
+                    <div style="color:#aaa;font-size:0.8em;margin-top:6px;font-family:monospace;">
+                        {motion_badge} &nbsp;
+                        {"&nbsp; " + rec_badge if rec_badge else ""}
+                        &nbsp;| Stream: {"ON" if stream_active else "OFF"}
+                        &nbsp;| {fps} fps
+                        &nbsp;| CPU: {cpu}%
+                        &nbsp;| Uptime: {uptime}s
                     </div>
                 </div>
                 <div style="color:{color};font-size:2rem;font-weight:bold;
@@ -334,7 +353,7 @@ def render_fleet_page():
 
         # ── Status banners + remediation button ──────────────────────────────
         if status == "CRITICAL":
-            st.error("🚨 CRITICAL — Active SYN Flood Attack Detected on Pi", icon="🚨")
+            st.error("🚨 CRITICAL — Active SYN Flood Attack Detected on IP Camera", icon="🚨")
             col1, col2 = st.columns(2)
             with col1:
                 if st.button("🛡️ Initiate Remediation", type="primary", use_container_width=True):
@@ -344,7 +363,7 @@ def render_fleet_page():
                             r = _req.post("http://localhost:5000/api/pi/remediate", timeout=15)
                             result = r.json()
                             if result.get("success"):
-                                st.success("✅ Remediation applied on Pi!")
+                                st.success("✅ Remediation applied on IP Camera!")
                                 for rule in result["event"]["rules_applied"]:
                                     st.markdown(f"- {rule}")
                                 st.balloons()
@@ -357,16 +376,16 @@ def render_fleet_page():
                     import requests as _req
                     try:
                         _req.post("http://localhost:5000/api/pi/clear_rules", timeout=10)
-                        st.info("iptables rules cleared on Pi")
+                        st.info("iptables rules cleared on IP Camera Pi")
                     except Exception as e:
                         st.error(f"Error: {e}")
         elif status == "WARNING":
-            st.warning("⚠️ WARNING — Unusual activity detected. Monitoring closely.", icon="⚠️")
+            st.warning("⚠️ WARNING — Unusual traffic detected on IP Camera. Monitoring closely.", icon="⚠️")
         else:
-            st.success("✅ System Secure — No active threats", icon="🛡️")
+            st.success("✅ IP Camera Secure — No active threats", icon="🛡️")
 
     else:
-        st.info("⏳ Waiting for Pi telemetry — start flask_server.py and pi_sender.py")
+        st.info("⏳ Waiting for IP Camera telemetry — start flask_server.py and pi_sender.py on the Pi")
 
     st.markdown(
         "Live devices monitored via Scapy packet capture on your local network. "
