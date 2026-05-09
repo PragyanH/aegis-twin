@@ -22,3 +22,7 @@ scapy
 flask
 flask-cors
 paho-mqtt
+paramiko
+joblib
+requests
+psutil

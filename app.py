@@ -5,8 +5,10 @@ Enterprise Fleet Manager Edition.
 
 Run with: streamlit run app.py
 """
+#app.py
 
 import os
+import time
 
 import pandas as pd
 import streamlit as st
@@ -24,7 +26,7 @@ from model import LSTMAutoencoder
 from registry import IOT_REGISTRY, SESSION_DEFAULTS
 from sniffer import start_sniffer
 from ui import NEON_GREEN, NEON_RED, inject_css
-from isolation_model import add_baseline_sample, get_trust_score, get_status, train_model, load_model
+from isolation_model import load_model
 
 # ── Pi telemetry reader ───────────────────────────────────────────────────────
 import json
@@ -329,8 +331,43 @@ def render_fleet_page():
             </div>
         </div>
         """, unsafe_allow_html=True)
+
+        # ── Status banners + remediation button ──────────────────────────────
+        if status == "CRITICAL":
+            st.error("🚨 CRITICAL — Active SYN Flood Attack Detected on Pi", icon="🚨")
+            col1, col2 = st.columns(2)
+            with col1:
+                if st.button("🛡️ Initiate Remediation", type="primary", use_container_width=True):
+                    import requests as _req
+                    with st.spinner("Applying iptables rules on Pi via SSH..."):
+                        try:
+                            r = _req.post("http://localhost:5000/api/pi/remediate", timeout=15)
+                            result = r.json()
+                            if result.get("success"):
+                                st.success("✅ Remediation applied on Pi!")
+                                for rule in result["event"]["rules_applied"]:
+                                    st.markdown(f"- {rule}")
+                                st.balloons()
+                            else:
+                                st.error("SSH failed — check PI_HOST in flask_server.py")
+                        except Exception as e:
+                            st.error(f"Error: {e}")
+            with col2:
+                if st.button("🔓 Clear Rules (Reset)", use_container_width=True):
+                    import requests as _req
+                    try:
+                        _req.post("http://localhost:5000/api/pi/clear_rules", timeout=10)
+                        st.info("iptables rules cleared on Pi")
+                    except Exception as e:
+                        st.error(f"Error: {e}")
+        elif status == "WARNING":
+            st.warning("⚠️ WARNING — Unusual activity detected. Monitoring closely.", icon="⚠️")
+        else:
+            st.success("✅ System Secure — No active threats", icon="🛡️")
+
     else:
         st.info("⏳ Waiting for Pi telemetry — start flask_server.py and pi_sender.py")
+
     st.markdown(
         "Live devices monitored via Scapy packet capture on your local network. "
         "Requires administrator / root privileges."
@@ -413,6 +450,10 @@ def render_fleet_page():
     if st.session_state.audit_logs:
         st.markdown("### 🧾 Audit Trail")
         st.dataframe(pd.DataFrame(st.session_state.audit_logs), width="stretch", hide_index=True)
+
+    # Auto-refresh every 3 seconds to show live Pi data
+    time.sleep(3)
+    st.rerun()
 
 
 # ---------------------------------------------------------------------------

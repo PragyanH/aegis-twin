@@ -1,0 +1,2741 @@
+{
+  "latest": {
+    "timestamp": "2026-05-09T13:31:33.026075+00:00",
+    "device_id": "RPI-THERMOSTAT-01",
+    "device_name": "Living Room Thermostat",
+    "trust_score": 100.0,
+    "status": "NORMAL",
+    "phase": "monitoring",
+    "elapsed_learning": 450.7,
+    "telemetry": {
+      "cpu_percent": 0,
+      "memory_percent": 0
+    },
+    "network_features": {
+      "pkt_size": 0.15,
+      "iat": 0.35,
+      "entropy": 0.18,
+      "symmetry": 0.52
+    },
+    "model_status": {
+      "is_trained": true,
+      "baseline_samples": 100,
+      "model_path": "aegis_isolation_forest.pkl",
+      "ready_to_train": true,
+      "score_min": 0.49999999999999956,
+      "score_max": 0.49999999999999956
+    }
+  },
+  "log": [
+    {
+      "timestamp": "2026-05-09T13:26:35.548848+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 153.2,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 26,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:26:38.553300+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 156.2,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 27,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:26:41.557605+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 159.2,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 28,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:26:44.561954+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 162.3,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 29,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:26:47.566650+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 165.3,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 30,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:26:50.570222+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 168.3,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 31,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:26:53.576299+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 171.3,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 32,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:26:56.582242+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 174.3,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 33,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:26:59.588461+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 177.3,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 34,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:27:02.592738+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 180.3,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 35,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:27:05.598308+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 183.3,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 36,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:27:08.601762+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 186.3,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 37,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:27:11.607744+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 189.3,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 38,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:27:14.611398+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 192.3,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 39,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:27:17.615696+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 195.3,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 40,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:27:20.618716+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 198.3,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 41,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:27:23.624487+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 201.3,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 42,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:27:26.628118+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 204.3,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 43,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:27:29.634602+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 207.3,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 44,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:27:32.637975+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 210.3,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 45,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:27:35.641410+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 213.3,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 46,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:27:38.648079+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 216.3,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 47,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:27:41.653258+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 219.3,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 48,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:27:44.658555+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 222.3,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 49,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:27:47.665586+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 225.4,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 50,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:27:50.669958+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 228.4,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 51,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:27:53.676081+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 231.4,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 52,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:27:56.680857+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 234.4,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 53,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:27:59.685694+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 237.4,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 54,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:28:02.689842+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 240.4,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 55,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:28:05.694632+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 243.4,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 56,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:28:08.699317+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 246.4,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 57,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:28:11.704545+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 249.4,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 58,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:28:14.708673+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 252.4,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 59,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:28:17.715558+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 255.4,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 60,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:28:20.719623+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 258.4,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 61,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:28:23.724324+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 261.4,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 62,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:28:26.728157+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 264.4,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 63,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:28:29.733524+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 267.4,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 64,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:28:32.737274+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 270.4,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 65,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:28:35.742354+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 273.4,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 66,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:28:38.747840+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 276.4,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 67,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:28:41.753246+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 279.4,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 68,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:28:44.758279+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 282.4,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 69,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:28:47.761955+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 285.5,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 70,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:28:50.766094+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 288.5,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 71,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:28:53.769970+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 291.5,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 72,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:28:56.773791+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 294.5,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 73,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:28:59.780366+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 297.5,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 74,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:29:02.796042+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 300.5,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 75,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:29:05.800745+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 303.5,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 76,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:29:08.805231+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 306.5,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 77,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:29:11.809507+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 309.5,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 78,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:29:14.815612+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 312.5,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 79,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:29:17.819102+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 315.5,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 80,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:29:20.822991+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 318.5,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 81,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:29:23.827297+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 321.5,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 82,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:29:26.832155+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 324.5,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 83,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:29:29.836406+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 327.5,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 84,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:29:32.841733+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 330.5,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 85,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:29:35.846450+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 333.5,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 86,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:29:38.849792+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 336.5,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 87,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:29:41.853238+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 339.5,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 88,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:29:44.856813+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 342.5,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 89,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:29:47.861928+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 345.6,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 90,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:29:50.864760+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 348.6,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 91,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:29:53.868555+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 351.6,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 92,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:29:56.872447+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 354.6,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 93,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:29:59.878575+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 357.6,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 94,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:30:02.883632+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 360.6,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 95,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:30:05.887573+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 363.6,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 96,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:30:08.892803+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 366.6,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 97,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:30:11.897042+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 369.6,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 98,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:30:14.903979+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "learning",
+      "elapsed_learning": 372.6,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": false,
+        "baseline_samples": 99,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": -0.5,
+        "score_max": -0.1
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:30:17.907760+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 95.0,
+      "status": "LEARNING",
+      "phase": "monitoring",
+      "elapsed_learning": 375.6,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 100,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": true,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:30:20.911838+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 378.6,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 100,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": true,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:30:23.922014+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 381.6,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 100,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": true,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:30:26.926324+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 384.6,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 100,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": true,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:30:29.932997+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 387.6,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 100,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": true,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:30:32.939556+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 390.6,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 100,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": true,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:30:35.943934+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 393.6,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 100,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": true,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:30:38.947824+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 396.6,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 100,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": true,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:30:41.952950+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 399.6,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 100,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": true,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:30:44.957218+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 402.6,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 100,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": true,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:30:47.961190+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 405.7,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 100,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": true,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:30:50.965150+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 408.7,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 100,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": true,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:30:53.969241+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 411.7,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 100,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": true,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:30:56.973898+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 414.7,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 100,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": true,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:30:59.977247+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 417.7,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 100,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": true,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:31:02.981644+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 420.7,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 100,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": true,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:31:05.985470+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 423.7,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 100,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": true,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:31:08.988939+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 426.7,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 100,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": true,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:31:11.992749+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 429.7,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 100,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": true,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:31:14.998006+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 432.7,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 100,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": true,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:31:18.002873+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 435.7,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 100,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": true,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:31:21.007015+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 438.7,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 100,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": true,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:31:24.010154+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 441.7,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 100,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": true,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:31:27.013013+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 444.7,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 100,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": true,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:31:30.020673+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 447.7,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 100,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": true,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-09T13:31:33.026075+00:00",
+      "device_id": "RPI-THERMOSTAT-01",
+      "device_name": "Living Room Thermostat",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 450.7,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.15,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 100,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": true,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    }
+  ],
+  "phase": "monitoring",
+  "model": {
+    "is_trained": true,
+    "baseline_samples": 100,
+    "model_path": "aegis_isolation_forest.pkl",
+    "ready_to_train": true,
+    "score_min": 0.49999999999999956,
+    "score_max": 0.49999999999999956
+  },
+  "written_at": "2026-05-09T13:31:33.071697+00:00"
+}
