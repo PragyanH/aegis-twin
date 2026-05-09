@@ -86,7 +86,7 @@ def _start_zeek(iface: str) -> None:
     # Fallback: run zeek directly
     zeek_bin = subprocess.run(
         ["which", "zeek"], capture_output=True, text=True
-    ).stdout.strip() or "/usr/local/zeek/bin/zeek"
+    ).stdout.strip() or "/opt/zeek/bin/zeek"
 
     print(f"[Zeek Bridge] 🦎 Starting Zeek directly on interface {iface} ...")
     _zeek_proc = subprocess.Popen(

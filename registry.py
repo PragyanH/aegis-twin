@@ -42,4 +42,5 @@ SESSION_DEFAULTS = {
     "sniffer_active":                False,
     "hw_active_device":              None,
     "hw_calibrating":                False,
+    "selected_hw_device":            None,
 }
