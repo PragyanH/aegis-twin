@@ -5,8 +5,10 @@ Enterprise Fleet Manager Edition.
 
 Run with: streamlit run app.py
 """
+#app.py
 
 import os
+import time
 
 import pandas as pd
 import streamlit as st
@@ -24,7 +26,7 @@ from model import LSTMAutoencoder
 from registry import IOT_REGISTRY, SESSION_DEFAULTS
 from sniffer import start_sniffer
 from ui import NEON_GREEN, NEON_RED, inject_css
-from isolation_model import add_baseline_sample, get_trust_score, get_status, train_model, load_model
+from isolation_model import load_model
 
 # ── Pi telemetry reader ───────────────────────────────────────────────────────
 import json
@@ -48,140 +50,6 @@ else:
 
 
 
-
-import time as _time
-
-# Track phase and learning start globally
-_phase = "learning"
-_learning_start = _time.time()
-_pi_telemetry_log = []
-LEARNING_DURATION = 120   # seconds — ignored if force_train is called
-
-# ── Receive Pi telemetry ──────────────────────────────────────────────────────
-
-@app.route("/api/telemetry", methods=["POST"])
-def receive_telemetry():
-    global _phase, _pi_telemetry_log, _learning_start
-
-    data         = request.json
-    features_raw = data.get("network_features", {})
-    features     = [
-        features_raw.get("pkt_size",  0.0),
-        features_raw.get("iat",       0.0),
-        features_raw.get("entropy",   0.0),
-        features_raw.get("symmetry",  0.0),
-    ]
-
-    elapsed = _time.time() - _learning_start
-
-    if _phase == "learning":
-        add_baseline_sample(features)
-
-        # Auto-train after LEARNING_DURATION seconds
-        if elapsed >= LEARNING_DURATION:
-            try:
-                summary = train_model()
-                _phase  = "monitoring"
-                print(f"[Aegis] Auto-trained after {elapsed:.0f}s | {summary}")
-            except Exception as e:
-                print(f"[Aegis] Auto-train failed: {e}")
-
-        trust  = 95.0
-        status = "LEARNING"
-
-    else:
-        trust  = get_trust_score(features)
-        if trust < 30:
-            status = "CRITICAL"
-        elif trust < 60:
-            status = "WARNING"
-        else:
-            status = "NORMAL"
-
-    record = {
-        "timestamp":        data.get("timestamp"),
-        "device_id":        data.get("device_id"),
-        "trust_score":      trust,
-        "status":           status,
-        "phase":            _phase,
-        "telemetry":        data.get("telemetry", {}),
-        "network_features": features_raw,
-    }
-    _pi_telemetry_log.append(record)
-    _pi_telemetry_log = _pi_telemetry_log[-500:]   # keep last 500 only
-
-    return jsonify({"trust_score": trust, "status": status, "phase": _phase})
-
-
-# ── Force train (skip 2-min wait) ─────────────────────────────────────────────
-
-@app.route("/api/pi/force_train", methods=["POST"])
-def force_train():
-    """
-    Manually trigger training on whatever baseline samples collected so far.
-    Use this during the demo to skip the 2-minute learning wait.
-    Hit it after ~30 seconds of normal Pi traffic.
-    """
-    global _phase
-    try:
-        summary = train_model()
-        _phase  = "monitoring"
-        return jsonify({
-            "success": True,
-            "message": "Model trained. Now in MONITORING phase.",
-            "summary": summary,
-        })
-    except ValueError as e:
-        # Not enough samples yet
-        status = get_status()
-        return jsonify({
-            "success":          False,
-            "error":            str(e),
-            "samples_so_far":   status["baseline_samples"],
-            "samples_needed":   100,
-        }), 400
-
-
-# ── Pi status ─────────────────────────────────────────────────────────────────
-
-@app.route("/api/pi/status")
-def pi_status():
-    """Check current phase, sample count, model bounds — useful for debugging."""
-    return jsonify({
-        "phase":            _phase,
-        "elapsed_learning": round(_time.time() - _learning_start, 1),
-        "model_status":     get_status(),
-        "recent":           _pi_telemetry_log[-5:],
-    })
-
-
-# ── Reset (for back-to-back demos) ───────────────────────────────────────────
-
-@app.route("/api/pi/reset", methods=["POST"])
-def reset():
-    """
-    Full reset — wipes model and goes back to learning phase.
-    Use this between demo runs so judges see the full arc again.
-    """
-    global _phase, _learning_start, _pi_telemetry_log
-    from isolation_model import (
-        _baseline_buffer, _score_window, MODEL_PATH
-    )
-    import isolation_model as _im
-
-    _im._baseline_buffer = []
-    _im._score_window.clear()
-    _im._model      = None
-    _im._is_trained = False
-
-    if MODEL_PATH.exists():
-        MODEL_PATH.unlink()
-
-    _phase          = "learning"
-    _learning_start = _time.time()
-    _pi_telemetry_log = []
-
-    return jsonify({"success": True, "message": "Reset complete. Back to LEARNING phase."})
 
 # ---------------------------------------------------------------------------
 # Page config
@@ -463,8 +331,43 @@ def render_fleet_page():
             </div>
         </div>
         """, unsafe_allow_html=True)
+
+        # ── Status banners + remediation button ──────────────────────────────
+        if status == "CRITICAL":
+            st.error("🚨 CRITICAL — Active SYN Flood Attack Detected on Pi", icon="🚨")
+            col1, col2 = st.columns(2)
+            with col1:
+                if st.button("🛡️ Initiate Remediation", type="primary", use_container_width=True):
+                    import requests as _req
+                    with st.spinner("Applying iptables rules on Pi via SSH..."):
+                        try:
+                            r = _req.post("http://localhost:5000/api/pi/remediate", timeout=15)
+                            result = r.json()
+                            if result.get("success"):
+                                st.success("✅ Remediation applied on Pi!")
+                                for rule in result["event"]["rules_applied"]:
+                                    st.markdown(f"- {rule}")
+                                st.balloons()
+                            else:
+                                st.error("SSH failed — check PI_HOST in flask_server.py")
+                        except Exception as e:
+                            st.error(f"Error: {e}")
+            with col2:
+                if st.button("🔓 Clear Rules (Reset)", use_container_width=True):
+                    import requests as _req
+                    try:
+                        _req.post("http://localhost:5000/api/pi/clear_rules", timeout=10)
+                        st.info("iptables rules cleared on Pi")
+                    except Exception as e:
+                        st.error(f"Error: {e}")
+        elif status == "WARNING":
+            st.warning("⚠️ WARNING — Unusual activity detected. Monitoring closely.", icon="⚠️")
+        else:
+            st.success("✅ System Secure — No active threats", icon="🛡️")
+
     else:
         st.info("⏳ Waiting for Pi telemetry — start flask_server.py and pi_sender.py")
+
     st.markdown(
         "Live devices monitored via Scapy packet capture on your local network. "
         "Requires administrator / root privileges."
@@ -547,6 +450,10 @@ def render_fleet_page():
     if st.session_state.audit_logs:
         st.markdown("### 🧾 Audit Trail")
         st.dataframe(pd.DataFrame(st.session_state.audit_logs), width="stretch", hide_index=True)
+
+    # Auto-refresh every 3 seconds to show live Pi data
+    time.sleep(3)
+    st.rerun()
 
 
 # ---------------------------------------------------------------------------

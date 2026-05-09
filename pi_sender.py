@@ -1,8 +1,11 @@
 """
-pi_sender.py — Runs ON the Raspberry Pi thermostat simulator.
+pi_sender.py — Runs ON the Raspberry Pi IP security camera simulator.
 =============================================================
 Publishes telemetry to the Aegis-Twin laptop via MQTT.
 The laptop's flask_server.py subscribes and processes it.
+
+No physical camera required — simulates realistic IP camera
+network behaviour (motion events, stream bursts, heartbeat pings).
 
 Run on Pi:
     python3 pi_sender.py --broker 192.168.X.X
@@ -27,8 +30,8 @@ from datetime import datetime, timezone
 
 # ── Device identity ───────────────────────────────────────────────────────────
 
-DEVICE_ID   = "RPI-THERMOSTAT-01"
-DEVICE_NAME = "Living Room Thermostat"
+DEVICE_ID   = "RPI-IPCAM-01"
+DEVICE_NAME = "Entrance IP Security Camera"
 
 # ── MQTT Topics ───────────────────────────────────────────────────────────────
 
@@ -38,60 +41,94 @@ MQTT_PORT       = 1883
 MQTT_KEEPALIVE  = 60
 
 
-# ── Thermostat simulation ─────────────────────────────────────────────────────
+# ── IP Camera simulation ──────────────────────────────────────────────────────
 
-class ThermostatSimulator:
-    def __init__(self, setpoint: float = 22.0):
-        self.setpoint    = setpoint
-        self.temp        = setpoint + random.uniform(-1, 1)
-        self.humidity    = 55.0
-        self.hvac_state  = "IDLE"
-        self._start_time = time.time()
+class IPCameraSimulator:
+    """
+    Simulates a realistic IP security camera without a physical lens.
+
+    Behaviour modelled:
+    - Periodic heartbeat pings to NVR (every ~30s)
+    - Occasional motion-triggered burst (larger packets, higher rate)
+    - Idle stream: small keepalive packets at regular intervals
+    - Status fields: motion_detected, stream_active, recording
+    """
+
+    def __init__(self):
+        self.stream_active    = True
+        self.recording        = False
+        self.motion_detected  = False
+        self._start_time      = time.time()
+        self._last_motion     = 0.0
+        self._motion_duration = 0.0
 
     def update(self) -> dict:
-        t = time.time() - self._start_time
+        t = time.time()
+        elapsed = t - self._start_time
 
-        self.temp = (
-            self.setpoint
-            + 1.5 * math.sin(t / 60)
-            + random.gauss(0, 0.08)
-        )
-        self.humidity += random.gauss(0, 0.05)
-        self.humidity  = max(30.0, min(80.0, self.humidity))
+        # Motion events occur randomly ~every 45 seconds, last 8 seconds
+        if t - self._last_motion > 45 + random.uniform(-10, 10):
+            self._last_motion     = t
+            self._motion_duration = random.uniform(5, 10)
 
-        deviation = self.temp - self.setpoint
-        if deviation > 1.2:
-            self.hvac_state = "COOLING"
-        elif deviation < -1.2:
-            self.hvac_state = "HEATING"
-        else:
-            self.hvac_state = "IDLE"
+        self.motion_detected = (t - self._last_motion) < self._motion_duration
+        self.recording       = self.motion_detected
+        self.stream_active   = True  # always streaming
+
+        # Uptime in seconds
+        uptime = int(elapsed)
 
         return {
-            "temperature_actual":   round(self.temp, 2),
-            "temperature_setpoint": self.setpoint,
-            "humidity":             round(self.humidity, 2),
-            "hvac_state":           self.hvac_state,
+            "device_type":      "IP Security Camera",
+            "stream_active":    self.stream_active,
+            "motion_detected":  self.motion_detected,
+            "recording":        self.recording,
+            "uptime_seconds":   uptime,
+            "fps_simulated":    15 if self.motion_detected else 5,
         }
+
+    @property
+    def in_motion(self) -> bool:
+        return self.motion_detected
 
 
 # ── Network feature sampler ───────────────────────────────────────────────────
 
 class NetworkFeatureSampler:
-    NORMAL_PROFILE = {
-        "pkt_size": (0.12, 0.04),
-        "iat":      (0.35, 0.07),
-        "entropy":  (0.18, 0.04),
-        "symmetry": (0.52, 0.08),
+    """
+    Generates realistic normalized network features for an IP camera.
+
+    Normal camera behaviour:
+    - Small keepalive packets during idle
+    - Larger bursts during motion events (video stream spike)
+    - Low entropy (structured RTSP/MQTT data)
+    - Balanced symmetry (camera sends stream, NVR sends ACKs)
+    """
+
+    # Idle profile — no motion
+    IDLE_PROFILE = {
+        "pkt_size": (0.10, 0.03),   # small keepalives
+        "iat":      (0.40, 0.08),   # regular heartbeat timing
+        "entropy":  (0.15, 0.03),   # low entropy, structured data
+        "symmetry": (0.55, 0.07),   # balanced stream + ACKs
+    }
+
+    # Motion burst profile — camera sends video frames
+    MOTION_PROFILE = {
+        "pkt_size": (0.55, 0.10),   # larger video frame packets
+        "iat":      (0.12, 0.04),   # faster (15fps burst)
+        "entropy":  (0.30, 0.05),   # slightly higher (compressed video)
+        "symmetry": (0.40, 0.08),   # more outbound (stream heavy)
     }
 
     def __init__(self):
         self._packet_count = 0
 
-    def sample(self) -> dict:
+    def sample(self, in_motion: bool = False) -> dict:
         self._packet_count += 1
+        profile = self.MOTION_PROFILE if in_motion else self.IDLE_PROFILE
         features = {}
-        for name, (mean, std) in self.NORMAL_PROFILE.items():
+        for name, (mean, std) in profile.items():
             val = random.gauss(mean, std)
             features[name] = round(max(0.0, min(1.0, val)), 4)
         return features
@@ -146,19 +183,20 @@ def check_process_anomalies() -> list[str]:
 
 # ── Payload builder ───────────────────────────────────────────────────────────
 
-def build_payload(thermostat: ThermostatSimulator,
+def build_payload(camera: IPCameraSimulator,
                   net_sampler: NetworkFeatureSampler) -> dict:
+    cam_status = camera.update()
     return {
         "device_id":        DEVICE_ID,
         "device_name":      DEVICE_NAME,
         "timestamp":        datetime.now(timezone.utc).isoformat(),
         "telemetry": {
-            **thermostat.update(),
+            **cam_status,
             **get_system_metrics(),
             "process_anomalies": check_process_anomalies(),
             "packet_count":      net_sampler.packet_count,
         },
-        "network_features": net_sampler.sample(),
+        "network_features": net_sampler.sample(in_motion=camera.in_motion),
     }
 
 
@@ -167,7 +205,6 @@ def build_payload(thermostat: ThermostatSimulator,
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
         print("[Pi Sender] ✅ Connected to MQTT broker")
-        # Subscribe to status topic so we can see trust score responses
         client.subscribe(TOPIC_SUBSCRIBE)
         print(f"[Pi Sender] Subscribed to '{TOPIC_SUBSCRIBE}'")
     else:
@@ -213,11 +250,11 @@ def on_publish(client, userdata, mid):
 # ── Main loop ─────────────────────────────────────────────────────────────────
 
 def run(broker: str, port: int, interval: float, verbose: bool) -> None:
-    thermostat = ThermostatSimulator(setpoint=22.0)
-    net        = NetworkFeatureSampler()
+    camera = IPCameraSimulator()
+    net    = NetworkFeatureSampler()
 
     print(f"╔══════════════════════════════════════════╗")
-    print(f"║       Aegis-Twin  ·  Pi Sender (MQTT)   ║")
+    print(f"║   Aegis-Twin  ·  Pi Sender (IP Camera)  ║")
     print(f"╠══════════════════════════════════════════╣")
     print(f"║  Device  : {DEVICE_ID:<30}║")
     print(f"║  Broker  : {broker:<30}║")
@@ -226,14 +263,22 @@ def run(broker: str, port: int, interval: float, verbose: bool) -> None:
     print(f"║  Interval: {interval}s{'':<27}║")
     print(f"╚══════════════════════════════════════════╝\n")
 
-    # Set up MQTT client
-    client = mqtt.Client(client_id=DEVICE_ID, clean_session=True)
+    # Set up MQTT client — CallbackAPIVersion fix for paho-mqtt >= 2.0
+    try:
+        client = mqtt.Client(
+            callback_api_version=mqtt.CallbackAPIVersion.VERSION1,
+            client_id=DEVICE_ID,
+            clean_session=True,
+        )
+    except AttributeError:
+        # Older paho-mqtt versions don't have CallbackAPIVersion
+        client = mqtt.Client(client_id=DEVICE_ID, clean_session=True)
+
     client.on_connect    = on_connect
     client.on_disconnect = on_disconnect
     client.on_message    = on_message
     client.on_publish    = on_publish
 
-    # Auto-reconnect settings
     client.reconnect_delay_set(min_delay=1, max_delay=30)
 
     print(f"[Pi Sender] Connecting to broker {broker}:{port} ...")
@@ -244,21 +289,18 @@ def run(broker: str, port: int, interval: float, verbose: bool) -> None:
         print("  → Is the broker running? Check IP and port.")
         return
 
-    # Start background MQTT network loop
     client.loop_start()
-
-    # Give connection a moment to establish
     time.sleep(1.5)
 
     while True:
         try:
-            payload     = build_payload(thermostat, net)
+            payload     = build_payload(camera, net)
             payload_str = json.dumps(payload)
 
             result = client.publish(
                 TOPIC_PUBLISH,
                 payload=payload_str,
-                qos=1,          # at-least-once delivery
+                qos=1,
                 retain=False,
             )
 
@@ -267,10 +309,12 @@ def run(broker: str, port: int, interval: float, verbose: bool) -> None:
                 tel = payload["telemetry"]
                 nf  = payload["network_features"]
 
+                motion_flag = "🎥 MOTION" if tel["motion_detected"] else "💤 IDLE  "
+
                 print(
                     f"[{ts}] 📤 Published | "
-                    f"temp={tel['temperature_actual']}°C "
-                    f"hvac={tel['hvac_state']:<7} "
+                    f"{motion_flag} | "
+                    f"stream={'ON' if tel['stream_active'] else 'OFF'} "
                     f"cpu={tel['cpu_percent']}%"
                 )
 
@@ -294,7 +338,7 @@ def run(broker: str, port: int, interval: float, verbose: bool) -> None:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Aegis-Twin Pi Sender — streams thermostat telemetry via MQTT"
+        description="Aegis-Twin Pi Sender — streams IP camera telemetry via MQTT"
     )
     parser.add_argument(
         "--broker",
