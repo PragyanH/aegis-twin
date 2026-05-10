@@ -302,88 +302,67 @@ def render_fleet_page():
             st.session_state.page          = "dashboard"
             st.rerun()
 
-    st.divider()
-
-    st.divider()
-
-
-    # ── Model Training Section ────────────────────────────────────────────────
-    st.markdown("## 🤖 Isolation Forest Training")
-
+    # ── Model status badge (compact — shown only when NOT monitoring) ────────────
     try:
-        status_resp = requests.get("http://localhost:5000/api/pi/status", timeout=2)
-        _pi_st      = status_resp.json()
-        _model_st   = _pi_st.get("model_status", {})
-        training_status = {
-            "status":               _pi_st.get("phase", "offline"),
-            "in_progress":          False,
-            "baseline_samples":     _model_st.get("baseline_samples", 0),
-            "ready_to_train":       _model_st.get("ready_to_train", False),
-            "min_samples_required": 100,
-            "last_summary":         None,
-        }
+        _pi_st    = requests.get("http://localhost:5000/api/pi/status", timeout=2).json()
+        _model_st = _pi_st.get("model_status", {})
+        _phase_st = _pi_st.get("phase", "offline")
+        _samples  = _model_st.get("baseline_samples", 0)
+        _trained  = _model_st.get("is_trained", False)
     except Exception:
-        training_status = {
-            "status": "offline", "in_progress": False,
-            "baseline_samples": 0, "ready_to_train": False,
-            "min_samples_required": 100, "last_summary": None,
-        }
+        _phase_st, _samples, _trained = "offline", 0, False
 
-    if training_status.get("status") == "offline":
-        st.warning("⚠️ Flask server is offline. Start `python flask_server.py` to enable training.")
-    else:
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            baseline_count = training_status.get("baseline_samples", 0)
-            min_req        = training_status.get("min_samples_required", 100)
-            st.metric("Training Samples", baseline_count, f"of {min_req} required")
-            if baseline_count < min_req:
-                st.caption(f"💡 {min_req - baseline_count} more samples needed. Each telemetry message = 1 sample.")
-        with col2:
-            status_val  = training_status.get("status", "idle").upper()
-            status_icon = "🟢" if status_val == "MONITORING" else "🔵" if status_val == "LEARNING" else "🔴"
-            st.metric("Model Status", f"{status_icon} {status_val}")
-            if status_val == "MONITORING":
-                st.caption("✅ Model is active and scoring.")
-        with col3:
-            can_train = training_status.get("ready_to_train", False)
-            st.metric("Ready to Train", "✅ Yes" if can_train else "❌ No")
-
-        st.markdown("<br>", unsafe_allow_html=True)
-        tcol1, tcol2 = st.columns([2, 1])
-        with tcol1:
-            if not training_status.get("in_progress", False):
-                if st.button(
-                    "🚀 Start Isolation Forest Training" if can_train else "⏳ Collecting more samples...",
-                    disabled=not can_train,
-                    use_container_width=True,
-                    type="primary" if can_train else "secondary",
-                    key="btn_start_train",
-                ):
-                    with st.spinner("Training in progress..."):
-                        try:
-                            tr = requests.post("http://localhost:5000/api/pi/force_train", timeout=30)
-                            if tr.status_code == 200:
-                                st.success("✅ Training completed!")
-                                time.sleep(1)
-                                st.rerun()
-                            else:
-                                st.error(f"Training failed: {tr.text}")
-                        except Exception as e:
-                            st.error(f"Connection error: {e}")
-            else:
-                st.info("⏳ Training in progress...")
-        with tcol2:
-            if st.button("🔄 Reset & Re-train", use_container_width=True,
-                         help="Delete model and restart sample collection"):
+    if _trained:
+        # Model is active — just show a tiny green badge, no training UI
+        st.markdown(
+            f"<div style='display:inline-block;background:rgba(0,255,136,0.1);"
+            f"border:1px solid #00ff88;border-radius:8px;padding:8px 18px;"
+            f"color:#00ff88;font-size:0.9em;margin-bottom:8px;'>"
+            f"🟢 Isolation Forest — <strong>MONITORING</strong> &nbsp;·&nbsp; "
+            f"{_samples} samples trained</div>",
+            unsafe_allow_html=True
+        )
+        # Hidden reset button inside expander so advanced users can re-train
+        with st.expander("⚙️ Model Controls", expanded=False):
+            st.caption("Model is trained and active. Only reset if you want to collect fresh baseline data.")
+            if st.button("🔄 Reset & Re-train", key="btn_reset_model",
+                         help="Deletes saved model and restarts sample collection"):
                 try:
                     rr = requests.post("http://localhost:5000/api/pi/reset", timeout=5)
                     if rr.status_code == 200:
                         st.success("Reset to LEARNING phase.")
                         time.sleep(1)
                         st.rerun()
-                except Exception as e:
-                    st.error(f"Reset failed: {e}")
+                except Exception as ex:
+                    st.error(f"Reset failed: {ex}")
+    elif _phase_st == "offline":
+        st.warning("⚠️ Flask server offline — start `python flask_server.py`")
+    else:
+        # Still learning — show compact progress bar
+        prog = min(_samples / 100, 1.0)
+        st.markdown(
+            f"<div style='background:rgba(0,207,255,0.08);border:1px solid #00cfff44;"
+            f"border-radius:8px;padding:12px 18px;margin-bottom:8px;'>"
+            f"🔵 <strong>Learning phase</strong> — collecting baseline &nbsp;·&nbsp; "
+            f"{_samples}/100 samples"
+            f"<div style='background:#1a2030;border-radius:4px;height:6px;margin-top:8px;'>"
+            f"<div style='background:#00cfff;width:{int(prog*100)}%;height:6px;border-radius:4px;'></div>"
+            f"</div></div>",
+            unsafe_allow_html=True
+        )
+        if _samples >= 20:
+            if st.button("🚀 Force Train Now", key="btn_force_train", type="primary"):
+                with st.spinner("Training..."):
+                    try:
+                        tr = requests.post("http://localhost:5000/api/pi/force_train", timeout=30)
+                        if tr.status_code == 200:
+                            st.success("✅ Model trained!")
+                            time.sleep(1)
+                            st.rerun()
+                        else:
+                            st.error(f"Failed: {tr.text}")
+                    except Exception as ex:
+                        st.error(f"Error: {ex}")
 
     st.divider()
 
@@ -644,8 +623,9 @@ def render_fleet_page():
                     st.success("✅ System Secure — No active threats", icon="🛡️")
 
 
-    st.divider()
-    st.info("💡 Pro-Tip: Ensure `flask_server.py` is running and the Pi is sending telemetry to see the sample counter increase.")
+    # ── Auto-refresh every 3 seconds ─────────────────────────────────────────────
+    time.sleep(3)
+    st.rerun()
 
 
 # ---------------------------------------------------------------------------
