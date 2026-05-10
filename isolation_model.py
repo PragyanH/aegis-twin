@@ -26,7 +26,7 @@ MODEL_PATH         = Path("aegis_isolation_forest.pkl")
 CONTAMINATION      = 0.05   # expect ~5% anomalies during training
 N_ESTIMATORS       = 100
 WINDOW_SIZE        = 20     # rolling window of samples for smoothing
-MIN_TRAIN_SAMPLES  = 100    # minimum samples before we can train
+MIN_TRAIN_SAMPLES  = 20     # Lowered from 100 for faster testing/force training
 
 # ── Shared state ─────────────────────────────────────────────────────────────
 
