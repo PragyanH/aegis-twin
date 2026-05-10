@@ -1,12 +1,12 @@
 {
   "latest": {
-    "timestamp": "2026-05-10T03:23:36.126400+00:00",
+    "timestamp": "2026-05-10T04:25:18.258422+00:00",
     "device_id": "RPI-IPCAM-01",
     "device_name": "Entrance IP Security Camera",
-    "trust_score": 68.45,
+    "trust_score": 80.81,
     "status": "NORMAL",
     "phase": "monitoring",
-    "elapsed_learning": 47.9,
+    "elapsed_learning": 2992.8,
     "telemetry": {
       "cpu_percent": 0,
       "memory_percent": 0
@@ -28,33 +28,33 @@
   },
   "log": [
     {
-      "timestamp": "2026-05-10T03:22:48.415728+00:00",
+      "timestamp": "2026-05-10T04:22:27.967897+00:00",
       "device_id": "RPI-IPCAM-01",
       "device_name": "Entrance IP Security Camera",
-      "trust_score": 50.61,
-      "status": "WARNING",
+      "trust_score": 73.03,
+      "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 0.7,
+      "elapsed_learning": 2823.2,
       "telemetry": {
         "device_type": "IP Security Camera",
         "stream_active": true,
         "motion_detected": false,
         "recording": false,
-        "uptime_seconds": 421,
+        "uptime_seconds": 2843,
         "fps_simulated": 5,
         "cpu_percent": 0.0,
-        "memory_percent": 17.9,
-        "memory_used_mb": 106.8,
+        "memory_percent": 17.6,
+        "memory_used_mb": 103.4,
         "disk_percent": 5.5,
-        "cpu_temp_c": 46.2,
+        "cpu_temp_c": 47.8,
         "process_anomalies": [],
-        "packet_count": 117
+        "packet_count": 790
       },
       "network_features": {
-        "pkt_size": 0.1351,
-        "iat": 0.4169,
-        "entropy": 0.15,
-        "symmetry": 0.4743
+        "pkt_size": 0.1258,
+        "iat": 0.3791,
+        "entropy": 0.164,
+        "symmetry": 0.6166
       },
       "model_status": {
         "is_trained": true,
@@ -66,13 +66,13 @@
       }
     },
     {
-      "timestamp": "2026-05-10T03:22:51.056931+00:00",
+      "timestamp": "2026-05-10T04:22:29.991443+00:00",
       "device_id": "RPI-IPCAM-01",
       "device_name": "Entrance IP Security Camera",
-      "trust_score": 75.3,
+      "trust_score": 73.03,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 2.8,
+      "elapsed_learning": 2824.6,
       "telemetry": {
         "cpu_percent": 0,
         "memory_percent": 0
@@ -93,320 +93,33 @@
       }
     },
     {
-      "timestamp": "2026-05-10T03:22:52.045096+00:00",
+      "timestamp": "2026-05-10T04:22:31.581918+00:00",
       "device_id": "RPI-IPCAM-01",
       "device_name": "Entrance IP Security Camera",
-      "trust_score": 71.01,
+      "trust_score": 70.81,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 4.3,
-      "telemetry": {
-        "device_type": "IP Security Camera",
-        "stream_active": true,
-        "motion_detected": false,
-        "recording": false,
-        "uptime_seconds": 425,
-        "fps_simulated": 5,
-        "cpu_percent": 0.0,
-        "memory_percent": 17.9,
-        "memory_used_mb": 106.9,
-        "disk_percent": 5.5,
-        "cpu_temp_c": 46.7,
-        "process_anomalies": [],
-        "packet_count": 118
-      },
-      "network_features": {
-        "pkt_size": 0.127,
-        "iat": 0.4241,
-        "entropy": 0.1784,
-        "symmetry": 0.4927
-      },
-      "model_status": {
-        "is_trained": true,
-        "baseline_samples": 0,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": 0.3145870196888423,
-        "score_max": 0.6479630354907363
-      }
-    },
-    {
-      "timestamp": "2026-05-10T03:22:54.062145+00:00",
-      "device_id": "RPI-IPCAM-01",
-      "device_name": "Entrance IP Security Camera",
-      "trust_score": 78.26,
-      "status": "NORMAL",
-      "phase": "monitoring",
-      "elapsed_learning": 5.8,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.12,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": true,
-        "baseline_samples": 0,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": 0.3145870196888423,
-        "score_max": 0.6479630354907363
-      }
-    },
-    {
-      "timestamp": "2026-05-10T03:22:55.642201+00:00",
-      "device_id": "RPI-IPCAM-01",
-      "device_name": "Entrance IP Security Camera",
-      "trust_score": 68.93,
-      "status": "NORMAL",
-      "phase": "monitoring",
-      "elapsed_learning": 7.8,
-      "telemetry": {
-        "device_type": "IP Security Camera",
-        "stream_active": true,
-        "motion_detected": false,
-        "recording": false,
-        "uptime_seconds": 428,
-        "fps_simulated": 5,
-        "cpu_percent": 0.0,
-        "memory_percent": 17.9,
-        "memory_used_mb": 106.9,
-        "disk_percent": 5.5,
-        "cpu_temp_c": 46.7,
-        "process_anomalies": [],
-        "packet_count": 119
-      },
-      "network_features": {
-        "pkt_size": 0.115,
-        "iat": 0.4085,
-        "entropy": 0.1109,
-        "symmetry": 0.634
-      },
-      "model_status": {
-        "is_trained": true,
-        "baseline_samples": 0,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": 0.3145870196888423,
-        "score_max": 0.6479630354907363
-      }
-    },
-    {
-      "timestamp": "2026-05-10T03:22:57.066031+00:00",
-      "device_id": "RPI-IPCAM-01",
-      "device_name": "Entrance IP Security Camera",
-      "trust_score": 74.11,
-      "status": "NORMAL",
-      "phase": "monitoring",
-      "elapsed_learning": 8.8,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.12,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": true,
-        "baseline_samples": 0,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": 0.3145870196888423,
-        "score_max": 0.6479630354907363
-      }
-    },
-    {
-      "timestamp": "2026-05-10T03:22:59.201146+00:00",
-      "device_id": "RPI-IPCAM-01",
-      "device_name": "Entrance IP Security Camera",
-      "trust_score": 70.73,
-      "status": "NORMAL",
-      "phase": "monitoring",
-      "elapsed_learning": 11.6,
-      "telemetry": {
-        "device_type": "IP Security Camera",
-        "stream_active": true,
-        "motion_detected": false,
-        "recording": false,
-        "uptime_seconds": 432,
-        "fps_simulated": 5,
-        "cpu_percent": 0.0,
-        "memory_percent": 17.9,
-        "memory_used_mb": 106.9,
-        "disk_percent": 5.5,
-        "cpu_temp_c": 46.2,
-        "process_anomalies": [],
-        "packet_count": 120
-      },
-      "network_features": {
-        "pkt_size": 0.103,
-        "iat": 0.4168,
-        "entropy": 0.1115,
-        "symmetry": 0.5646
-      },
-      "model_status": {
-        "is_trained": true,
-        "baseline_samples": 0,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": 0.3145870196888423,
-        "score_max": 0.6479630354907363
-      }
-    },
-    {
-      "timestamp": "2026-05-10T03:23:00.069903+00:00",
-      "device_id": "RPI-IPCAM-01",
-      "device_name": "Entrance IP Security Camera",
-      "trust_score": 74.39,
-      "status": "NORMAL",
-      "phase": "monitoring",
-      "elapsed_learning": 11.8,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.12,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": true,
-        "baseline_samples": 0,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": 0.3145870196888423,
-        "score_max": 0.6479630354907363
-      }
-    },
-    {
-      "timestamp": "2026-05-10T03:23:03.073445+00:00",
-      "device_id": "RPI-IPCAM-01",
-      "device_name": "Entrance IP Security Camera",
-      "trust_score": 77.24,
-      "status": "NORMAL",
-      "phase": "monitoring",
-      "elapsed_learning": 14.8,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.12,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": true,
-        "baseline_samples": 0,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": 0.3145870196888423,
-        "score_max": 0.6479630354907363
-      }
-    },
-    {
-      "timestamp": "2026-05-10T03:23:02.831706+00:00",
-      "device_id": "RPI-IPCAM-01",
-      "device_name": "Entrance IP Security Camera",
-      "trust_score": 71.45,
-      "status": "NORMAL",
-      "phase": "monitoring",
-      "elapsed_learning": 15.1,
-      "telemetry": {
-        "device_type": "IP Security Camera",
-        "stream_active": true,
-        "motion_detected": false,
-        "recording": false,
-        "uptime_seconds": 436,
-        "fps_simulated": 5,
-        "cpu_percent": 0.0,
-        "memory_percent": 17.9,
-        "memory_used_mb": 106.6,
-        "disk_percent": 5.5,
-        "cpu_temp_c": 46.2,
-        "process_anomalies": [],
-        "packet_count": 121
-      },
-      "network_features": {
-        "pkt_size": 0.089,
-        "iat": 0.5163,
-        "entropy": 0.1957,
-        "symmetry": 0.6083
-      },
-      "model_status": {
-        "is_trained": true,
-        "baseline_samples": 0,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": 0.3145870196888423,
-        "score_max": 0.6479630354907363
-      }
-    },
-    {
-      "timestamp": "2026-05-10T03:23:06.077416+00:00",
-      "device_id": "RPI-IPCAM-01",
-      "device_name": "Entrance IP Security Camera",
-      "trust_score": 74.04,
-      "status": "NORMAL",
-      "phase": "monitoring",
-      "elapsed_learning": 17.8,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.12,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": true,
-        "baseline_samples": 0,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": 0.3145870196888423,
-        "score_max": 0.6479630354907363
-      }
-    },
-    {
-      "timestamp": "2026-05-10T03:23:06.458979+00:00",
-      "device_id": "RPI-IPCAM-01",
-      "device_name": "Entrance IP Security Camera",
-      "trust_score": 67.87,
-      "status": "NORMAL",
-      "phase": "monitoring",
-      "elapsed_learning": 18.7,
+      "elapsed_learning": 2826.8,
       "telemetry": {
         "device_type": "IP Security Camera",
         "stream_active": true,
         "motion_detected": true,
         "recording": true,
-        "uptime_seconds": 439,
+        "uptime_seconds": 2846,
         "fps_simulated": 15,
         "cpu_percent": 0.0,
-        "memory_percent": 17.9,
-        "memory_used_mb": 106.6,
+        "memory_percent": 17.7,
+        "memory_used_mb": 103.6,
         "disk_percent": 5.5,
-        "cpu_temp_c": 46.2,
+        "cpu_temp_c": 47.8,
         "process_anomalies": [],
-        "packet_count": 122
+        "packet_count": 791
       },
       "network_features": {
-        "pkt_size": 0.564,
-        "iat": 0.0721,
-        "entropy": 0.2541,
-        "symmetry": 0.2723
+        "pkt_size": 0.6057,
+        "iat": 0.1517,
+        "entropy": 0.2277,
+        "symmetry": 0.4068
       },
       "model_status": {
         "is_trained": true,
@@ -418,13 +131,13 @@
       }
     },
     {
-      "timestamp": "2026-05-10T03:23:09.081989+00:00",
+      "timestamp": "2026-05-10T04:22:32.994840+00:00",
       "device_id": "RPI-IPCAM-01",
       "device_name": "Entrance IP Security Camera",
-      "trust_score": 70.34,
+      "trust_score": 70.81,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 20.8,
+      "elapsed_learning": 2827.6,
       "telemetry": {
         "cpu_percent": 0,
         "memory_percent": 0
@@ -445,33 +158,33 @@
       }
     },
     {
-      "timestamp": "2026-05-10T03:23:10.059489+00:00",
+      "timestamp": "2026-05-10T04:22:35.212027+00:00",
       "device_id": "RPI-IPCAM-01",
       "device_name": "Entrance IP Security Camera",
-      "trust_score": 65.48,
+      "trust_score": 65.81,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 22.3,
+      "elapsed_learning": 2830.4,
       "telemetry": {
         "device_type": "IP Security Camera",
         "stream_active": true,
         "motion_detected": true,
         "recording": true,
-        "uptime_seconds": 443,
+        "uptime_seconds": 2850,
         "fps_simulated": 15,
         "cpu_percent": 0.0,
-        "memory_percent": 17.9,
-        "memory_used_mb": 106.6,
+        "memory_percent": 17.7,
+        "memory_used_mb": 103.6,
         "disk_percent": 5.5,
-        "cpu_temp_c": 46.2,
+        "cpu_temp_c": 47.8,
         "process_anomalies": [],
-        "packet_count": 123
+        "packet_count": 792
       },
       "network_features": {
-        "pkt_size": 0.5648,
-        "iat": 0.1138,
-        "entropy": 0.3387,
-        "symmetry": 0.3185
+        "pkt_size": 0.4162,
+        "iat": 0.0138,
+        "entropy": 0.3556,
+        "symmetry": 0.3466
       },
       "model_status": {
         "is_trained": true,
@@ -483,13 +196,13 @@
       }
     },
     {
-      "timestamp": "2026-05-10T03:23:12.086685+00:00",
+      "timestamp": "2026-05-10T04:22:35.998985+00:00",
       "device_id": "RPI-IPCAM-01",
       "device_name": "Entrance IP Security Camera",
-      "trust_score": 67.78,
+      "trust_score": 69.73,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 23.8,
+      "elapsed_learning": 2830.6,
       "telemetry": {
         "cpu_percent": 0,
         "memory_percent": 0
@@ -510,33 +223,60 @@
       }
     },
     {
-      "timestamp": "2026-05-10T03:23:13.618479+00:00",
+      "timestamp": "2026-05-10T04:22:39.002599+00:00",
       "device_id": "RPI-IPCAM-01",
       "device_name": "Entrance IP Security Camera",
-      "trust_score": 65.79,
+      "trust_score": 69.73,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 25.8,
+      "elapsed_learning": 2833.6,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:22:38.808918+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 71.08,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2834.0,
       "telemetry": {
         "device_type": "IP Security Camera",
         "stream_active": true,
         "motion_detected": false,
         "recording": false,
-        "uptime_seconds": 446,
+        "uptime_seconds": 2854,
         "fps_simulated": 5,
         "cpu_percent": 0.0,
-        "memory_percent": 17.9,
-        "memory_used_mb": 106.6,
+        "memory_percent": 17.6,
+        "memory_used_mb": 103.2,
         "disk_percent": 5.5,
-        "cpu_temp_c": 45.6,
+        "cpu_temp_c": 47.8,
         "process_anomalies": [],
-        "packet_count": 124
+        "packet_count": 793
       },
       "network_features": {
-        "pkt_size": 0.0558,
-        "iat": 0.378,
-        "entropy": 0.1194,
-        "symmetry": 0.5374
+        "pkt_size": 0.0991,
+        "iat": 0.4277,
+        "entropy": 0.163,
+        "symmetry": 0.5679
       },
       "model_status": {
         "is_trained": true,
@@ -548,13 +288,13 @@
       }
     },
     {
-      "timestamp": "2026-05-10T03:23:15.091838+00:00",
+      "timestamp": "2026-05-10T04:22:42.008374+00:00",
       "device_id": "RPI-IPCAM-01",
       "device_name": "Entrance IP Security Camera",
-      "trust_score": 67.8,
+      "trust_score": 71.08,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 26.8,
+      "elapsed_learning": 2836.6,
       "telemetry": {
         "cpu_percent": 0,
         "memory_percent": 0
@@ -575,33 +315,163 @@
       }
     },
     {
-      "timestamp": "2026-05-10T03:23:17.220875+00:00",
+      "timestamp": "2026-05-10T04:22:42.441444+00:00",
       "device_id": "RPI-IPCAM-01",
       "device_name": "Entrance IP Security Camera",
-      "trust_score": 65.86,
+      "trust_score": 70.56,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 29.5,
+      "elapsed_learning": 2837.6,
       "telemetry": {
         "device_type": "IP Security Camera",
         "stream_active": true,
         "motion_detected": false,
         "recording": false,
-        "uptime_seconds": 450,
+        "uptime_seconds": 2857,
+        "fps_simulated": 5,
+        "cpu_percent": 1.0,
+        "memory_percent": 17.7,
+        "memory_used_mb": 103.9,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 47.8,
+        "process_anomalies": [],
+        "packet_count": 794
+      },
+      "network_features": {
+        "pkt_size": 0.1174,
+        "iat": 0.2684,
+        "entropy": 0.1412,
+        "symmetry": 0.5079
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:22:45.014103+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 70.56,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2839.6,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:22:46.040585+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 72.28,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2841.3,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 2861,
+        "fps_simulated": 5,
+        "cpu_percent": 2.0,
+        "memory_percent": 17.7,
+        "memory_used_mb": 103.6,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 48.3,
+        "process_anomalies": [],
+        "packet_count": 795
+      },
+      "network_features": {
+        "pkt_size": 0.0834,
+        "iat": 0.4378,
+        "entropy": 0.1515,
+        "symmetry": 0.512
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:22:48.019183+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 72.28,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2842.6,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:22:49.670118+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 72.83,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2844.9,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 2865,
         "fps_simulated": 5,
         "cpu_percent": 0.0,
-        "memory_percent": 17.9,
-        "memory_used_mb": 106.6,
+        "memory_percent": 17.7,
+        "memory_used_mb": 103.6,
         "disk_percent": 5.5,
-        "cpu_temp_c": 45.6,
+        "cpu_temp_c": 47.8,
         "process_anomalies": [],
-        "packet_count": 125
+        "packet_count": 796
       },
       "network_features": {
-        "pkt_size": 0.0594,
-        "iat": 0.3752,
-        "entropy": 0.1297,
-        "symmetry": 0.6147
+        "pkt_size": 0.0889,
+        "iat": 0.5144,
+        "entropy": 0.1651,
+        "symmetry": 0.504
       },
       "model_status": {
         "is_trained": true,
@@ -613,13 +483,13 @@
       }
     },
     {
-      "timestamp": "2026-05-10T03:23:18.096909+00:00",
+      "timestamp": "2026-05-10T04:22:51.022425+00:00",
       "device_id": "RPI-IPCAM-01",
       "device_name": "Entrance IP Security Camera",
-      "trust_score": 67.66,
+      "trust_score": 72.83,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 29.8,
+      "elapsed_learning": 2845.6,
       "telemetry": {
         "cpu_percent": 0,
         "memory_percent": 0
@@ -640,60 +510,33 @@
       }
     },
     {
-      "timestamp": "2026-05-10T03:23:21.104953+00:00",
+      "timestamp": "2026-05-10T04:22:53.276621+00:00",
       "device_id": "RPI-IPCAM-01",
       "device_name": "Entrance IP Security Camera",
-      "trust_score": 69.27,
+      "trust_score": 69.9,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 32.8,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.12,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": true,
-        "baseline_samples": 0,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": 0.3145870196888423,
-        "score_max": 0.6479630354907363
-      }
-    },
-    {
-      "timestamp": "2026-05-10T03:23:20.848630+00:00",
-      "device_id": "RPI-IPCAM-01",
-      "device_name": "Entrance IP Security Camera",
-      "trust_score": 68.53,
-      "status": "NORMAL",
-      "phase": "monitoring",
-      "elapsed_learning": 33.1,
+      "elapsed_learning": 2848.4,
       "telemetry": {
         "device_type": "IP Security Camera",
         "stream_active": true,
         "motion_detected": false,
         "recording": false,
-        "uptime_seconds": 454,
+        "uptime_seconds": 2868,
         "fps_simulated": 5,
         "cpu_percent": 0.5,
-        "memory_percent": 17.9,
-        "memory_used_mb": 106.8,
+        "memory_percent": 17.7,
+        "memory_used_mb": 103.6,
         "disk_percent": 5.5,
-        "cpu_temp_c": 46.2,
+        "cpu_temp_c": 47.8,
         "process_anomalies": [],
-        "packet_count": 126
+        "packet_count": 797
       },
       "network_features": {
-        "pkt_size": 0.0745,
-        "iat": 0.398,
-        "entropy": 0.1997,
-        "symmetry": 0.5487
+        "pkt_size": 0.0768,
+        "iat": 0.3436,
+        "entropy": 0.1476,
+        "symmetry": 0.6137
       },
       "model_status": {
         "is_trained": true,
@@ -705,13 +548,13 @@
       }
     },
     {
-      "timestamp": "2026-05-10T03:23:24.108837+00:00",
+      "timestamp": "2026-05-10T04:22:54.025868+00:00",
       "device_id": "RPI-IPCAM-01",
       "device_name": "Entrance IP Security Camera",
-      "trust_score": 68.53,
+      "trust_score": 72.67,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 35.8,
+      "elapsed_learning": 2848.6,
       "telemetry": {
         "cpu_percent": 0,
         "memory_percent": 0
@@ -732,51 +575,13 @@
       }
     },
     {
-      "timestamp": "2026-05-10T03:23:24.467143+00:00",
+      "timestamp": "2026-05-10T04:22:57.029936+00:00",
       "device_id": "RPI-IPCAM-01",
       "device_name": "Entrance IP Security Camera",
-      "trust_score": 68.25,
+      "trust_score": 72.67,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 36.7,
-      "telemetry": {
-        "device_type": "IP Security Camera",
-        "stream_active": true,
-        "motion_detected": false,
-        "recording": false,
-        "uptime_seconds": 457,
-        "fps_simulated": 5,
-        "cpu_percent": 0.0,
-        "memory_percent": 17.9,
-        "memory_used_mb": 106.9,
-        "disk_percent": 5.5,
-        "cpu_temp_c": 46.7,
-        "process_anomalies": [],
-        "packet_count": 127
-      },
-      "network_features": {
-        "pkt_size": 0.1163,
-        "iat": 0.4532,
-        "entropy": 0.1475,
-        "symmetry": 0.5632
-      },
-      "model_status": {
-        "is_trained": true,
-        "baseline_samples": 0,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": 0.3145870196888423,
-        "score_max": 0.6479630354907363
-      }
-    },
-    {
-      "timestamp": "2026-05-10T03:23:27.113115+00:00",
-      "device_id": "RPI-IPCAM-01",
-      "device_name": "Entrance IP Security Camera",
-      "trust_score": 68.25,
-      "status": "NORMAL",
-      "phase": "monitoring",
-      "elapsed_learning": 38.8,
+      "elapsed_learning": 2851.6,
       "telemetry": {
         "cpu_percent": 0,
         "memory_percent": 0
@@ -797,33 +602,33 @@
       }
     },
     {
-      "timestamp": "2026-05-10T03:23:28.025554+00:00",
+      "timestamp": "2026-05-10T04:22:56.836133+00:00",
       "device_id": "RPI-IPCAM-01",
       "device_name": "Entrance IP Security Camera",
-      "trust_score": 68.86,
+      "trust_score": 72.74,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 40.3,
+      "elapsed_learning": 2852.0,
       "telemetry": {
         "device_type": "IP Security Camera",
         "stream_active": true,
         "motion_detected": false,
         "recording": false,
-        "uptime_seconds": 461,
+        "uptime_seconds": 2872,
         "fps_simulated": 5,
-        "cpu_percent": 0.0,
-        "memory_percent": 17.9,
-        "memory_used_mb": 106.9,
+        "cpu_percent": 1.0,
+        "memory_percent": 17.6,
+        "memory_used_mb": 103.5,
         "disk_percent": 5.5,
-        "cpu_temp_c": 46.2,
+        "cpu_temp_c": 48.3,
         "process_anomalies": [],
-        "packet_count": 128
+        "packet_count": 798
       },
       "network_features": {
-        "pkt_size": 0.0598,
-        "iat": 0.3909,
-        "entropy": 0.1351,
-        "symmetry": 0.5445
+        "pkt_size": 0.0771,
+        "iat": 0.3591,
+        "entropy": 0.1649,
+        "symmetry": 0.44
       },
       "model_status": {
         "is_trained": true,
@@ -835,13 +640,13 @@
       }
     },
     {
-      "timestamp": "2026-05-10T03:23:30.117871+00:00",
+      "timestamp": "2026-05-10T04:23:00.033551+00:00",
       "device_id": "RPI-IPCAM-01",
       "device_name": "Entrance IP Security Camera",
-      "trust_score": 68.86,
+      "trust_score": 72.74,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 41.8,
+      "elapsed_learning": 2854.6,
       "telemetry": {
         "cpu_percent": 0,
         "memory_percent": 0
@@ -862,33 +667,33 @@
       }
     },
     {
-      "timestamp": "2026-05-10T03:23:31.625210+00:00",
+      "timestamp": "2026-05-10T04:23:00.436579+00:00",
       "device_id": "RPI-IPCAM-01",
       "device_name": "Entrance IP Security Camera",
-      "trust_score": 67.47,
+      "trust_score": 71.63,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 43.9,
+      "elapsed_learning": 2855.6,
       "telemetry": {
         "device_type": "IP Security Camera",
         "stream_active": true,
         "motion_detected": false,
         "recording": false,
-        "uptime_seconds": 464,
+        "uptime_seconds": 2875,
         "fps_simulated": 5,
         "cpu_percent": 0.0,
-        "memory_percent": 17.9,
-        "memory_used_mb": 106.9,
+        "memory_percent": 17.6,
+        "memory_used_mb": 103.5,
         "disk_percent": 5.5,
-        "cpu_temp_c": 46.2,
+        "cpu_temp_c": 48.3,
         "process_anomalies": [],
-        "packet_count": 129
+        "packet_count": 799
       },
       "network_features": {
-        "pkt_size": 0.1315,
-        "iat": 0.5268,
-        "entropy": 0.1343,
-        "symmetry": 0.4369
+        "pkt_size": 0.165,
+        "iat": 0.4199,
+        "entropy": 0.0937,
+        "symmetry": 0.5691
       },
       "model_status": {
         "is_trained": true,
@@ -900,13 +705,13 @@
       }
     },
     {
-      "timestamp": "2026-05-10T03:23:33.122514+00:00",
+      "timestamp": "2026-05-10T04:23:03.037661+00:00",
       "device_id": "RPI-IPCAM-01",
       "device_name": "Entrance IP Security Camera",
-      "trust_score": 67.47,
+      "trust_score": 71.63,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 44.8,
+      "elapsed_learning": 2857.6,
       "telemetry": {
         "cpu_percent": 0,
         "memory_percent": 0
@@ -927,33 +732,33 @@
       }
     },
     {
-      "timestamp": "2026-05-10T03:23:35.253836+00:00",
+      "timestamp": "2026-05-10T04:23:03.996179+00:00",
       "device_id": "RPI-IPCAM-01",
       "device_name": "Entrance IP Security Camera",
-      "trust_score": 64.42,
+      "trust_score": 73.09,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 47.5,
+      "elapsed_learning": 2859.2,
       "telemetry": {
         "device_type": "IP Security Camera",
         "stream_active": true,
         "motion_detected": false,
         "recording": false,
-        "uptime_seconds": 468,
+        "uptime_seconds": 2879,
         "fps_simulated": 5,
         "cpu_percent": 0.0,
-        "memory_percent": 17.9,
-        "memory_used_mb": 106.9,
+        "memory_percent": 17.6,
+        "memory_used_mb": 103.0,
         "disk_percent": 5.5,
-        "cpu_temp_c": 46.7,
+        "cpu_temp_c": 48.3,
         "process_anomalies": [],
-        "packet_count": 130
+        "packet_count": 800
       },
       "network_features": {
-        "pkt_size": 0.0782,
-        "iat": 0.4806,
-        "entropy": 0.1716,
-        "symmetry": 0.5983
+        "pkt_size": 0.1457,
+        "iat": 0.377,
+        "entropy": 0.1976,
+        "symmetry": 0.4718
       },
       "model_status": {
         "is_trained": true,
@@ -965,13 +770,2417 @@
       }
     },
     {
-      "timestamp": "2026-05-10T03:23:36.126400+00:00",
+      "timestamp": "2026-05-10T04:23:06.042039+00:00",
       "device_id": "RPI-IPCAM-01",
       "device_name": "Entrance IP Security Camera",
-      "trust_score": 68.45,
+      "trust_score": 73.09,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 47.9,
+      "elapsed_learning": 2860.6,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:23:07.599144+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 76.28,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2862.8,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 2883,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.6,
+        "memory_used_mb": 103.0,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 47.2,
+        "process_anomalies": [],
+        "packet_count": 801
+      },
+      "network_features": {
+        "pkt_size": 0.1171,
+        "iat": 0.3588,
+        "entropy": 0.1925,
+        "symmetry": 0.5595
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:23:09.047505+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 76.28,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2863.6,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:23:11.157953+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 71.53,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2866.4,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": true,
+        "recording": true,
+        "uptime_seconds": 2886,
+        "fps_simulated": 15,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.6,
+        "memory_used_mb": 103.0,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 47.8,
+        "process_anomalies": [],
+        "packet_count": 802
+      },
+      "network_features": {
+        "pkt_size": 0.5248,
+        "iat": 0.0666,
+        "entropy": 0.2475,
+        "symmetry": 0.4643
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:23:12.052528+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 73.61,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2866.6,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:23:15.056406+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 73.61,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2869.6,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:23:14.756395+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 71.49,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2869.9,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": true,
+        "recording": true,
+        "uptime_seconds": 2890,
+        "fps_simulated": 15,
+        "cpu_percent": 0.5,
+        "memory_percent": 17.6,
+        "memory_used_mb": 103.0,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 48.3,
+        "process_anomalies": [],
+        "packet_count": 803
+      },
+      "network_features": {
+        "pkt_size": 0.3794,
+        "iat": 0.0989,
+        "entropy": 0.2661,
+        "symmetry": 0.3765
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:23:18.060787+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 71.49,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2872.6,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:23:18.314843+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 69.13,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2873.5,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 2893,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.6,
+        "memory_used_mb": 102.7,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 47.8,
+        "process_anomalies": [],
+        "packet_count": 804
+      },
+      "network_features": {
+        "pkt_size": 0.1673,
+        "iat": 0.2304,
+        "entropy": 0.1321,
+        "symmetry": 0.6543
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:23:21.064576+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 69.13,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2875.6,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:23:21.916574+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 68.21,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2877.1,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 2897,
+        "fps_simulated": 5,
+        "cpu_percent": 0.5,
+        "memory_percent": 17.6,
+        "memory_used_mb": 102.7,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 47.8,
+        "process_anomalies": [],
+        "packet_count": 805
+      },
+      "network_features": {
+        "pkt_size": 0.0439,
+        "iat": 0.5428,
+        "entropy": 0.1542,
+        "symmetry": 0.4881
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:23:24.068772+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 68.21,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2878.7,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:23:25.542525+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 68.15,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2880.7,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 2900,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.6,
+        "memory_used_mb": 102.7,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 48.3,
+        "process_anomalies": [],
+        "packet_count": 806
+      },
+      "network_features": {
+        "pkt_size": 0.0737,
+        "iat": 0.4352,
+        "entropy": 0.1172,
+        "symmetry": 0.5444
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:23:27.072250+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 68.15,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2881.7,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:23:29.152757+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 64.54,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2884.4,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 2904,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.6,
+        "memory_used_mb": 102.7,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 47.2,
+        "process_anomalies": [],
+        "packet_count": 807
+      },
+      "network_features": {
+        "pkt_size": 0.122,
+        "iat": 0.2452,
+        "entropy": 0.2056,
+        "symmetry": 0.3998
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:23:30.075940+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 67.37,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2884.7,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:23:33.079640+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 67.37,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2887.7,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:23:32.779900+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 68.29,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2888.0,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 2908,
+        "fps_simulated": 5,
+        "cpu_percent": 1.5,
+        "memory_percent": 17.6,
+        "memory_used_mb": 102.7,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 47.8,
+        "process_anomalies": [],
+        "packet_count": 808
+      },
+      "network_features": {
+        "pkt_size": 0.0941,
+        "iat": 0.4535,
+        "entropy": 0.1453,
+        "symmetry": 0.4545
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:23:36.083469+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 68.29,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2890.7,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:23:36.385734+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 68.06,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2891.5,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 2911,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.6,
+        "memory_used_mb": 102.7,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 47.8,
+        "process_anomalies": [],
+        "packet_count": 809
+      },
+      "network_features": {
+        "pkt_size": 0.1123,
+        "iat": 0.3593,
+        "entropy": 0.1083,
+        "symmetry": 0.4362
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:23:39.087444+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 68.06,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2893.7,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:23:39.944395+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 66.53,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2895.1,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 2915,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.6,
+        "memory_used_mb": 102.7,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 48.3,
+        "process_anomalies": [],
+        "packet_count": 810
+      },
+      "network_features": {
+        "pkt_size": 0.1437,
+        "iat": 0.282,
+        "entropy": 0.1371,
+        "symmetry": 0.5849
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:23:42.090646+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 66.53,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2896.7,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:23:43.548194+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 67.63,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2898.7,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 2918,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.6,
+        "memory_used_mb": 102.7,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 48.3,
+        "process_anomalies": [],
+        "packet_count": 811
+      },
+      "network_features": {
+        "pkt_size": 0.1628,
+        "iat": 0.2442,
+        "entropy": 0.1203,
+        "symmetry": 0.5156
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:23:45.095111+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 67.63,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2899.7,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:23:47.106277+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 65.25,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2902.3,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 2922,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.6,
+        "memory_used_mb": 102.7,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 48.3,
+        "process_anomalies": [],
+        "packet_count": 812
+      },
+      "network_features": {
+        "pkt_size": 0.0949,
+        "iat": 0.3239,
+        "entropy": 0.1803,
+        "symmetry": 0.6059
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:23:48.098373+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 69.71,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2902.7,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:23:51.103265+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 69.71,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2905.7,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:23:50.707460+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 69.47,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2905.9,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": true,
+        "recording": true,
+        "uptime_seconds": 2926,
+        "fps_simulated": 15,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.6,
+        "memory_used_mb": 102.7,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 48.9,
+        "process_anomalies": [],
+        "packet_count": 813
+      },
+      "network_features": {
+        "pkt_size": 0.2069,
+        "iat": 0.1362,
+        "entropy": 0.3168,
+        "symmetry": 0.3058
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:23:54.109050+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 69.47,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2908.7,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:23:54.267374+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 68.48,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2909.5,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": true,
+        "recording": true,
+        "uptime_seconds": 2929,
+        "fps_simulated": 15,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.6,
+        "memory_used_mb": 102.7,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 48.3,
+        "process_anomalies": [],
+        "packet_count": 814
+      },
+      "network_features": {
+        "pkt_size": 0.7471,
+        "iat": 0.0506,
+        "entropy": 0.2744,
+        "symmetry": 0.3744
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:23:57.112557+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 68.48,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2911.7,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:23:57.869884+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 66.48,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2913.1,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": true,
+        "recording": true,
+        "uptime_seconds": 2933,
+        "fps_simulated": 15,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.6,
+        "memory_used_mb": 102.7,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 48.3,
+        "process_anomalies": [],
+        "packet_count": 815
+      },
+      "network_features": {
+        "pkt_size": 0.4593,
+        "iat": 0.1395,
+        "entropy": 0.272,
+        "symmetry": 0.298
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:24:00.117943+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 66.48,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2914.7,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:24:01.495868+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 68.03,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2916.7,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 2936,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.6,
+        "memory_used_mb": 102.7,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 48.9,
+        "process_anomalies": [],
+        "packet_count": 816
+      },
+      "network_features": {
+        "pkt_size": 0.1051,
+        "iat": 0.3978,
+        "entropy": 0.1336,
+        "symmetry": 0.5727
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:24:03.124334+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 68.03,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2917.7,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:24:05.104972+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 65.26,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2920.3,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 2940,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.6,
+        "memory_used_mb": 102.7,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 48.3,
+        "process_anomalies": [],
+        "packet_count": 817
+      },
+      "network_features": {
+        "pkt_size": 0.1478,
+        "iat": 0.3851,
+        "entropy": 0.1276,
+        "symmetry": 0.5832
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:24:06.129423+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 67.89,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2920.7,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:24:09.135086+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 67.89,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2923.7,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:24:08.732121+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 68.48,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2923.9,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 2944,
+        "fps_simulated": 5,
+        "cpu_percent": 1.5,
+        "memory_percent": 17.6,
+        "memory_used_mb": 102.9,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 48.3,
+        "process_anomalies": [],
+        "packet_count": 818
+      },
+      "network_features": {
+        "pkt_size": 0.0679,
+        "iat": 0.3687,
+        "entropy": 0.1561,
+        "symmetry": 0.4847
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:24:12.140690+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 68.48,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2926.7,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:24:12.331546+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 68.15,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2927.5,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 2947,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.6,
+        "memory_used_mb": 103.2,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 48.3,
+        "process_anomalies": [],
+        "packet_count": 819
+      },
+      "network_features": {
+        "pkt_size": 0.0737,
+        "iat": 0.4534,
+        "entropy": 0.1453,
+        "symmetry": 0.684
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:24:15.144919+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 68.15,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2929.7,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:24:15.890447+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 70.32,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2931.1,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 2951,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.6,
+        "memory_used_mb": 103.2,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 48.3,
+        "process_anomalies": [],
+        "packet_count": 820
+      },
+      "network_features": {
+        "pkt_size": 0.1091,
+        "iat": 0.3575,
+        "entropy": 0.1845,
+        "symmetry": 0.5478
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:24:18.148899+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 70.32,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2932.7,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:24:19.488259+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 69.78,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2934.6,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 2954,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.6,
+        "memory_used_mb": 103.2,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 48.3,
+        "process_anomalies": [],
+        "packet_count": 821
+      },
+      "network_features": {
+        "pkt_size": 0.0842,
+        "iat": 0.2617,
+        "entropy": 0.177,
+        "symmetry": 0.5884
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:24:21.152835+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 69.78,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2935.7,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:24:23.046558+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 66.88,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2938.2,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 2958,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.6,
+        "memory_used_mb": 103.2,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 48.3,
+        "process_anomalies": [],
+        "packet_count": 822
+      },
+      "network_features": {
+        "pkt_size": 0.0896,
+        "iat": 0.5131,
+        "entropy": 0.181,
+        "symmetry": 0.5118
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:24:24.157533+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 71.55,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2938.7,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:24:27.161890+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 71.55,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2941.7,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:24:26.654516+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 74.59,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2941.8,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 2962,
+        "fps_simulated": 5,
+        "cpu_percent": 0.5,
+        "memory_percent": 17.6,
+        "memory_used_mb": 103.2,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 48.9,
+        "process_anomalies": [],
+        "packet_count": 823
+      },
+      "network_features": {
+        "pkt_size": 0.1572,
+        "iat": 0.3372,
+        "entropy": 0.1657,
+        "symmetry": 0.5174
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:24:30.166596+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 74.59,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2944.8,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:24:30.213572+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 76.9,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2945.4,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 2965,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.6,
+        "memory_used_mb": 103.2,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 49.4,
+        "process_anomalies": [],
+        "packet_count": 824
+      },
+      "network_features": {
+        "pkt_size": 0.065,
+        "iat": 0.3411,
+        "entropy": 0.1954,
+        "symmetry": 0.5086
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:24:33.171222+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 76.9,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2947.8,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:24:33.810865+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 74.18,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2949.0,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": true,
+        "recording": true,
+        "uptime_seconds": 2969,
+        "fps_simulated": 15,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.6,
+        "memory_used_mb": 103.2,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 48.9,
+        "process_anomalies": [],
+        "packet_count": 825
+      },
+      "network_features": {
+        "pkt_size": 0.5463,
+        "iat": 0.178,
+        "entropy": 0.3083,
+        "symmetry": 0.5711
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:24:36.176024+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 74.18,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2950.8,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:24:37.438741+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 72.29,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2952.6,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": true,
+        "recording": true,
+        "uptime_seconds": 2972,
+        "fps_simulated": 15,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.6,
+        "memory_used_mb": 103.2,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 48.9,
+        "process_anomalies": [],
+        "packet_count": 826
+      },
+      "network_features": {
+        "pkt_size": 0.3936,
+        "iat": 0.0951,
+        "entropy": 0.3361,
+        "symmetry": 0.3554
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:24:39.180575+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 72.29,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2953.8,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:24:41.049532+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 67.29,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2956.3,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": true,
+        "recording": true,
+        "uptime_seconds": 2976,
+        "fps_simulated": 15,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.6,
+        "memory_used_mb": 103.2,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 48.3,
+        "process_anomalies": [],
+        "packet_count": 827
+      },
+      "network_features": {
+        "pkt_size": 0.5976,
+        "iat": 0.0911,
+        "entropy": 0.4043,
+        "symmetry": 0.3656
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:24:42.186144+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 69.94,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2956.8,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:24:45.200792+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 69.94,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2959.8,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:24:44.677010+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 70.67,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2959.9,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 2980,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.6,
+        "memory_used_mb": 103.2,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 48.9,
+        "process_anomalies": [],
+        "packet_count": 828
+      },
+      "network_features": {
+        "pkt_size": 0.0903,
+        "iat": 0.2489,
+        "entropy": 0.1423,
+        "symmetry": 0.4816
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:24:48.207907+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 70.67,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2962.8,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:24:48.284804+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 70.16,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2963.4,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 2983,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.6,
+        "memory_used_mb": 103.2,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 48.3,
+        "process_anomalies": [],
+        "packet_count": 829
+      },
+      "network_features": {
+        "pkt_size": 0.1084,
+        "iat": 0.3767,
+        "entropy": 0.1441,
+        "symmetry": 0.4859
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:24:51.211581+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 70.16,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2965.8,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:24:51.844114+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 70.18,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2967.0,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 2987,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.6,
+        "memory_used_mb": 103.2,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 48.9,
+        "process_anomalies": [],
+        "packet_count": 830
+      },
+      "network_features": {
+        "pkt_size": 0.0618,
+        "iat": 0.4081,
+        "entropy": 0.1536,
+        "symmetry": 0.5532
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:24:54.217111+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 70.18,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2968.8,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:24:55.440695+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 69.82,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2970.6,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 2990,
+        "fps_simulated": 5,
+        "cpu_percent": 0.5,
+        "memory_percent": 17.6,
+        "memory_used_mb": 103.2,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 49.4,
+        "process_anomalies": [],
+        "packet_count": 831
+      },
+      "network_features": {
+        "pkt_size": 0.1333,
+        "iat": 0.496,
+        "entropy": 0.1187,
+        "symmetry": 0.5405
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:24:57.222343+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 69.82,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2971.8,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:24:58.998925+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 66.73,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2974.2,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 2994,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.6,
+        "memory_used_mb": 103.2,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 49.4,
+        "process_anomalies": [],
+        "packet_count": 832
+      },
+      "network_features": {
+        "pkt_size": 0.063,
+        "iat": 0.2884,
+        "entropy": 0.1581,
+        "symmetry": 0.5036
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:25:00.228312+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 68.68,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2974.8,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:25:03.234062+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 68.68,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2977.8,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:25:06.238701+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 71.37,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2980.8,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:25:09.242547+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 71.37,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2983.8,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:25:12.247587+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 76.15,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2986.8,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:25:15.254925+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 76.15,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2989.8,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.3145870196888423,
+        "score_max": 0.6479630354907363
+      }
+    },
+    {
+      "timestamp": "2026-05-10T04:25:18.258422+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 80.81,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 2992.8,
       "telemetry": {
         "cpu_percent": 0,
         "memory_percent": 0
@@ -1001,5 +3210,5 @@
     "score_min": 0.3145870196888423,
     "score_max": 0.6479630354907363
   },
-  "written_at": "2026-05-10T03:23:36.151050+00:00"
+  "written_at": "2026-05-10T04:25:18.286428+00:00"
 }
