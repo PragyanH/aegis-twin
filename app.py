@@ -395,7 +395,8 @@ def render_fleet_page():
                 res3.metric("Test Score", f"{summary.get('test_score_mean', 0):.4f}")
                 res4.metric("Anomaly Rate", f"{summary.get('test_anomaly_rate', 0):.2f}%")
                 
-                st.dataframe(pd.DataFrame({
+                import pandas as _pd
+                st.dataframe(_pd.DataFrame({
                     "Metric": ["Mean Score", "Std Dev", "Min Score", "Max Score", "Threshold (p95)"],
                     "Value": [
                         f"{summary.get('test_score_mean', 0):.4f}",

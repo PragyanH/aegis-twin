@@ -366,6 +366,26 @@ def pi_status():
     })
 
 
+@app.route("/api/pi/seed", methods=["POST"])
+def seed_data():
+    """Populate the baseline buffer with synthetic 'normal' data for testing."""
+    import numpy as np
+    # Generate 120 samples of typical 'normal' traffic
+    rng = np.random.default_rng()
+    # Typical values: pkt_size ~ 0.15, iat ~ 0.3, entropy ~ 0.2, symmetry ~ 0.5
+    synthetic_data = rng.normal(loc=[0.15, 0.30, 0.20, 0.50], scale=0.03, size=(120, 4))
+    synthetic_data = np.clip(synthetic_data, 0, 1).tolist()
+
+    for sample in synthetic_data:
+        add_baseline_sample(sample)
+    
+    print(f"[Aegis Flask] Seeded {len(synthetic_data)} synthetic samples into baseline buffer.")
+    return jsonify({
+        "success": True, 
+        "message": f"Seeded {len(synthetic_data)} synthetic samples. You can now train."
+    })
+
+
 @app.route("/api/pi/reset", methods=["POST"])
 def reset():
     global _phase, _learning_start, _pi_telemetry_log, _attacker_ip, _last_forensic_time
