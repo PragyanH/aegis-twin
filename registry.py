@@ -42,4 +42,6 @@ SESSION_DEFAULTS = {
     "sniffer_active":                False,
     "hw_active_device":              None,
     "hw_calibrating":                False,
+    "hw_mac":                        "",
+    "hw_iface":                      "",
 }

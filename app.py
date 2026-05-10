@@ -8,7 +8,6 @@ Run with: streamlit run app.py
 #app.py
 
 import os
-import time
 
 import pandas as pd
 import streamlit as st
@@ -384,6 +383,32 @@ def render_fleet_page():
         else:
             st.success("✅ IP Camera Secure — No active threats", icon="🛡️")
 
+        # ── Open Camera Dashboard button ─────────────────────────────────────
+        pi_hw_id = None
+        for _hid, _hinfo in HARDWARE_REGISTRY.items():
+            if _hinfo.get("type", "") in ("IP Camera", "IP Security Camera", "Raspberry Pi Camera"):
+                pi_hw_id = _hid
+                break
+        # Fallback: use first HW entry if none tagged as camera
+        if pi_hw_id is None and HARDWARE_REGISTRY:
+            pi_hw_id = next(iter(HARDWARE_REGISTRY))
+
+        _cam_col, _btn_col = st.columns([3, 1])
+        with _btn_col:
+            if st.button("🔍 Open Camera Dashboard", use_container_width=True, key="pi_open_dashboard"):
+                if pi_hw_id:
+                    # Use MAC from HARDWARE_REGISTRY if set, else keep existing
+                    _pi_mac   = HARDWARE_REGISTRY[pi_hw_id].get("mac", "") or st.session_state.get("hw_mac", "")
+                    _pi_iface = HARDWARE_REGISTRY[pi_hw_id].get("iface", "") or st.session_state.get("hw_iface", "")
+                    st.session_state.hw_active_device = pi_hw_id
+                    st.session_state.hw_mac           = _pi_mac
+                    st.session_state.hw_iface         = _pi_iface
+                    HARDWARE_REGISTRY[pi_hw_id]["mac"]   = _pi_mac
+                    HARDWARE_REGISTRY[pi_hw_id]["iface"] = _pi_iface
+                    st.session_state.sniffer_active   = True  # Pi cam uses MQTT — no Scapy needed
+                    st.session_state.page             = "hardware_dashboard"
+                    st.rerun()
+
     else:
         st.info("⏳ Waiting for IP Camera telemetry — start flask_server.py and pi_sender.py on the Pi")
 
@@ -421,23 +446,27 @@ def render_fleet_page():
                     placeholder="Wi-Fi (Windows) / wlan0 (Linux) / en0 (macOS)",
                     key=f"hw_iface_{hw_id}",
                 )
-                if st.button("Connect & Start Sniffer", key=f"hw_connect_{hw_id}", width="stretch"):
+                if st.button("Connect & Start Sniffer", key=f"hw_connect_{hw_id}", use_container_width=True):
                     if mac_input and iface_input:
+                        # Persist into registry AND session state
                         HARDWARE_REGISTRY[hw_id]["mac"]   = mac_input.strip()
                         HARDWARE_REGISTRY[hw_id]["iface"] = iface_input.strip()
-                        st.session_state["hw_mac"]   = mac_input.strip()
-                        st.session_state["hw_iface"] = iface_input.strip()
+                        st.session_state["hw_mac"]        = mac_input.strip()
+                        st.session_state["hw_iface"]      = iface_input.strip()
+                        st.session_state.hw_active_device = hw_id
                         try:
                             start_sniffer(mac_input.strip(), iface_input.strip())
                             st.session_state.sniffer_active = True
+                            st.success(f"✅ Sniffer started on {iface_input.strip()}")
                         except Exception as _sniffer_exc:
                             st.error(f"Failed to start sniffer: {_sniffer_exc}")
                     else:
                         st.warning("Please enter both MAC address and interface name.")
 
-                if st.session_state.sniffer_active:
+                # Show active status only for this device
+                if st.session_state.sniffer_active and st.session_state.get("hw_active_device") == hw_id:
                     active_iface = HARDWARE_REGISTRY[hw_id].get("iface", "?")
-                    st.success(f"Sniffer active — capturing on {active_iface}")
+                    st.success(f"📡 Sniffer active — capturing on {active_iface}")
 
                 if st.checkbox("Show Scapy resolved interface (debug)", key=f"hw_dbg_resolve_{hw_id}"):
                     try:
@@ -450,13 +479,16 @@ def render_fleet_page():
                     except Exception as e:
                         st.error(f"Debug error: {e}")
 
-            if st.session_state.sniffer_active:
-                if st.button("View Dashboard", key=f"hw_view_{hw_id}", width="stretch"):
+            # View Dashboard — only shown when sniffer is active for THIS device
+            if st.session_state.sniffer_active and st.session_state.get("hw_active_device") == hw_id:
+                if st.button("📊 View Live Dashboard", key=f"hw_view_{hw_id}", use_container_width=True):
                     st.session_state.hw_active_device = hw_id
+                    st.session_state.hw_mac           = HARDWARE_REGISTRY[hw_id].get("mac", "")
+                    st.session_state.hw_iface         = HARDWARE_REGISTRY[hw_id].get("iface", "")
                     st.session_state.page             = "hardware_dashboard"
                     st.rerun()
             else:
-                st.warning("Start the sniffer first to access the live dashboard.")
+                st.caption("⚠️ Start the sniffer first to access the live dashboard.")
 
     st.divider()
 
@@ -470,9 +502,6 @@ def render_fleet_page():
         st.markdown("### 🧾 Audit Trail")
         st.dataframe(pd.DataFrame(st.session_state.audit_logs), width="stretch", hide_index=True)
 
-    # Auto-refresh every 3 seconds to show live Pi data
-    time.sleep(3)
-    st.rerun()
 
 
 # ---------------------------------------------------------------------------
