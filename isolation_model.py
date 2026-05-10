@@ -302,13 +302,22 @@ def get_training_status() -> dict:
         start_time = _training_start_time
         summary = _training_last_summary
         baseline_count = len(_baseline_buffer)
+        is_trained = _is_trained
     
+    # Map trained state to monitoring status if idle
+    display_status = status
+    if status == "idle" and is_trained:
+        display_status = "monitoring"
+    elif status == "idle" and baseline_count > 0:
+        display_status = "learning"
+
     result = {
-        "status": status,
+        "status": display_status,
         "in_progress": in_progress,
         "baseline_samples": baseline_count,
         "ready_to_train": baseline_count >= MIN_TRAIN_SAMPLES,
         "min_samples_required": MIN_TRAIN_SAMPLES,
+        "is_trained": is_trained
     }
     
     if in_progress and start_time:
@@ -319,6 +328,29 @@ def get_training_status() -> dict:
         result["last_summary"] = summary
     
     return result
+
+
+def reset_training() -> bool:
+    """Reset the model and training buffer to start fresh."""
+    global _baseline_buffer, _is_trained, _model, _training_last_summary, _training_status
+    with _lock:
+        _baseline_buffer = []
+        _is_trained = False
+        _model = None
+        _training_last_summary = None
+        _training_status = "idle"
+        _score_window.clear()
+        
+    # Delete model file if it exists
+    if MODEL_PATH.exists():
+        try:
+            MODEL_PATH.unlink()
+            print(f"[IsolationForest] Deleted model file: {MODEL_PATH}")
+            return True
+        except Exception as e:
+            print(f"[IsolationForest] Error deleting model file: {e}")
+            return False
+    return True
 
 
 def get_training_estimate(num_samples: int = None) -> dict:

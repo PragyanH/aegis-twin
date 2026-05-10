@@ -310,135 +310,101 @@ def render_fleet_page():
 
     # Fetch training status
     try:
-        status_resp = requests.get("http://localhost:5000/api/training/status", timeout=5)
+        status_resp = requests.get("http://localhost:5000/api/training/status", timeout=2)
         training_status = status_resp.json()
     except Exception:
-        training_status = {"status": "unknown", "in_progress": False, "baseline_samples": 0}
+        training_status = {"status": "offline", "in_progress": False, "baseline_samples": 0, "ready_to_train": False}
 
-    # Display current status
-    col1, col2, col3 = st.columns(3)
+    if training_status.get("status") == "offline":
+        st.warning("⚠️ Flask server is offline. Start `python flask_server.py` to enable training.")
+    else:
+        # Display current status
+        col1, col2, col3 = st.columns(3)
 
-    with col1:
-        st.metric(
-            "Baseline Samples",
-            training_status.get("baseline_samples", 0),
-            f"of {training_status.get('min_samples_required', 100)} required"
-        )
-
-    with col2:
-        status_text = training_status.get("status", "idle").upper()
-        status_color = "🟢" if status_text == "IDLE" else "🟡" if status_text == "IN_PROGRESS" else "🔴" if status_text == "FAILED" else "🟢"
-        st.metric("Status", f"{status_color} {status_text}")
-
-    with col3:
-        can_train = training_status.get("ready_to_train", False)
-        st.metric("Ready to Train", "✅ Yes" if can_train else "❌ No")
-
-    st.markdown("<br>", unsafe_allow_html=True)
-
-    # Training controls
-    tcol1, tcol2, tcol3 = st.columns([2, 1, 1])
-
-    # Training button
-    with tcol1:
-        if not training_status.get("in_progress", False):
-            try:
-                est_resp = requests.get("http://localhost:5000/api/training/estimate", timeout=5)
-                estimate = est_resp.json()
-                est_text = estimate.get("formatted", "calculating...")
-            except Exception:
-                est_text = "calculating..."
-
-            if st.button(
-                "🚀 Start Isolation Forest Training" if can_train else "⏳ Collecting more samples...",
-                disabled=not can_train,
-                use_container_width=True,
-                type="primary" if can_train else "secondary"
-            ):
-                if can_train:
-                    with st.spinner(f"Training in progress... Estimated time: {est_text}"):
-                        try:
-                            train_resp = requests.post(
-                                "http://localhost:5000/api/pi/force_train",
-                                timeout=300  # 5 minute timeout for training
-                            )
-                            if train_resp.status_code == 200:
-                                result = train_resp.json()
-                                if result.get("success"):
-                                    st.success("✅ Training completed successfully!")
-                                    st.rerun()
-                                else:
-                                    st.error(f"Training failed: {result.get('error', 'Unknown error')}")
-                            else:
-                                st.error(f"Training error: {train_resp.text}")
-                        except requests.Timeout:
-                            st.error("Training timed out. Check flask_server.py logs.")
-                        except Exception as e:
-                            st.error(f"Connection error: {e}")
-        else:
-            st.info("⏳ Training in progress...")
-
-    # Display training results if available
-    if training_status.get("status") == "completed" and training_status.get("last_summary"):
-        summary = training_status["last_summary"]
-        st.markdown("<br>", unsafe_allow_html=True)
-        st.markdown("### 📊 Training Results")
-
-        # Results grid
-        res1, res2, res3, res4 = st.columns(4)
-
-        with res1:
+        with col1:
+            baseline_count = training_status.get("baseline_samples", 0)
+            min_req = training_status.get('min_samples_required', 100)
             st.metric(
                 "Training Samples",
-                summary.get("samples_trained", 0),
-                f"/ {summary.get('samples_total', 0)} total"
+                baseline_count,
+                f"of {min_req} required"
             )
+            if baseline_count < min_req:
+                st.caption(f"💡 {min_req - baseline_count} more samples needed. Each telemetry message counts as 1 sample.")
 
-        with res2:
-            st.metric(
-                "Training Time",
-                f"{summary.get('training_time_sec', 0):.2f}s"
-            )
+        with col2:
+            status_val = training_status.get("status", "idle").upper()
+            status_color = "🟢" if status_val == "IDLE" else "🟡" if status_val == "IN_PROGRESS" else "🔴" if status_val == "FAILED" else "🔵"
+            st.metric("Model Status", f"{status_color} {status_val}")
+            if status_val == "MONITORING" or status_val == "COMPLETED":
+                 st.caption("✅ Model is active and scoring.")
 
-        with res3:
-            st.metric(
-                "Test Score Mean",
-                f"{summary.get('test_score_mean', 0):.4f}",
-                f"σ = {summary.get('test_score_std', 0):.4f}"
-            )
+        with col3:
+            can_train = training_status.get("ready_to_train", False)
+            st.metric("Ready to Train", "✅ Yes" if can_train else "❌ No")
 
-        with res4:
-            st.metric(
-                "Anomaly Detection Rate",
-                f"{summary.get('test_anomaly_rate', 0):.2f}%",
-                "on test set"
-            )
+        st.markdown("<br>", unsafe_allow_html=True)
 
-        # Detailed metrics table
-        st.markdown("#### Test Set Statistics")
-        metrics_data = {
-            "Metric": [
-                "Mean Score",
-                "Std Dev",
-                "Min Score",
-                "Max Score",
-                "Anomaly Rate",
-                "Score Range (Train)",
-                "Threshold (p95)",
-            ],
-            "Value": [
-                f"{summary.get('test_score_mean', 0):.4f}",
-                f"{summary.get('test_score_std', 0):.4f}",
-                f"{summary.get('test_score_min', 0):.4f}",
-                f"{summary.get('test_score_max', 0):.4f}",
-                f"{summary.get('test_anomaly_rate', 0):.2f}%",
-                f"[{summary.get('score_min', 0):.4f}, {summary.get('score_max', 0):.4f}]",
-                f"{summary.get('threshold_suggested', 0):.4f}",
-            ]
-        }
-        st.dataframe(pd.DataFrame(metrics_data), use_container_width=True, hide_index=True)
+        # Training controls
+        tcol1, tcol2 = st.columns([2, 1])
 
-        st.success("🎓 Model is now in MONITORING phase and scoring live traffic!")
+        # Training button
+        with tcol1:
+            if not training_status.get("in_progress", False):
+                # Only show training button if not already trained or if user wants to re-train
+                if st.button(
+                    "🚀 Start Isolation Forest Training" if can_train else "⏳ Collecting more samples...",
+                    disabled=not can_train,
+                    use_container_width=True,
+                    type="primary" if can_train else "secondary",
+                    key="btn_start_train"
+                ):
+                    with st.spinner("Training in progress..."):
+                        try:
+                            train_resp = requests.post("http://localhost:5000/api/pi/force_train", timeout=30)
+                            if train_resp.status_code == 200:
+                                st.success("✅ Training completed successfully!")
+                                time.sleep(1)
+                                st.rerun()
+                            else:
+                                st.error(f"Training failed: {train_resp.text}")
+                        except Exception as e:
+                            st.error(f"Connection error: {e}")
+            else:
+                st.info("⏳ Training in progress...")
+
+        with tcol2:
+            if st.button("🔄 Reset & Re-train", use_container_width=True, help="Delete model and start collecting new samples"):
+                try:
+                    reset_resp = requests.post("http://localhost:5000/api/pi/reset", timeout=5)
+                    if reset_resp.status_code == 200:
+                        st.success("System reset to LEARNING phase.")
+                        time.sleep(1)
+                        st.rerun()
+                except Exception as e:
+                    st.error(f"Reset failed: {e}")
+
+        # Display training results if available
+        if training_status.get("last_summary"):
+            summary = training_status["last_summary"]
+            st.markdown("<br>", unsafe_allow_html=True)
+            with st.expander("📊 View Latest Training Results", expanded=status_val == "COMPLETED"):
+                res1, res2, res3, res4 = st.columns(4)
+                res1.metric("Samples", summary.get("samples_total", 0))
+                res2.metric("Time", f"{summary.get('training_time_sec', 0):.2f}s")
+                res3.metric("Test Score", f"{summary.get('test_score_mean', 0):.4f}")
+                res4.metric("Anomaly Rate", f"{summary.get('test_anomaly_rate', 0):.2f}%")
+                
+                st.dataframe(pd.DataFrame({
+                    "Metric": ["Mean Score", "Std Dev", "Min Score", "Max Score", "Threshold (p95)"],
+                    "Value": [
+                        f"{summary.get('test_score_mean', 0):.4f}",
+                        f"{summary.get('test_score_std', 0):.4f}",
+                        f"{summary.get('test_score_min', 0):.4f}",
+                        f"{summary.get('test_score_max', 0):.4f}",
+                        f"{summary.get('threshold_suggested', 0):.4f}"
+                    ]
+                }), use_container_width=True, hide_index=True)
 
     st.divider()
 
@@ -698,145 +664,8 @@ def render_fleet_page():
                 else:
                     st.success("✅ System Secure — No active threats", icon="🛡️")
 
-    # ── Training section ──────────────────────────────────────────────────────────
     st.divider()
-    st.markdown("## 🤖 Isolation Forest Model Training")
-    
-    # Get current model status
-    model_status = get_status()
-    training_status = get_training_status()
-    training_estimate = get_training_estimate()
-    
-    # Display baseline collection progress
-    baseline_count = model_status["baseline_samples"]
-    min_samples = model_status.get("ready_to_train", False)
-    
-    col_info, col_action = st.columns([3, 1])
-    
-    with col_info:
-        st.markdown(f"""
-        <div style="background:rgba(17,25,40,0.8);border:1px solid rgba(0,255,242,0.3);
-                    border-radius:12px;padding:20px;">
-            <div style="color:#00cfff;font-family:monospace;font-size:0.9rem;margin-bottom:10px;">
-                // BASELINE COLLECTION PROGRESS
-            </div>
-            <div style="display:flex;gap:15px;">
-                <div>
-                    <div style="color:#00ff88;font-size:2rem;font-weight:bold;">{baseline_count}</div>
-                    <div style="color:#aaa;font-size:0.8rem;">samples collected</div>
-                </div>
-                <div>
-                    <div style="color:#00cfff;font-size:2rem;font-weight:bold;">100</div>
-                    <div style="color:#aaa;font-size:0.8rem;">minimum required</div>
-                </div>
-                <div>
-                    <div style="color:{'#00ff88' if min_samples else '#ffb300'};font-size:1.2rem;font-weight:bold;">
-                        {'✅ READY' if min_samples else f'⏳ {100-baseline_count} more'}
-                    </div>
-                    <div style="color:#aaa;font-size:0.8rem;">status</div>
-                </div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    with col_action:
-        # Start training button
-        if training_status["in_progress"]:
-            st.info("⏳ Training in progress...")
-        elif model_status["is_trained"]:
-            st.success("✅ Model trained")
-        else:
-            if st.button("🚀 START TRAINING", key="start_training", 
-                        disabled=not min_samples, use_container_width=True):
-                if min_samples:
-                    st.session_state.training_in_progress = True
-    
-    # Show training progress
-    if st.session_state.training_in_progress or training_status["in_progress"]:
-        st.markdown("<br>", unsafe_allow_html=True)
-        
-        # Training progress container
-        with st.spinner("🔄 Training model..."):
-            try:
-                st.session_state.training_error = None
-                
-                # Perform training
-                summary = train_model()
-                
-                st.session_state.training_in_progress = False
-                st.session_state.training_completed = True
-                st.session_state.last_training_summary = summary
-                
-                # Show success banner
-                st.markdown("""
-                <div style="background:rgba(0,255,136,0.1);border:1px solid rgba(0,255,136,0.5);
-                            border-radius:12px;padding:20px;margin-bottom:20px;">
-                    <div style="color:#00ff88;font-size:1.2rem;font-weight:bold;margin-bottom:10px;">
-                        ✅ Training Completed Successfully
-                    </div>
-                    <div style="color:#aaa;font-size:0.9rem;">
-                        Model has been trained and saved. Anomaly detection is now active.
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
-                
-                # Display training results
-                st.markdown("### 📊 Training Results")
-                
-                # Results grid
-                r1, r2, r3 = st.columns(3)
-                with r1:
-                    st.metric("Training Time", f"{summary['training_time_sec']:.2f}s", 
-                             delta=f"{summary['samples_trained']} samples", 
-                             delta_color="off")
-                with r2:
-                    st.metric("Test Accuracy", f"{summary['test_anomaly_rate']:.1f}%", 
-                             delta="Normal rate", delta_color="off")
-                with r3:
-                    st.metric("Test Score", f"{summary['test_score_mean']:.4f}", 
-                             delta=f"±{summary['test_score_std']:.4f}", 
-                             delta_color="off")
-                
-                # Detailed metrics
-                st.markdown("**Model Performance Metrics:**")
-                metrics_cols = st.columns(4)
-                metrics_data = [
-                    ("Total Samples", summary['samples_total']),
-                    ("Train/Test Split", f"{summary['samples_trained']}/{summary['samples_tested']}"),
-                    ("Score Range", f"[{summary['score_min']:.4f}, {summary['score_max']:.4f}]"),
-                    ("Threshold", f"{summary['threshold_suggested']:.4f}"),
-                ]
-                for col, (label, value) in zip(metrics_cols, metrics_data):
-                    with col:
-                        st.markdown(f"**{label}**  \n{value}", )
-                
-                st.success("🎯 Model is ready for anomaly detection!")
-                
-            except Exception as e:
-                st.session_state.training_error = str(e)
-                st.session_state.training_in_progress = False
-                st.error(f"❌ Training failed: {e}")
-
-    # Show recent training summary if available
-    elif st.session_state.last_training_summary:
-        summary = st.session_state.last_training_summary
-        st.markdown("<br>", unsafe_allow_html=True)
-        st.markdown("### 📊 Last Training Summary")
-        
-        col_s1, col_s2, col_s3 = st.columns(3)
-        with col_s1:
-            st.metric("Training Time", f"{summary['training_time_sec']:.2f}s")
-        with col_s2:
-            st.metric("Samples Used", f"{summary['samples_total']}")
-        with col_s3:
-            st.metric("Test Score Mean", f"{summary['test_score_mean']:.4f}")
-    
-    # Training estimate
-    if training_estimate["can_train"]:
-        st.info(f"⏱️ **Estimated training time:** {training_estimate['formatted']} "
-               f"({training_estimate['sample_count']} samples)")
-    elif baseline_count > 0:
-        st.warning(f"⏳ Need {training_estimate['message']} to start training")
+    st.info("💡 Pro-Tip: Ensure `flask_server.py` is running and the Pi is sending telemetry to see the sample counter increase.")
 
     # ── Auto refresh ──────────────────────────────────────────────────────────────
     time.sleep(3)
