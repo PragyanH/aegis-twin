@@ -42,6 +42,8 @@ SESSION_DEFAULTS = {
     "sniffer_active":                False,
     "hw_active_device":              None,
     "hw_calibrating":                False,
+    "hw_mac":                        "",
+    "hw_iface":                      "",
     "selected_hw_device":            None,
     # isolation forest training
     "training_in_progress":          False,

@@ -10,6 +10,7 @@ Run with: streamlit run app.py
 import os
 import time
 import requests
+
 import pandas as pd
 import streamlit as st
 import streamlit.components.v1 as components
@@ -27,10 +28,8 @@ from registry import IOT_REGISTRY, SESSION_DEFAULTS
 from sniffer import start_sniffer
 from ui import NEON_GREEN, NEON_RED, inject_css
 from isolation_model import (
-    load_model, 
-    train_model, 
-    get_training_status, 
-    get_training_estimate,
+    load_model,
+    train_model,
     add_baseline_sample,
     get_status,
 )
@@ -305,107 +304,86 @@ def render_fleet_page():
 
     st.divider()
 
-    # ── Model Training Section ───────────────────────────────────────────────────────
+    st.divider()
+
+
+    # ── Model Training Section ────────────────────────────────────────────────
     st.markdown("## 🤖 Isolation Forest Training")
 
-    # Fetch training status
     try:
-        status_resp = requests.get("http://localhost:5000/api/training/status", timeout=2)
-        training_status = status_resp.json()
+        status_resp = requests.get("http://localhost:5000/api/pi/status", timeout=2)
+        _pi_st      = status_resp.json()
+        _model_st   = _pi_st.get("model_status", {})
+        training_status = {
+            "status":               _pi_st.get("phase", "offline"),
+            "in_progress":          False,
+            "baseline_samples":     _model_st.get("baseline_samples", 0),
+            "ready_to_train":       _model_st.get("ready_to_train", False),
+            "min_samples_required": 100,
+            "last_summary":         None,
+        }
     except Exception:
-        training_status = {"status": "offline", "in_progress": False, "baseline_samples": 0, "ready_to_train": False}
+        training_status = {
+            "status": "offline", "in_progress": False,
+            "baseline_samples": 0, "ready_to_train": False,
+            "min_samples_required": 100, "last_summary": None,
+        }
 
     if training_status.get("status") == "offline":
         st.warning("⚠️ Flask server is offline. Start `python flask_server.py` to enable training.")
     else:
-        # Display current status
         col1, col2, col3 = st.columns(3)
-
         with col1:
             baseline_count = training_status.get("baseline_samples", 0)
-            min_req = training_status.get('min_samples_required', 100)
-            st.metric(
-                "Training Samples",
-                baseline_count,
-                f"of {min_req} required"
-            )
+            min_req        = training_status.get("min_samples_required", 100)
+            st.metric("Training Samples", baseline_count, f"of {min_req} required")
             if baseline_count < min_req:
-                st.caption(f"💡 {min_req - baseline_count} more samples needed. Each telemetry message counts as 1 sample.")
-
+                st.caption(f"💡 {min_req - baseline_count} more samples needed. Each telemetry message = 1 sample.")
         with col2:
-            status_val = training_status.get("status", "idle").upper()
-            status_color = "🟢" if status_val == "IDLE" else "🟡" if status_val == "IN_PROGRESS" else "🔴" if status_val == "FAILED" else "🔵"
-            st.metric("Model Status", f"{status_color} {status_val}")
-            if status_val == "MONITORING" or status_val == "COMPLETED":
-                 st.caption("✅ Model is active and scoring.")
-
+            status_val  = training_status.get("status", "idle").upper()
+            status_icon = "🟢" if status_val == "MONITORING" else "🔵" if status_val == "LEARNING" else "🔴"
+            st.metric("Model Status", f"{status_icon} {status_val}")
+            if status_val == "MONITORING":
+                st.caption("✅ Model is active and scoring.")
         with col3:
             can_train = training_status.get("ready_to_train", False)
             st.metric("Ready to Train", "✅ Yes" if can_train else "❌ No")
 
         st.markdown("<br>", unsafe_allow_html=True)
-
-        # Training controls
         tcol1, tcol2 = st.columns([2, 1])
-
-        # Training button
         with tcol1:
             if not training_status.get("in_progress", False):
-                # Only show training button if not already trained or if user wants to re-train
                 if st.button(
                     "🚀 Start Isolation Forest Training" if can_train else "⏳ Collecting more samples...",
                     disabled=not can_train,
                     use_container_width=True,
                     type="primary" if can_train else "secondary",
-                    key="btn_start_train"
+                    key="btn_start_train",
                 ):
                     with st.spinner("Training in progress..."):
                         try:
-                            train_resp = requests.post("http://localhost:5000/api/pi/force_train", timeout=30)
-                            if train_resp.status_code == 200:
-                                st.success("✅ Training completed successfully!")
+                            tr = requests.post("http://localhost:5000/api/pi/force_train", timeout=30)
+                            if tr.status_code == 200:
+                                st.success("✅ Training completed!")
                                 time.sleep(1)
                                 st.rerun()
                             else:
-                                st.error(f"Training failed: {train_resp.text}")
+                                st.error(f"Training failed: {tr.text}")
                         except Exception as e:
                             st.error(f"Connection error: {e}")
             else:
                 st.info("⏳ Training in progress...")
-
         with tcol2:
-            if st.button("🔄 Reset & Re-train", use_container_width=True, help="Delete model and start collecting new samples"):
+            if st.button("🔄 Reset & Re-train", use_container_width=True,
+                         help="Delete model and restart sample collection"):
                 try:
-                    reset_resp = requests.post("http://localhost:5000/api/pi/reset", timeout=5)
-                    if reset_resp.status_code == 200:
-                        st.success("System reset to LEARNING phase.")
+                    rr = requests.post("http://localhost:5000/api/pi/reset", timeout=5)
+                    if rr.status_code == 200:
+                        st.success("Reset to LEARNING phase.")
                         time.sleep(1)
                         st.rerun()
                 except Exception as e:
                     st.error(f"Reset failed: {e}")
-
-        # Display training results if available
-        if training_status.get("last_summary"):
-            summary = training_status["last_summary"]
-            st.markdown("<br>", unsafe_allow_html=True)
-            with st.expander("📊 View Latest Training Results", expanded=status_val == "COMPLETED"):
-                res1, res2, res3, res4 = st.columns(4)
-                res1.metric("Samples", summary.get("samples_total", 0))
-                res2.metric("Time", f"{summary.get('training_time_sec', 0):.2f}s")
-                res3.metric("Test Score", f"{summary.get('test_score_mean', 0):.4f}")
-                res4.metric("Anomaly Rate", f"{summary.get('test_anomaly_rate', 0):.2f}%")
-                
-                import pandas as _pd
-                st.dataframe(_pd.DataFrame({
-                    "Metric": ["Mean Score", "Std Dev", "Min Score", "Max Score", "Threshold (p95)"],
-                    "Value": [
-                        f"{summary.get('test_score_mean', 0):.4f}",
-                        f"{summary.get('test_score_std', 0):.4f}",
-                        f"{summary.get('test_score_min', 0):.4f}",
-                        f"{summary.get('test_score_max', 0):.4f}",
-                        f"{summary.get('threshold_suggested', 0):.4f}"
-                    ]
-                }), use_container_width=True, hide_index=True)
 
     st.divider()
 
@@ -665,13 +643,9 @@ def render_fleet_page():
                 else:
                     st.success("✅ System Secure — No active threats", icon="🛡️")
 
+
     st.divider()
     st.info("💡 Pro-Tip: Ensure `flask_server.py` is running and the Pi is sending telemetry to see the sample counter increase.")
-
-    # ── Auto refresh ──────────────────────────────────────────────────────────────
-    time.sleep(3)
-    st.rerun()
-
 
 
 # ---------------------------------------------------------------------------
