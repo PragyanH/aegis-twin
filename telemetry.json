@@ -1,2728 +1,3245 @@
 {
   "latest": {
-    "timestamp": "2026-05-09T13:31:33.026075+00:00",
-    "device_id": "RPI-THERMOSTAT-01",
-    "device_name": "Living Room Thermostat",
+    "timestamp": "2026-05-10T01:50:00.706695+00:00",
+    "device_id": "RPI-IPCAM-01",
+    "device_name": "Entrance IP Security Camera",
     "trust_score": 100.0,
     "status": "NORMAL",
     "phase": "monitoring",
-    "elapsed_learning": 450.7,
+    "elapsed_learning": 619.7,
     "telemetry": {
-      "cpu_percent": 0,
-      "memory_percent": 0
+      "device_type": "IP Security Camera",
+      "stream_active": true,
+      "motion_detected": true,
+      "recording": true,
+      "uptime_seconds": 400,
+      "fps_simulated": 15,
+      "cpu_percent": 0.0,
+      "memory_percent": 17.6,
+      "memory_used_mb": 104.6,
+      "disk_percent": 5.5,
+      "cpu_temp_c": 46.2,
+      "process_anomalies": [],
+      "packet_count": 111
     },
     "network_features": {
-      "pkt_size": 0.15,
-      "iat": 0.35,
-      "entropy": 0.18,
-      "symmetry": 0.52
+      "pkt_size": 0.5233,
+      "iat": 0.1749,
+      "entropy": 0.2951,
+      "symmetry": 0.3928
     },
     "model_status": {
       "is_trained": true,
-      "baseline_samples": 100,
+      "baseline_samples": 0,
       "model_path": "aegis_isolation_forest.pkl",
-      "ready_to_train": true,
+      "ready_to_train": false,
       "score_min": 0.49999999999999956,
       "score_max": 0.49999999999999956
     }
   },
   "log": [
     {
-      "timestamp": "2026-05-09T13:26:35.548848+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 153.2,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 26,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:26:38.553300+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 156.2,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 27,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:26:41.557605+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 159.2,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 28,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:26:44.561954+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 162.3,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 29,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:26:47.566650+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 165.3,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 30,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:26:50.570222+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 168.3,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 31,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:26:53.576299+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 171.3,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 32,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:26:56.582242+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 174.3,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 33,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:26:59.588461+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 177.3,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 34,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:27:02.592738+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 180.3,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 35,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:27:05.598308+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 183.3,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 36,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:27:08.601762+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 186.3,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 37,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:27:11.607744+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 189.3,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 38,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:27:14.611398+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 192.3,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 39,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:27:17.615696+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 195.3,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 40,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:27:20.618716+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 198.3,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 41,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:27:23.624487+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 201.3,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 42,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:27:26.628118+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 204.3,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 43,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:27:29.634602+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 207.3,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 44,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:27:32.637975+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 210.3,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 45,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:27:35.641410+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 213.3,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 46,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:27:38.648079+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 216.3,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 47,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:27:41.653258+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 219.3,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 48,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:27:44.658555+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 222.3,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 49,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:27:47.665586+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 225.4,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 50,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:27:50.669958+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 228.4,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 51,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:27:53.676081+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 231.4,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 52,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:27:56.680857+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 234.4,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 53,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:27:59.685694+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 237.4,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 54,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:28:02.689842+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 240.4,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 55,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:28:05.694632+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 243.4,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 56,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:28:08.699317+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 246.4,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 57,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:28:11.704545+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 249.4,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 58,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:28:14.708673+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 252.4,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 59,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:28:17.715558+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 255.4,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 60,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:28:20.719623+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 258.4,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 61,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:28:23.724324+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 261.4,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 62,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:28:26.728157+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 264.4,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 63,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:28:29.733524+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 267.4,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 64,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:28:32.737274+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 270.4,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 65,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:28:35.742354+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 273.4,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 66,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:28:38.747840+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 276.4,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 67,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:28:41.753246+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 279.4,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 68,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:28:44.758279+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 282.4,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 69,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:28:47.761955+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 285.5,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 70,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:28:50.766094+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 288.5,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 71,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:28:53.769970+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 291.5,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 72,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:28:56.773791+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 294.5,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 73,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:28:59.780366+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 297.5,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 74,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:29:02.796042+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 300.5,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 75,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:29:05.800745+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 303.5,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 76,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:29:08.805231+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 306.5,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 77,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:29:11.809507+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 309.5,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 78,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:29:14.815612+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 312.5,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 79,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:29:17.819102+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 315.5,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 80,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:29:20.822991+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 318.5,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 81,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:29:23.827297+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 321.5,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 82,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:29:26.832155+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 324.5,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 83,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:29:29.836406+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 327.5,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 84,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:29:32.841733+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 330.5,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 85,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:29:35.846450+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 333.5,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 86,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:29:38.849792+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 336.5,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 87,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:29:41.853238+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 339.5,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 88,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:29:44.856813+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 342.5,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 89,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:29:47.861928+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 345.6,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 90,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:29:50.864760+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 348.6,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 91,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:29:53.868555+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 351.6,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 92,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:29:56.872447+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 354.6,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 93,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:29:59.878575+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 357.6,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 94,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:30:02.883632+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 360.6,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 95,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:30:05.887573+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 363.6,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 96,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:30:08.892803+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 366.6,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 97,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:30:11.897042+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 369.6,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 98,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:30:14.903979+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
-      "phase": "learning",
-      "elapsed_learning": 372.6,
-      "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
-      },
-      "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
-      },
-      "model_status": {
-        "is_trained": false,
-        "baseline_samples": 99,
-        "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": false,
-        "score_min": -0.5,
-        "score_max": -0.1
-      }
-    },
-    {
-      "timestamp": "2026-05-09T13:30:17.907760+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
-      "trust_score": 95.0,
-      "status": "LEARNING",
+      "timestamp": "2026-05-10T01:47:19.190482+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 375.6,
+      "elapsed_learning": 458.1,
       "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 239,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.7,
+        "memory_used_mb": 105.4,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 44.5,
+        "process_anomalies": [],
+        "packet_count": 66
       },
       "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
+        "pkt_size": 0.1093,
+        "iat": 0.4304,
+        "entropy": 0.1406,
+        "symmetry": 0.6801
       },
       "model_status": {
         "is_trained": true,
-        "baseline_samples": 100,
+        "baseline_samples": 0,
         "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": true,
+        "ready_to_train": false,
         "score_min": 0.49999999999999956,
         "score_max": 0.49999999999999956
       }
     },
     {
-      "timestamp": "2026-05-09T13:30:20.911838+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
+      "timestamp": "2026-05-10T01:47:21.814530+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
       "trust_score": 100.0,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 378.6,
+      "elapsed_learning": 459.8,
       "telemetry": {
         "cpu_percent": 0,
         "memory_percent": 0
       },
       "network_features": {
-        "pkt_size": 0.15,
+        "pkt_size": 0.12,
         "iat": 0.35,
         "entropy": 0.18,
         "symmetry": 0.52
       },
       "model_status": {
         "is_trained": true,
-        "baseline_samples": 100,
+        "baseline_samples": 0,
         "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": true,
+        "ready_to_train": false,
         "score_min": 0.49999999999999956,
         "score_max": 0.49999999999999956
       }
     },
     {
-      "timestamp": "2026-05-09T13:30:23.922014+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
+      "timestamp": "2026-05-10T01:47:22.747822+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
       "trust_score": 100.0,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 381.6,
+      "elapsed_learning": 461.7,
       "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 242,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.7,
+        "memory_used_mb": 105.4,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 45.1,
+        "process_anomalies": [],
+        "packet_count": 67
       },
       "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
+        "pkt_size": 0.0841,
+        "iat": 0.5068,
+        "entropy": 0.1405,
+        "symmetry": 0.549
       },
       "model_status": {
         "is_trained": true,
-        "baseline_samples": 100,
+        "baseline_samples": 0,
         "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": true,
+        "ready_to_train": false,
         "score_min": 0.49999999999999956,
         "score_max": 0.49999999999999956
       }
     },
     {
-      "timestamp": "2026-05-09T13:30:26.926324+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
+      "timestamp": "2026-05-10T01:47:24.818127+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
       "trust_score": 100.0,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 384.6,
+      "elapsed_learning": 462.8,
       "telemetry": {
         "cpu_percent": 0,
         "memory_percent": 0
       },
       "network_features": {
-        "pkt_size": 0.15,
+        "pkt_size": 0.12,
         "iat": 0.35,
         "entropy": 0.18,
         "symmetry": 0.52
       },
       "model_status": {
         "is_trained": true,
-        "baseline_samples": 100,
+        "baseline_samples": 0,
         "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": true,
+        "ready_to_train": false,
         "score_min": 0.49999999999999956,
         "score_max": 0.49999999999999956
       }
     },
     {
-      "timestamp": "2026-05-09T13:30:29.932997+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
+      "timestamp": "2026-05-10T01:47:26.350487+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
       "trust_score": 100.0,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 387.6,
+      "elapsed_learning": 465.3,
       "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 246,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.7,
+        "memory_used_mb": 105.4,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 45.6,
+        "process_anomalies": [],
+        "packet_count": 68
       },
       "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
+        "pkt_size": 0.1293,
+        "iat": 0.4516,
+        "entropy": 0.1856,
+        "symmetry": 0.5154
       },
       "model_status": {
         "is_trained": true,
-        "baseline_samples": 100,
+        "baseline_samples": 0,
         "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": true,
+        "ready_to_train": false,
         "score_min": 0.49999999999999956,
         "score_max": 0.49999999999999956
       }
     },
     {
-      "timestamp": "2026-05-09T13:30:32.939556+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
+      "timestamp": "2026-05-10T01:47:27.828270+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
       "trust_score": 100.0,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 390.6,
+      "elapsed_learning": 465.8,
       "telemetry": {
         "cpu_percent": 0,
         "memory_percent": 0
       },
       "network_features": {
-        "pkt_size": 0.15,
+        "pkt_size": 0.12,
         "iat": 0.35,
         "entropy": 0.18,
         "symmetry": 0.52
       },
       "model_status": {
         "is_trained": true,
-        "baseline_samples": 100,
+        "baseline_samples": 0,
         "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": true,
+        "ready_to_train": false,
         "score_min": 0.49999999999999956,
         "score_max": 0.49999999999999956
       }
     },
     {
-      "timestamp": "2026-05-09T13:30:35.943934+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
+      "timestamp": "2026-05-10T01:47:30.832978+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
       "trust_score": 100.0,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 393.6,
+      "elapsed_learning": 468.8,
       "telemetry": {
         "cpu_percent": 0,
         "memory_percent": 0
       },
       "network_features": {
-        "pkt_size": 0.15,
+        "pkt_size": 0.12,
         "iat": 0.35,
         "entropy": 0.18,
         "symmetry": 0.52
       },
       "model_status": {
         "is_trained": true,
-        "baseline_samples": 100,
+        "baseline_samples": 0,
         "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": true,
+        "ready_to_train": false,
         "score_min": 0.49999999999999956,
         "score_max": 0.49999999999999956
       }
     },
     {
-      "timestamp": "2026-05-09T13:30:38.947824+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
+      "timestamp": "2026-05-10T01:47:29.907753+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
       "trust_score": 100.0,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 396.6,
+      "elapsed_learning": 468.9,
       "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 249,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.7,
+        "memory_used_mb": 105.4,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 45.1,
+        "process_anomalies": [],
+        "packet_count": 69
       },
       "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
+        "pkt_size": 0.136,
+        "iat": 0.4678,
+        "entropy": 0.0887,
+        "symmetry": 0.5346
       },
       "model_status": {
         "is_trained": true,
-        "baseline_samples": 100,
+        "baseline_samples": 0,
         "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": true,
+        "ready_to_train": false,
         "score_min": 0.49999999999999956,
         "score_max": 0.49999999999999956
       }
     },
     {
-      "timestamp": "2026-05-09T13:30:41.952950+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
+      "timestamp": "2026-05-10T01:47:33.844196+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
       "trust_score": 100.0,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 399.6,
+      "elapsed_learning": 471.8,
       "telemetry": {
         "cpu_percent": 0,
         "memory_percent": 0
       },
       "network_features": {
-        "pkt_size": 0.15,
+        "pkt_size": 0.12,
         "iat": 0.35,
         "entropy": 0.18,
         "symmetry": 0.52
       },
       "model_status": {
         "is_trained": true,
-        "baseline_samples": 100,
+        "baseline_samples": 0,
         "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": true,
+        "ready_to_train": false,
         "score_min": 0.49999999999999956,
         "score_max": 0.49999999999999956
       }
     },
     {
-      "timestamp": "2026-05-09T13:30:44.957218+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
+      "timestamp": "2026-05-10T01:47:33.508600+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
       "trust_score": 100.0,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 402.6,
+      "elapsed_learning": 472.4,
       "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 253,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.7,
+        "memory_used_mb": 105.4,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 45.1,
+        "process_anomalies": [],
+        "packet_count": 70
       },
       "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
+        "pkt_size": 0.1545,
+        "iat": 0.391,
+        "entropy": 0.1398,
+        "symmetry": 0.6034
       },
       "model_status": {
         "is_trained": true,
-        "baseline_samples": 100,
+        "baseline_samples": 0,
         "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": true,
+        "ready_to_train": false,
         "score_min": 0.49999999999999956,
         "score_max": 0.49999999999999956
       }
     },
     {
-      "timestamp": "2026-05-09T13:30:47.961190+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
+      "timestamp": "2026-05-10T01:47:36.849322+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
       "trust_score": 100.0,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 405.7,
+      "elapsed_learning": 474.8,
       "telemetry": {
         "cpu_percent": 0,
         "memory_percent": 0
       },
       "network_features": {
-        "pkt_size": 0.15,
+        "pkt_size": 0.12,
         "iat": 0.35,
         "entropy": 0.18,
         "symmetry": 0.52
       },
       "model_status": {
         "is_trained": true,
-        "baseline_samples": 100,
+        "baseline_samples": 0,
         "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": true,
+        "ready_to_train": false,
         "score_min": 0.49999999999999956,
         "score_max": 0.49999999999999956
       }
     },
     {
-      "timestamp": "2026-05-09T13:30:50.965150+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
+      "timestamp": "2026-05-10T01:47:37.066094+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
       "trust_score": 100.0,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 408.7,
+      "elapsed_learning": 476.1,
       "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": true,
+        "recording": true,
+        "uptime_seconds": 257,
+        "fps_simulated": 15,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.7,
+        "memory_used_mb": 105.4,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 45.6,
+        "process_anomalies": [],
+        "packet_count": 71
       },
       "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
+        "pkt_size": 0.6164,
+        "iat": 0.1018,
+        "entropy": 0.3048,
+        "symmetry": 0.37
       },
       "model_status": {
         "is_trained": true,
-        "baseline_samples": 100,
+        "baseline_samples": 0,
         "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": true,
+        "ready_to_train": false,
         "score_min": 0.49999999999999956,
         "score_max": 0.49999999999999956
       }
     },
     {
-      "timestamp": "2026-05-09T13:30:53.969241+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
+      "timestamp": "2026-05-10T01:47:39.855964+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
       "trust_score": 100.0,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 411.7,
+      "elapsed_learning": 477.8,
       "telemetry": {
         "cpu_percent": 0,
         "memory_percent": 0
       },
       "network_features": {
-        "pkt_size": 0.15,
+        "pkt_size": 0.12,
         "iat": 0.35,
         "entropy": 0.18,
         "symmetry": 0.52
       },
       "model_status": {
         "is_trained": true,
-        "baseline_samples": 100,
+        "baseline_samples": 0,
         "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": true,
+        "ready_to_train": false,
         "score_min": 0.49999999999999956,
         "score_max": 0.49999999999999956
       }
     },
     {
-      "timestamp": "2026-05-09T13:30:56.973898+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
+      "timestamp": "2026-05-10T01:47:40.666893+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
       "trust_score": 100.0,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 414.7,
+      "elapsed_learning": 479.6,
       "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": true,
+        "recording": true,
+        "uptime_seconds": 260,
+        "fps_simulated": 15,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.7,
+        "memory_used_mb": 105.4,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 45.1,
+        "process_anomalies": [],
+        "packet_count": 72
       },
       "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
+        "pkt_size": 0.5532,
+        "iat": 0.0715,
+        "entropy": 0.3433,
+        "symmetry": 0.4304
       },
       "model_status": {
         "is_trained": true,
-        "baseline_samples": 100,
+        "baseline_samples": 0,
         "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": true,
+        "ready_to_train": false,
         "score_min": 0.49999999999999956,
         "score_max": 0.49999999999999956
       }
     },
     {
-      "timestamp": "2026-05-09T13:30:59.977247+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
+      "timestamp": "2026-05-10T01:47:42.859460+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
       "trust_score": 100.0,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 417.7,
+      "elapsed_learning": 480.8,
       "telemetry": {
         "cpu_percent": 0,
         "memory_percent": 0
       },
       "network_features": {
-        "pkt_size": 0.15,
+        "pkt_size": 0.12,
         "iat": 0.35,
         "entropy": 0.18,
         "symmetry": 0.52
       },
       "model_status": {
         "is_trained": true,
-        "baseline_samples": 100,
+        "baseline_samples": 0,
         "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": true,
+        "ready_to_train": false,
         "score_min": 0.49999999999999956,
         "score_max": 0.49999999999999956
       }
     },
     {
-      "timestamp": "2026-05-09T13:31:02.981644+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
+      "timestamp": "2026-05-10T01:47:44.224386+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
       "trust_score": 100.0,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 420.7,
+      "elapsed_learning": 483.2,
       "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 264,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.7,
+        "memory_used_mb": 105.4,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 45.6,
+        "process_anomalies": [],
+        "packet_count": 73
       },
       "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
+        "pkt_size": 0.1774,
+        "iat": 0.3511,
+        "entropy": 0.1634,
+        "symmetry": 0.5414
       },
       "model_status": {
         "is_trained": true,
-        "baseline_samples": 100,
+        "baseline_samples": 0,
         "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": true,
+        "ready_to_train": false,
         "score_min": 0.49999999999999956,
         "score_max": 0.49999999999999956
       }
     },
     {
-      "timestamp": "2026-05-09T13:31:05.985470+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
+      "timestamp": "2026-05-10T01:47:45.864086+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
       "trust_score": 100.0,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 423.7,
+      "elapsed_learning": 483.8,
       "telemetry": {
         "cpu_percent": 0,
         "memory_percent": 0
       },
       "network_features": {
-        "pkt_size": 0.15,
+        "pkt_size": 0.12,
         "iat": 0.35,
         "entropy": 0.18,
         "symmetry": 0.52
       },
       "model_status": {
         "is_trained": true,
-        "baseline_samples": 100,
+        "baseline_samples": 0,
         "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": true,
+        "ready_to_train": false,
         "score_min": 0.49999999999999956,
         "score_max": 0.49999999999999956
       }
     },
     {
-      "timestamp": "2026-05-09T13:31:08.988939+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
+      "timestamp": "2026-05-10T01:47:48.868140+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
       "trust_score": 100.0,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 426.7,
+      "elapsed_learning": 486.8,
       "telemetry": {
         "cpu_percent": 0,
         "memory_percent": 0
       },
       "network_features": {
-        "pkt_size": 0.15,
+        "pkt_size": 0.12,
         "iat": 0.35,
         "entropy": 0.18,
         "symmetry": 0.52
       },
       "model_status": {
         "is_trained": true,
-        "baseline_samples": 100,
+        "baseline_samples": 0,
         "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": true,
+        "ready_to_train": false,
         "score_min": 0.49999999999999956,
         "score_max": 0.49999999999999956
       }
     },
     {
-      "timestamp": "2026-05-09T13:31:11.992749+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
+      "timestamp": "2026-05-10T01:47:47.849488+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
       "trust_score": 100.0,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 429.7,
+      "elapsed_learning": 486.9,
       "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 267,
+        "fps_simulated": 5,
+        "cpu_percent": 0.5,
+        "memory_percent": 17.7,
+        "memory_used_mb": 105.4,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 45.1,
+        "process_anomalies": [],
+        "packet_count": 74
       },
       "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
+        "pkt_size": 0.0675,
+        "iat": 0.4629,
+        "entropy": 0.1691,
+        "symmetry": 0.4971
       },
       "model_status": {
         "is_trained": true,
-        "baseline_samples": 100,
+        "baseline_samples": 0,
         "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": true,
+        "ready_to_train": false,
         "score_min": 0.49999999999999956,
         "score_max": 0.49999999999999956
       }
     },
     {
-      "timestamp": "2026-05-09T13:31:14.998006+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
+      "timestamp": "2026-05-10T01:47:51.875393+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
       "trust_score": 100.0,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 432.7,
+      "elapsed_learning": 489.8,
       "telemetry": {
         "cpu_percent": 0,
         "memory_percent": 0
       },
       "network_features": {
-        "pkt_size": 0.15,
+        "pkt_size": 0.12,
         "iat": 0.35,
         "entropy": 0.18,
         "symmetry": 0.52
       },
       "model_status": {
         "is_trained": true,
-        "baseline_samples": 100,
+        "baseline_samples": 0,
         "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": true,
+        "ready_to_train": false,
         "score_min": 0.49999999999999956,
         "score_max": 0.49999999999999956
       }
     },
     {
-      "timestamp": "2026-05-09T13:31:18.002873+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
+      "timestamp": "2026-05-10T01:47:51.473867+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
       "trust_score": 100.0,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 435.7,
+      "elapsed_learning": 490.4,
       "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 271,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.7,
+        "memory_used_mb": 105.4,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 45.1,
+        "process_anomalies": [],
+        "packet_count": 75
       },
       "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
+        "pkt_size": 0.1387,
+        "iat": 0.3933,
+        "entropy": 0.074,
+        "symmetry": 0.6525
       },
       "model_status": {
         "is_trained": true,
-        "baseline_samples": 100,
+        "baseline_samples": 0,
         "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": true,
+        "ready_to_train": false,
         "score_min": 0.49999999999999956,
         "score_max": 0.49999999999999956
       }
     },
     {
-      "timestamp": "2026-05-09T13:31:21.007015+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
+      "timestamp": "2026-05-10T01:47:54.878908+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
       "trust_score": 100.0,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 438.7,
+      "elapsed_learning": 492.8,
       "telemetry": {
         "cpu_percent": 0,
         "memory_percent": 0
       },
       "network_features": {
-        "pkt_size": 0.15,
+        "pkt_size": 0.12,
         "iat": 0.35,
         "entropy": 0.18,
         "symmetry": 0.52
       },
       "model_status": {
         "is_trained": true,
-        "baseline_samples": 100,
+        "baseline_samples": 0,
         "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": true,
+        "ready_to_train": false,
         "score_min": 0.49999999999999956,
         "score_max": 0.49999999999999956
       }
     },
     {
-      "timestamp": "2026-05-09T13:31:24.010154+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
+      "timestamp": "2026-05-10T01:47:55.081562+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
       "trust_score": 100.0,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 441.7,
+      "elapsed_learning": 494.0,
       "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 275,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.7,
+        "memory_used_mb": 105.4,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 45.1,
+        "process_anomalies": [],
+        "packet_count": 76
       },
       "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
+        "pkt_size": 0.1078,
+        "iat": 0.3987,
+        "entropy": 0.0874,
+        "symmetry": 0.5587
       },
       "model_status": {
         "is_trained": true,
-        "baseline_samples": 100,
+        "baseline_samples": 0,
         "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": true,
+        "ready_to_train": false,
         "score_min": 0.49999999999999956,
         "score_max": 0.49999999999999956
       }
     },
     {
-      "timestamp": "2026-05-09T13:31:27.013013+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
+      "timestamp": "2026-05-10T01:47:57.885599+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
       "trust_score": 100.0,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 444.7,
+      "elapsed_learning": 495.8,
       "telemetry": {
         "cpu_percent": 0,
         "memory_percent": 0
       },
       "network_features": {
-        "pkt_size": 0.15,
+        "pkt_size": 0.12,
         "iat": 0.35,
         "entropy": 0.18,
         "symmetry": 0.52
       },
       "model_status": {
         "is_trained": true,
-        "baseline_samples": 100,
+        "baseline_samples": 0,
         "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": true,
+        "ready_to_train": false,
         "score_min": 0.49999999999999956,
         "score_max": 0.49999999999999956
       }
     },
     {
-      "timestamp": "2026-05-09T13:31:30.020673+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
+      "timestamp": "2026-05-10T01:47:58.639442+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
       "trust_score": 100.0,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 447.7,
+      "elapsed_learning": 497.6,
       "telemetry": {
-        "cpu_percent": 0,
-        "memory_percent": 0
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 278,
+        "fps_simulated": 5,
+        "cpu_percent": 1.0,
+        "memory_percent": 17.7,
+        "memory_used_mb": 105.4,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 45.1,
+        "process_anomalies": [],
+        "packet_count": 77
       },
       "network_features": {
-        "pkt_size": 0.15,
-        "iat": 0.35,
-        "entropy": 0.18,
-        "symmetry": 0.52
+        "pkt_size": 0.128,
+        "iat": 0.4991,
+        "entropy": 0.1591,
+        "symmetry": 0.5211
       },
       "model_status": {
         "is_trained": true,
-        "baseline_samples": 100,
+        "baseline_samples": 0,
         "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": true,
+        "ready_to_train": false,
         "score_min": 0.49999999999999956,
         "score_max": 0.49999999999999956
       }
     },
     {
-      "timestamp": "2026-05-09T13:31:33.026075+00:00",
-      "device_id": "RPI-THERMOSTAT-01",
-      "device_name": "Living Room Thermostat",
+      "timestamp": "2026-05-10T01:48:00.893581+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
       "trust_score": 100.0,
       "status": "NORMAL",
       "phase": "monitoring",
-      "elapsed_learning": 450.7,
+      "elapsed_learning": 498.8,
       "telemetry": {
         "cpu_percent": 0,
         "memory_percent": 0
       },
       "network_features": {
-        "pkt_size": 0.15,
+        "pkt_size": 0.12,
         "iat": 0.35,
         "entropy": 0.18,
         "symmetry": 0.52
       },
       "model_status": {
         "is_trained": true,
-        "baseline_samples": 100,
+        "baseline_samples": 0,
         "model_path": "aegis_isolation_forest.pkl",
-        "ready_to_train": true,
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:48:02.237098+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 501.2,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 282,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.7,
+        "memory_used_mb": 105.4,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 45.6,
+        "process_anomalies": [],
+        "packet_count": 78
+      },
+      "network_features": {
+        "pkt_size": 0.1258,
+        "iat": 0.5338,
+        "entropy": 0.1501,
+        "symmetry": 0.6058
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:48:03.900017+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 501.9,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:48:05.794320+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 504.8,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 285,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.7,
+        "memory_used_mb": 105.4,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 45.1,
+        "process_anomalies": [],
+        "packet_count": 79
+      },
+      "network_features": {
+        "pkt_size": 0.0388,
+        "iat": 0.358,
+        "entropy": 0.1523,
+        "symmetry": 0.5302
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:48:06.904912+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 504.9,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:48:09.916550+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 507.9,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:48:09.400926+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 508.3,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 289,
+        "fps_simulated": 5,
+        "cpu_percent": 0.5,
+        "memory_percent": 17.7,
+        "memory_used_mb": 105.4,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 45.1,
+        "process_anomalies": [],
+        "packet_count": 80
+      },
+      "network_features": {
+        "pkt_size": 0.1157,
+        "iat": 0.4333,
+        "entropy": 0.1688,
+        "symmetry": 0.5548
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:48:12.921129+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 510.9,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:48:12.959023+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 511.9,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 292,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.7,
+        "memory_used_mb": 105.4,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 45.6,
+        "process_anomalies": [],
+        "packet_count": 81
+      },
+      "network_features": {
+        "pkt_size": 0.1368,
+        "iat": 0.3162,
+        "entropy": 0.1425,
+        "symmetry": 0.5397
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:48:15.927058+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 513.9,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:48:16.555459+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 515.6,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 296,
+        "fps_simulated": 5,
+        "cpu_percent": 1.5,
+        "memory_percent": 17.7,
+        "memory_used_mb": 105.4,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 45.1,
+        "process_anomalies": [],
+        "packet_count": 82
+      },
+      "network_features": {
+        "pkt_size": 0.0852,
+        "iat": 0.318,
+        "entropy": 0.1297,
+        "symmetry": 0.6293
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:48:18.932952+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 516.9,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:48:20.180877+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 519.1,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 300,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.7,
+        "memory_used_mb": 105.4,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 45.1,
+        "process_anomalies": [],
+        "packet_count": 83
+      },
+      "network_features": {
+        "pkt_size": 0.1266,
+        "iat": 0.331,
+        "entropy": 0.1596,
+        "symmetry": 0.5442
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:48:21.940942+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 519.9,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:48:23.780852+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 522.7,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 303,
+        "fps_simulated": 5,
+        "cpu_percent": 0.5,
+        "memory_percent": 17.7,
+        "memory_used_mb": 105.4,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 45.1,
+        "process_anomalies": [],
+        "packet_count": 84
+      },
+      "network_features": {
+        "pkt_size": 0.0587,
+        "iat": 0.3861,
+        "entropy": 0.1618,
+        "symmetry": 0.5325
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:48:24.945628+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 522.9,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:48:27.949955+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 525.9,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:48:27.338659+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 526.3,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": true,
+        "recording": true,
+        "uptime_seconds": 307,
+        "fps_simulated": 15,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.7,
+        "memory_used_mb": 105.4,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 45.1,
+        "process_anomalies": [],
+        "packet_count": 85
+      },
+      "network_features": {
+        "pkt_size": 0.5261,
+        "iat": 0.152,
+        "entropy": 0.2965,
+        "symmetry": 0.3016
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:48:30.954477+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 528.9,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:48:30.937240+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 529.9,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": true,
+        "recording": true,
+        "uptime_seconds": 310,
+        "fps_simulated": 15,
+        "cpu_percent": 1.0,
+        "memory_percent": 17.7,
+        "memory_used_mb": 105.4,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 45.1,
+        "process_anomalies": [],
+        "packet_count": 86
+      },
+      "network_features": {
+        "pkt_size": 0.5969,
+        "iat": 0.2138,
+        "entropy": 0.2623,
+        "symmetry": 0.3018
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:48:33.957727+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 531.9,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:48:34.495217+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 533.5,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 314,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.7,
+        "memory_used_mb": 105.4,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 45.6,
+        "process_anomalies": [],
+        "packet_count": 87
+      },
+      "network_features": {
+        "pkt_size": 0.1181,
+        "iat": 0.4617,
+        "entropy": 0.1536,
+        "symmetry": 0.5596
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:48:36.961584+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 534.9,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:48:38.100809+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 537.2,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 318,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.8,
+        "memory_used_mb": 105.6,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 45.1,
+        "process_anomalies": [],
+        "packet_count": 88
+      },
+      "network_features": {
+        "pkt_size": 0.0772,
+        "iat": 0.377,
+        "entropy": 0.1844,
+        "symmetry": 0.4542
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:48:39.967438+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 537.9,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:48:41.726758+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 540.8,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 321,
+        "fps_simulated": 5,
+        "cpu_percent": 0.5,
+        "memory_percent": 17.8,
+        "memory_used_mb": 105.6,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 45.6,
+        "process_anomalies": [],
+        "packet_count": 89
+      },
+      "network_features": {
+        "pkt_size": 0.185,
+        "iat": 0.3709,
+        "entropy": 0.1572,
+        "symmetry": 0.5427
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:48:42.970866+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 540.9,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:48:45.975689+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 543.9,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:48:45.335252+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 544.3,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 325,
+        "fps_simulated": 5,
+        "cpu_percent": 0.5,
+        "memory_percent": 17.8,
+        "memory_used_mb": 105.6,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 45.1,
+        "process_anomalies": [],
+        "packet_count": 90
+      },
+      "network_features": {
+        "pkt_size": 0.0767,
+        "iat": 0.3497,
+        "entropy": 0.2104,
+        "symmetry": 0.5917
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:48:48.987094+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 546.9,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:48:48.892718+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 547.8,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 328,
+        "fps_simulated": 5,
+        "cpu_percent": 0.5,
+        "memory_percent": 17.8,
+        "memory_used_mb": 105.6,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 45.6,
+        "process_anomalies": [],
+        "packet_count": 91
+      },
+      "network_features": {
+        "pkt_size": 0.0974,
+        "iat": 0.4308,
+        "entropy": 0.1554,
+        "symmetry": 0.6207
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:48:51.990849+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 549.9,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:48:52.479093+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 551.4,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 332,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.8,
+        "memory_used_mb": 105.6,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 46.2,
+        "process_anomalies": [],
+        "packet_count": 92
+      },
+      "network_features": {
+        "pkt_size": 0.0946,
+        "iat": 0.3401,
+        "entropy": 0.1821,
+        "symmetry": 0.6158
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:48:54.995076+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 552.9,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:48:56.036267+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 555.1,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 336,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.8,
+        "memory_used_mb": 105.6,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 45.6,
+        "process_anomalies": [],
+        "packet_count": 93
+      },
+      "network_features": {
+        "pkt_size": 0.1124,
+        "iat": 0.4493,
+        "entropy": 0.1474,
+        "symmetry": 0.4945
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:48:58.001007+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 556.0,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:48:59.645519+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 558.6,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 339,
+        "fps_simulated": 5,
+        "cpu_percent": 0.5,
+        "memory_percent": 17.8,
+        "memory_used_mb": 105.6,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 45.6,
+        "process_anomalies": [],
+        "packet_count": 94
+      },
+      "network_features": {
+        "pkt_size": 0.0437,
+        "iat": 0.4136,
+        "entropy": 0.1302,
+        "symmetry": 0.5609
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:49:01.004381+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 559.0,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:49:04.009379+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 562.0,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:49:03.270626+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 562.2,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 343,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.8,
+        "memory_used_mb": 105.6,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 45.1,
+        "process_anomalies": [],
+        "packet_count": 95
+      },
+      "network_features": {
+        "pkt_size": 0.0722,
+        "iat": 0.5083,
+        "entropy": 0.1704,
+        "symmetry": 0.5418
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:49:07.014620+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 565.0,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:49:06.881137+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 565.9,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 346,
+        "fps_simulated": 5,
+        "cpu_percent": 0.5,
+        "memory_percent": 17.7,
+        "memory_used_mb": 105.2,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 45.1,
+        "process_anomalies": [],
+        "packet_count": 96
+      },
+      "network_features": {
+        "pkt_size": 0.1096,
+        "iat": 0.4218,
+        "entropy": 0.1842,
+        "symmetry": 0.4993
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:49:10.018716+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 568.0,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:49:10.507028+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 569.5,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 350,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.7,
+        "memory_used_mb": 105.2,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 46.2,
+        "process_anomalies": [],
+        "packet_count": 97
+      },
+      "network_features": {
+        "pkt_size": 0.0972,
+        "iat": 0.3915,
+        "entropy": 0.1833,
+        "symmetry": 0.5499
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:49:13.030903+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 571.0,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:49:14.102693+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 573.0,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": true,
+        "recording": true,
+        "uptime_seconds": 354,
+        "fps_simulated": 15,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.7,
+        "memory_used_mb": 105.2,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 46.2,
+        "process_anomalies": [],
+        "packet_count": 98
+      },
+      "network_features": {
+        "pkt_size": 0.4923,
+        "iat": 0.1445,
+        "entropy": 0.2749,
+        "symmetry": 0.3627
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:49:16.034174+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 574.0,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:49:17.661010+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 576.6,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": true,
+        "recording": true,
+        "uptime_seconds": 357,
+        "fps_simulated": 15,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.7,
+        "memory_used_mb": 105.2,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 46.2,
+        "process_anomalies": [],
+        "packet_count": 99
+      },
+      "network_features": {
+        "pkt_size": 0.6589,
+        "iat": 0.1081,
+        "entropy": 0.3261,
+        "symmetry": 0.4015
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:49:19.038151+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 577.0,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:49:22.042193+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 580.0,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:49:21.263728+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 580.2,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 361,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.7,
+        "memory_used_mb": 105.2,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 45.6,
+        "process_anomalies": [],
+        "packet_count": 100
+      },
+      "network_features": {
+        "pkt_size": 0.0921,
+        "iat": 0.4335,
+        "entropy": 0.1609,
+        "symmetry": 0.5687
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:49:25.046413+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 583.0,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:49:24.821811+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 583.8,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 364,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.7,
+        "memory_used_mb": 105.2,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 46.2,
+        "process_anomalies": [],
+        "packet_count": 101
+      },
+      "network_features": {
+        "pkt_size": 0.1164,
+        "iat": 0.43,
+        "entropy": 0.1467,
+        "symmetry": 0.6901
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:49:28.052153+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 586.0,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:49:28.421156+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 587.3,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 368,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.7,
+        "memory_used_mb": 105.2,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 46.2,
+        "process_anomalies": [],
+        "packet_count": 102
+      },
+      "network_features": {
+        "pkt_size": 0.0558,
+        "iat": 0.4069,
+        "entropy": 0.1656,
+        "symmetry": 0.5826
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:49:31.056026+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 589.0,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:49:31.986084+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 591.0,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 371,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.7,
+        "memory_used_mb": 105.2,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 46.2,
+        "process_anomalies": [],
+        "packet_count": 103
+      },
+      "network_features": {
+        "pkt_size": 0.0526,
+        "iat": 0.3792,
+        "entropy": 0.1361,
+        "symmetry": 0.5465
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:49:34.060283+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 592.0,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:49:35.599342+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 594.5,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 375,
+        "fps_simulated": 5,
+        "cpu_percent": 0.5,
+        "memory_percent": 17.7,
+        "memory_used_mb": 105.0,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 46.2,
+        "process_anomalies": [],
+        "packet_count": 104
+      },
+      "network_features": {
+        "pkt_size": 0.0731,
+        "iat": 0.3673,
+        "entropy": 0.1107,
+        "symmetry": 0.4606
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:49:37.063363+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 595.0,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:49:40.067253+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 598.0,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:49:39.158299+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 598.1,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 379,
+        "fps_simulated": 5,
+        "cpu_percent": 0.5,
+        "memory_percent": 17.7,
+        "memory_used_mb": 104.7,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 45.6,
+        "process_anomalies": [],
+        "packet_count": 105
+      },
+      "network_features": {
+        "pkt_size": 0.0817,
+        "iat": 0.4572,
+        "entropy": 0.0892,
+        "symmetry": 0.5633
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:49:43.071387+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 601.0,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:49:42.749301+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 601.7,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 382,
+        "fps_simulated": 5,
+        "cpu_percent": 1.0,
+        "memory_percent": 17.6,
+        "memory_used_mb": 104.6,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 45.6,
+        "process_anomalies": [],
+        "packet_count": 106
+      },
+      "network_features": {
+        "pkt_size": 0.1937,
+        "iat": 0.4033,
+        "entropy": 0.2132,
+        "symmetry": 0.7502
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:49:46.081849+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 604.0,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:49:46.376765+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 605.3,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 386,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.6,
+        "memory_used_mb": 104.6,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 45.6,
+        "process_anomalies": [],
+        "packet_count": 107
+      },
+      "network_features": {
+        "pkt_size": 0.1297,
+        "iat": 0.4202,
+        "entropy": 0.1543,
+        "symmetry": 0.616
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:49:49.085055+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 607.0,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:49:49.975819+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 608.9,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 389,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.6,
+        "memory_used_mb": 104.6,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 46.2,
+        "process_anomalies": [],
+        "packet_count": 108
+      },
+      "network_features": {
+        "pkt_size": 0.1094,
+        "iat": 0.3917,
+        "entropy": 0.2016,
+        "symmetry": 0.5107
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:49:52.088669+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 610.0,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:49:53.534711+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 612.5,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 393,
+        "fps_simulated": 5,
+        "cpu_percent": 0.5,
+        "memory_percent": 17.6,
+        "memory_used_mb": 104.6,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 46.2,
+        "process_anomalies": [],
+        "packet_count": 109
+      },
+      "network_features": {
+        "pkt_size": 0.1032,
+        "iat": 0.3844,
+        "entropy": 0.1155,
+        "symmetry": 0.6156
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:49:55.095744+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 613.0,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:49:58.100440+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 616.1,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:49:57.148159+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 616.1,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": false,
+        "recording": false,
+        "uptime_seconds": 397,
+        "fps_simulated": 5,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.6,
+        "memory_used_mb": 104.6,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 46.2,
+        "process_anomalies": [],
+        "packet_count": 110
+      },
+      "network_features": {
+        "pkt_size": 0.059,
+        "iat": 0.3702,
+        "entropy": 0.1036,
+        "symmetry": 0.5343
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:50:01.105217+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 619.1,
+      "telemetry": {
+        "cpu_percent": 0,
+        "memory_percent": 0
+      },
+      "network_features": {
+        "pkt_size": 0.12,
+        "iat": 0.35,
+        "entropy": 0.18,
+        "symmetry": 0.52
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
+        "score_min": 0.49999999999999956,
+        "score_max": 0.49999999999999956
+      }
+    },
+    {
+      "timestamp": "2026-05-10T01:50:00.706695+00:00",
+      "device_id": "RPI-IPCAM-01",
+      "device_name": "Entrance IP Security Camera",
+      "trust_score": 100.0,
+      "status": "NORMAL",
+      "phase": "monitoring",
+      "elapsed_learning": 619.7,
+      "telemetry": {
+        "device_type": "IP Security Camera",
+        "stream_active": true,
+        "motion_detected": true,
+        "recording": true,
+        "uptime_seconds": 400,
+        "fps_simulated": 15,
+        "cpu_percent": 0.0,
+        "memory_percent": 17.6,
+        "memory_used_mb": 104.6,
+        "disk_percent": 5.5,
+        "cpu_temp_c": 46.2,
+        "process_anomalies": [],
+        "packet_count": 111
+      },
+      "network_features": {
+        "pkt_size": 0.5233,
+        "iat": 0.1749,
+        "entropy": 0.2951,
+        "symmetry": 0.3928
+      },
+      "model_status": {
+        "is_trained": true,
+        "baseline_samples": 0,
+        "model_path": "aegis_isolation_forest.pkl",
+        "ready_to_train": false,
         "score_min": 0.49999999999999956,
         "score_max": 0.49999999999999956
       }
@@ -2731,11 +3248,11 @@
   "phase": "monitoring",
   "model": {
     "is_trained": true,
-    "baseline_samples": 100,
+    "baseline_samples": 0,
     "model_path": "aegis_isolation_forest.pkl",
-    "ready_to_train": true,
+    "ready_to_train": false,
     "score_min": 0.49999999999999956,
     "score_max": 0.49999999999999956
   },
-  "written_at": "2026-05-09T13:31:33.071697+00:00"
+  "written_at": "2026-05-10T01:50:01.745051+00:00"
 }
