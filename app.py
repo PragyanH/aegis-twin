@@ -8,6 +8,8 @@ Run with: streamlit run app.py
 #app.py
 
 import os
+import time
+import requests
 
 import pandas as pd
 import streamlit as st
@@ -25,7 +27,12 @@ from model import LSTMAutoencoder
 from registry import IOT_REGISTRY, SESSION_DEFAULTS
 from sniffer import start_sniffer
 from ui import NEON_GREEN, NEON_RED, inject_css
-from isolation_model import load_model
+from isolation_model import (
+    load_model,
+    train_model,
+    add_baseline_sample,
+    get_status,
+)
 
 # ── Pi telemetry reader ───────────────────────────────────────────────────────
 import json
@@ -297,211 +304,348 @@ def render_fleet_page():
 
     st.divider()
 
-    # ── Real-Time Hardware Integration ────────────────────────────────────────
-    st.markdown("## 🔌 Real-Time Hardware Integration")
+    st.divider()
 
-    pi_data = read_pi_telemetry()
-    if pi_data:
-        trust   = pi_data["latest"]["trust_score"]
-        phase   = pi_data["phase"]
-        status  = pi_data["latest"]["status"]
-        device  = pi_data["latest"].get("device_id", "RPI-IPCAM-01")
 
-        # Pull camera-specific telemetry fields if available
-        tel             = pi_data["latest"].get("telemetry", {})
-        motion_detected = tel.get("motion_detected", False)
-        stream_active   = tel.get("stream_active", True)
-        recording       = tel.get("recording", False)
-        fps             = tel.get("fps_simulated", 5)
-        uptime          = tel.get("uptime_seconds", 0)
-        cpu             = tel.get("cpu_percent", 0)
+    # ── Model Training Section ────────────────────────────────────────────────
+    st.markdown("## 🤖 Isolation Forest Training")
 
-        color       = "#00ff88" if trust >= 60 else "#ffb300" if trust >= 30 else "#ff2d55"
-        phase_badge = "🔵 LEARNING" if phase == "learning" else "✅ MONITORING"
-        motion_badge = "🎥 MOTION DETECTED" if motion_detected else "💤 IDLE"
-        rec_badge    = "⏺ RECORDING" if recording else ""
+    try:
+        status_resp = requests.get("http://localhost:5000/api/pi/status", timeout=2)
+        _pi_st      = status_resp.json()
+        _model_st   = _pi_st.get("model_status", {})
+        training_status = {
+            "status":               _pi_st.get("phase", "offline"),
+            "in_progress":          False,
+            "baseline_samples":     _model_st.get("baseline_samples", 0),
+            "ready_to_train":       _model_st.get("ready_to_train", False),
+            "min_samples_required": 100,
+            "last_summary":         None,
+        }
+    except Exception:
+        training_status = {
+            "status": "offline", "in_progress": False,
+            "baseline_samples": 0, "ready_to_train": False,
+            "min_samples_required": 100, "last_summary": None,
+        }
 
-        st.markdown(f"""
-        <div style="background:rgba(17,25,40,0.8);border:1px solid {color};border-radius:12px;
-                    padding:20px;margin-bottom:20px;box-shadow:0 0 20px {color}33;">
-            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
-                <div>
-                    <div style="color:#aaa;font-size:0.85em;font-family:monospace;">
-                        📷 {device} &nbsp;·&nbsp; {phase_badge}
-                    </div>
-                    <div style="color:{color};font-size:2.5rem;font-weight:bold;margin-top:4px;">
-                        {trust:.1f}
-                        <span style="font-size:1rem;color:#aaa;">/ 100 trust</span>
-                    </div>
-                    <div style="color:#aaa;font-size:0.8em;margin-top:6px;font-family:monospace;">
-                        {motion_badge} &nbsp;
-                        {"&nbsp; " + rec_badge if rec_badge else ""}
-                        &nbsp;| Stream: {"ON" if stream_active else "OFF"}
-                        &nbsp;| {fps} fps
-                        &nbsp;| CPU: {cpu}%
-                        &nbsp;| Uptime: {uptime}s
-                    </div>
-                </div>
-                <div style="color:{color};font-size:2rem;font-weight:bold;
-                            border:2px solid {color};padding:10px 20px;border-radius:8px;">
-                    {status}
-                </div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-
-        # ── Status banners + remediation button ──────────────────────────────
-        if status == "CRITICAL":
-            st.error("🚨 CRITICAL — Active SYN Flood Attack Detected on IP Camera", icon="🚨")
-            col1, col2 = st.columns(2)
-            with col1:
-                if st.button("🛡️ Initiate Remediation", type="primary", use_container_width=True):
-                    import requests as _req
-                    with st.spinner("Applying iptables rules on Pi via SSH..."):
-                        try:
-                            r = _req.post("http://localhost:5000/api/pi/remediate", timeout=15)
-                            result = r.json()
-                            if result.get("success"):
-                                st.success("✅ Remediation applied on IP Camera!")
-                                for rule in result["event"]["rules_applied"]:
-                                    st.markdown(f"- {rule}")
-                                st.balloons()
-                            else:
-                                st.error("SSH failed — check PI_HOST in flask_server.py")
-                        except Exception as e:
-                            st.error(f"Error: {e}")
-            with col2:
-                if st.button("🔓 Clear Rules (Reset)", use_container_width=True):
-                    import requests as _req
-                    try:
-                        _req.post("http://localhost:5000/api/pi/clear_rules", timeout=10)
-                        st.info("iptables rules cleared on IP Camera Pi")
-                    except Exception as e:
-                        st.error(f"Error: {e}")
-        elif status == "WARNING":
-            st.warning("⚠️ WARNING — Unusual traffic detected on IP Camera. Monitoring closely.", icon="⚠️")
-        else:
-            st.success("✅ IP Camera Secure — No active threats", icon="🛡️")
-
-        # ── Open Camera Dashboard button ─────────────────────────────────────
-        pi_hw_id = None
-        for _hid, _hinfo in HARDWARE_REGISTRY.items():
-            if _hinfo.get("type", "") in ("IP Camera", "IP Security Camera", "Raspberry Pi Camera"):
-                pi_hw_id = _hid
-                break
-        # Fallback: use first HW entry if none tagged as camera
-        if pi_hw_id is None and HARDWARE_REGISTRY:
-            pi_hw_id = next(iter(HARDWARE_REGISTRY))
-
-        _cam_col, _btn_col = st.columns([3, 1])
-        with _btn_col:
-            if st.button("🔍 Open Camera Dashboard", use_container_width=True, key="pi_open_dashboard"):
-                if pi_hw_id:
-                    # Use MAC from HARDWARE_REGISTRY if set, else keep existing
-                    _pi_mac   = HARDWARE_REGISTRY[pi_hw_id].get("mac", "") or st.session_state.get("hw_mac", "")
-                    _pi_iface = HARDWARE_REGISTRY[pi_hw_id].get("iface", "") or st.session_state.get("hw_iface", "")
-                    st.session_state.hw_active_device = pi_hw_id
-                    st.session_state.hw_mac           = _pi_mac
-                    st.session_state.hw_iface         = _pi_iface
-                    HARDWARE_REGISTRY[pi_hw_id]["mac"]   = _pi_mac
-                    HARDWARE_REGISTRY[pi_hw_id]["iface"] = _pi_iface
-                    st.session_state.sniffer_active   = True  # Pi cam uses MQTT — no Scapy needed
-                    st.session_state.page             = "hardware_dashboard"
-                    st.rerun()
-
+    if training_status.get("status") == "offline":
+        st.warning("⚠️ Flask server is offline. Start `python flask_server.py` to enable training.")
     else:
-        st.info("⏳ Waiting for IP Camera telemetry — start flask_server.py and pi_sender.py on the Pi")
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            baseline_count = training_status.get("baseline_samples", 0)
+            min_req        = training_status.get("min_samples_required", 100)
+            st.metric("Training Samples", baseline_count, f"of {min_req} required")
+            if baseline_count < min_req:
+                st.caption(f"💡 {min_req - baseline_count} more samples needed. Each telemetry message = 1 sample.")
+        with col2:
+            status_val  = training_status.get("status", "idle").upper()
+            status_icon = "🟢" if status_val == "MONITORING" else "🔵" if status_val == "LEARNING" else "🔴"
+            st.metric("Model Status", f"{status_icon} {status_val}")
+            if status_val == "MONITORING":
+                st.caption("✅ Model is active and scoring.")
+        with col3:
+            can_train = training_status.get("ready_to_train", False)
+            st.metric("Ready to Train", "✅ Yes" if can_train else "❌ No")
 
-    st.markdown(
-        "Live devices monitored via Scapy packet capture on your local network. "
-        "Requires administrator / root privileges."
-    )
-
-    hw_cols = st.columns(4)
-    for hw_idx, (hw_id, hw_info) in enumerate(HARDWARE_REGISTRY.items()):
-        with hw_cols[hw_idx % 4]:
-            st.markdown(f"""
-            <div class="fleet-card" style="border:1px solid rgba(0,255,136,0.3);">
-                <div style="font-size:3rem;">{hw_info['icon']}</div>
-                <h3 style="color:white;margin-bottom:5px;">{hw_info['name']}</h3>
-                <p style="color:#00cfff;font-size:0.9em;margin-bottom:5px;">ID: {hw_id}</p>
-                <p style="color:#aaa;font-size:0.8em;margin-bottom:15px;">
-                    Sector: {hw_info['sector']} | Type: {hw_info['type']}
-                </p>
-                <div style="color:{NEON_GREEN};font-weight:bold;margin-bottom:10px;">
-                    ● LIVE
-                </div>
-            </div>""", unsafe_allow_html=True)
-
-            with st.expander("⚙️ Device Setup"):
-                mac_input = st.text_input(
-                    "MAC Address",
-                    value=HARDWARE_REGISTRY[hw_id].get("mac", ""),
-                    placeholder="aa:bb:cc:dd:ee:ff",
-                    key=f"hw_mac_{hw_id}",
-                )
-                iface_input = st.text_input(
-                    "Network Interface",
-                    value=HARDWARE_REGISTRY[hw_id].get("iface", ""),
-                    placeholder="Wi-Fi (Windows) / wlan0 (Linux) / en0 (macOS)",
-                    key=f"hw_iface_{hw_id}",
-                )
-                if st.button("Connect & Start Sniffer", key=f"hw_connect_{hw_id}", use_container_width=True):
-                    if mac_input and iface_input:
-                        # Persist into registry AND session state
-                        HARDWARE_REGISTRY[hw_id]["mac"]   = mac_input.strip()
-                        HARDWARE_REGISTRY[hw_id]["iface"] = iface_input.strip()
-                        st.session_state["hw_mac"]        = mac_input.strip()
-                        st.session_state["hw_iface"]      = iface_input.strip()
-                        st.session_state.hw_active_device = hw_id
+        st.markdown("<br>", unsafe_allow_html=True)
+        tcol1, tcol2 = st.columns([2, 1])
+        with tcol1:
+            if not training_status.get("in_progress", False):
+                if st.button(
+                    "🚀 Start Isolation Forest Training" if can_train else "⏳ Collecting more samples...",
+                    disabled=not can_train,
+                    use_container_width=True,
+                    type="primary" if can_train else "secondary",
+                    key="btn_start_train",
+                ):
+                    with st.spinner("Training in progress..."):
                         try:
-                            start_sniffer(mac_input.strip(), iface_input.strip())
-                            st.session_state.sniffer_active = True
-                            st.success(f"✅ Sniffer started on {iface_input.strip()}")
-                        except Exception as _sniffer_exc:
-                            st.error(f"Failed to start sniffer: {_sniffer_exc}")
-                    else:
-                        st.warning("Please enter both MAC address and interface name.")
-
-                # Show active status only for this device
-                if st.session_state.sniffer_active and st.session_state.get("hw_active_device") == hw_id:
-                    active_iface = HARDWARE_REGISTRY[hw_id].get("iface", "?")
-                    st.success(f"📡 Sniffer active — capturing on {active_iface}")
-
-                if st.checkbox("Show Scapy resolved interface (debug)", key=f"hw_dbg_resolve_{hw_id}"):
-                    try:
-                        from sniffer import _resolve_iface, list_interfaces
-                        resolved = _resolve_iface(iface_input.strip() or "Wi-Fi")
-                        st.code(f"Input: '{iface_input}'\nResolved to: '{resolved}'", language=None)
-                        st.markdown("**All interfaces:**")
-                        for i in list_interfaces():
-                            st.code(i, language=None)
-                    except Exception as e:
-                        st.error(f"Debug error: {e}")
-
-            # View Dashboard — only shown when sniffer is active for THIS device
-            if st.session_state.sniffer_active and st.session_state.get("hw_active_device") == hw_id:
-                if st.button("📊 View Live Dashboard", key=f"hw_view_{hw_id}", use_container_width=True):
-                    st.session_state.hw_active_device = hw_id
-                    st.session_state.hw_mac           = HARDWARE_REGISTRY[hw_id].get("mac", "")
-                    st.session_state.hw_iface         = HARDWARE_REGISTRY[hw_id].get("iface", "")
-                    st.session_state.page             = "hardware_dashboard"
-                    st.rerun()
+                            tr = requests.post("http://localhost:5000/api/pi/force_train", timeout=30)
+                            if tr.status_code == 200:
+                                st.success("✅ Training completed!")
+                                time.sleep(1)
+                                st.rerun()
+                            else:
+                                st.error(f"Training failed: {tr.text}")
+                        except Exception as e:
+                            st.error(f"Connection error: {e}")
             else:
-                st.caption("⚠️ Start the sniffer first to access the live dashboard.")
+                st.info("⏳ Training in progress...")
+        with tcol2:
+            if st.button("🔄 Reset & Re-train", use_container_width=True,
+                         help="Delete model and restart sample collection"):
+                try:
+                    rr = requests.post("http://localhost:5000/api/pi/reset", timeout=5)
+                    if rr.status_code == 200:
+                        st.success("Reset to LEARNING phase.")
+                        time.sleep(1)
+                        st.rerun()
+                except Exception as e:
+                    st.error(f"Reset failed: {e}")
 
     st.divider()
 
-    if st.session_state.remediation_log:
-        flattened_remediation = [item for sublist in st.session_state.remediation_log.values() for item in sublist]
-        if flattened_remediation:
-            st.markdown("### 🛠️ Remediation History")
-            st.dataframe(pd.DataFrame(flattened_remediation).sort_values("Timestamp", ascending=False), width="stretch", hide_index=True)
+    st.markdown("## 🔌 Real-Time Hardware Integration")
 
-    if st.session_state.audit_logs:
-        st.markdown("### 🧾 Audit Trail")
-        st.dataframe(pd.DataFrame(st.session_state.audit_logs), width="stretch", hide_index=True)
+    pi_data = read_pi_telemetry()
 
+    # ── Device cards row ─────────────────────────────────────────────────────────
+    hw_col1, hw_col2 = st.columns(2)
+
+    # ── Samsung A23 card (existing mock device) ───────────────────────────────────
+    with hw_col1:
+        st.markdown("""
+        <div style="background:rgba(17,25,40,0.8);border:1px solid rgba(0,207,255,0.3);
+                    border-radius:12px;padding:20px;text-align:center;cursor:pointer;">
+            <div style="font-size:3rem;">📱</div>
+            <h3 style="color:white;margin:8px 0 4px;">Samsung A23</h3>
+            <p style="color:#00cfff;font-size:0.85em;">ID: PHONE-001</p>
+            <p style="color:#aaa;font-size:0.8em;">Type: Mobile Device</p>
+            <div style="color:#00ff88;font-weight:bold;margin-top:10px;">● LIVE</div>
+        </div>
+        """, unsafe_allow_html=True)
+        if st.button("📊 View Dashboard", key="phone_dash", use_container_width=True):
+            st.session_state.selected_hw_device = "phone"
+            st.rerun()
+
+    # ── Raspberry Pi IP Camera card ───────────────────────────────────────────────
+    with hw_col2:
+        if pi_data:
+            trust  = pi_data["latest"]["trust_score"]
+            phase  = pi_data["phase"]
+            status = pi_data["latest"]["status"]
+            color  = "#00ff88" if trust >= 60 else "#ffb300" if trust >= 30 else "#ff2d55"
+            badge  = "🔵 LEARNING" if phase == "learning" else ("🚨 CRITICAL" if status == "CRITICAL" else "✅ MONITORING")
+        else:
+            trust, phase, status, color, badge = 0, "learning", "LEARNING", "#00cfff", "⏳ WAITING"
+
+        st.markdown(f"""
+        <div style="background:rgba(17,25,40,0.8);border:1px solid {color}44;
+                    border-radius:12px;padding:20px;text-align:center;">
+            <div style="font-size:3rem;">📷</div>
+            <h3 style="color:white;margin:8px 0 4px;">Pi Security Camera</h3>
+            <p style="color:#00cfff;font-size:0.85em;">ID: RPI-IPCAM-01</p>
+            <p style="color:#aaa;font-size:0.8em;">Type: IP Camera</p>
+            <div style="color:{color};font-weight:bold;margin-top:10px;">{badge}</div>
+        </div>
+        """, unsafe_allow_html=True)
+        if st.button("📊 View Dashboard", key="pi_dash", use_container_width=True):
+            st.session_state.selected_hw_device = "pi"
+            st.rerun()
+
+    st.divider()
+
+    # ── Pi device dashboard ───────────────────────────────────────────────────────
+    if st.session_state.get("selected_hw_device") == "pi":
+        st.markdown("## 📷 Pi Security Camera — Live Dashboard")
+
+        if st.button("← Back", key="pi_back"):
+            del st.session_state["selected_hw_device"]
+            st.rerun()
+
+        pi_data = read_pi_telemetry()
+
+        if not pi_data:
+            st.info("⏳ Waiting for Pi telemetry — make sure flask_server.py and pi_sender.py are running")
+        else:
+            trust   = pi_data["latest"]["trust_score"]
+            phase   = pi_data["phase"]
+            status  = pi_data["latest"]["status"]
+            log     = pi_data.get("log", [])
+            elapsed = pi_data["latest"].get("elapsed_learning", 0)
+            nf      = pi_data["latest"].get("network_features", {})
+
+            # ── Countdown during learning ─────────────────────────────────────────
+            if phase == "learning":
+                remaining = max(0, 30 - int(elapsed))
+                st.markdown(f"""
+                <div style="text-align:center;padding:40px;background:rgba(17,25,40,0.8);
+                            border:1px solid #00cfff44;border-radius:12px;margin-bottom:20px;">
+                    <div style="color:#00cfff;font-size:1rem;margin-bottom:10px;">
+                        🔵 LEARNING PHASE — Collecting baseline traffic
+                    </div>
+                    <div style="color:white;font-size:5rem;font-weight:bold;line-height:1;">
+                        {remaining}
+                    </div>
+                    <div style="color:#aaa;font-size:0.9rem;margin-top:10px;">
+                        seconds until trust score appears
+                    </div>
+                    <div style="color:#aaa;font-size:0.8rem;margin-top:6px;">
+                        Samples collected: {pi_data['model']['baseline_samples']}
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+
+            else:
+                # ── Trust gauge ───────────────────────────────────────────────────
+                color = "#00ff88" if trust >= 60 else "#ffb300" if trust >= 30 else "#ff2d55"
+
+                g1, g2, g3 = st.columns(3)
+                with g1:
+                    st.markdown(f"""
+                    <div style="background:rgba(17,25,40,0.8);border:1px solid {color};
+                                border-radius:12px;padding:20px;text-align:center;">
+                        <div style="color:#aaa;font-size:0.8em;">TRUST SCORE</div>
+                        <div style="color:{color};font-size:3rem;font-weight:bold;">{trust:.1f}</div>
+                        <div style="color:#aaa;font-size:0.8em;">/ 100</div>
+                    </div>
+                    """, unsafe_allow_html=True)
+                with g2:
+                    st.markdown(f"""
+                    <div style="background:rgba(17,25,40,0.8);border:1px solid {color};
+                                border-radius:12px;padding:20px;text-align:center;">
+                        <div style="color:#aaa;font-size:0.8em;">STATUS</div>
+                        <div style="color:{color};font-size:2rem;font-weight:bold;">{status}</div>
+                    </div>
+                    """, unsafe_allow_html=True)
+                with g3:
+                    st.markdown(f"""
+                    <div style="background:rgba(17,25,40,0.8);border:1px solid #00cfff;
+                                border-radius:12px;padding:20px;text-align:center;">
+                        <div style="color:#aaa;font-size:0.8em;">DEVICE</div>
+                        <div style="color:#00cfff;font-size:1.2rem;font-weight:bold;">RPI-IPCAM-01</div>
+                        <div style="color:#aaa;font-size:0.8em;">IP Camera</div>
+                    </div>
+                    """, unsafe_allow_html=True)
+
+                st.markdown("<br>", unsafe_allow_html=True)
+
+                # ── Trust score gauge chart ───────────────────────────────────────
+                import plotly.graph_objects as go
+                fig_gauge = go.Figure(go.Indicator(
+                    mode="gauge+number",
+                    value=trust,
+                    number={"font": {"color": "white", "size": 75}, "suffix": "%"},
+                    gauge={
+                        "axis": {"range": [0, 100], "tickcolor": "white"},
+                        "bar":  {"color": color, "thickness": 0.8},
+                        "bgcolor": "rgba(0,0,0,0)", "borderwidth": 0,
+                        "steps": [
+                            {"range": [0,  30], "color": "rgba(255,45,85,0.15)"},
+                            {"range": [30, 60], "color": "rgba(255,179,0,0.15)"},
+                            {"range": [60,100], "color": "rgba(0,255,136,0.15)"},
+                        ],
+                        "threshold": {"line": {"color": "white", "width": 3},
+                                      "thickness": 0.9, "value": trust},
+                    },
+                ))
+                fig_gauge.update_layout(
+                    paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
+                    font={"color": "white"}, height=260,
+                    margin=dict(l=20, r=20, t=10, b=10),
+                )
+                st.plotly_chart(fig_gauge, use_container_width=True)
+
+                # ── Live network features ─────────────────────────────────────────
+                st.markdown("### 📡 Live Network Features")
+                f1, f2, f3, f4 = st.columns(4)
+                def feature_card(col, label, val, normal_range):
+                    with col:
+                        fcolor = "#00ff88" if 0.05 <= val <= 0.8 else "#ff2d55"
+                        st.markdown(f"""
+                        <div style="background:rgba(17,25,40,0.8);border:1px solid {fcolor}44;
+                                    border-radius:10px;padding:15px;text-align:center;">
+                            <div style="color:#aaa;font-size:0.75em;">{label}</div>
+                            <div style="color:{fcolor};font-size:1.8rem;font-weight:bold;">
+                                {val:.3f}
+                            </div>
+                            <div style="color:#555;font-size:0.7em;">normal: {normal_range}</div>
+                        </div>
+                        """, unsafe_allow_html=True)
+
+                feature_card(f1, "PKT SIZE",  nf.get("pkt_size", 0),  "0.10–0.20")
+                feature_card(f2, "IAT",       nf.get("iat", 0),       "0.25–0.45")
+                feature_card(f3, "ENTROPY",   nf.get("entropy", 0),   "0.10–0.25")
+                feature_card(f4, "SYMMETRY",  nf.get("symmetry", 0),  "0.40–0.65")
+
+                st.markdown("<br>", unsafe_allow_html=True)
+
+                # ── Trust score history graph ─────────────────────────────────────
+                if log:
+                    st.markdown("### 📈 Trust Score History")
+                    import pandas as pd
+                    df = pd.DataFrame([
+                        {"time": r.get("timestamp","")[-8:-3],
+                         "trust": r.get("trust_score", 0)}
+                        for r in log[-60:] if r.get("trust_score") is not None
+                    ])
+                    if not df.empty:
+                        # Convert hex color to rgba for fillcolor (Plotly requirement)
+                        fill_hex = color.lstrip('#')
+                        fill_rgba = f"rgba({int(fill_hex[0:2], 16)},{int(fill_hex[2:4], 16)},{int(fill_hex[4:6], 16)},0.2)"
+                        fig_line = go.Figure(go.Scatter(
+                            x=df["time"], y=df["trust"],
+                            mode="lines", fill="tozeroy",
+                            line={"color": color, "width": 2, "shape": "spline"},
+                            fillcolor=fill_rgba,
+                        ))
+                        fig_line.update_layout(
+                            paper_bgcolor="rgba(0,0,0,0)",
+                            plot_bgcolor="rgba(0,0,0,0)",
+                            font={"color": "white"},
+                            height=200,
+                            margin=dict(l=0, r=0, t=10, b=0),
+                            xaxis={"showgrid": False},
+                            yaxis={"range": [0, 100], "showgrid": True,
+                                   "gridcolor": "rgba(255,255,255,0.05)"},
+                        )
+                        st.plotly_chart(fig_line, use_container_width=True)
+
+                # ── Live feature log table ────────────────────────────────────────
+                if log:
+                    st.markdown("### 🗃️ Live Feature Log")
+                    import pandas as pd
+                    rows = []
+                    for r in reversed(log[-20:]):
+                        nff = r.get("network_features", {})
+                        rows.append({
+                            "Time":     r.get("timestamp","")[-8:],
+                            "Trust":    round(r.get("trust_score", 0), 1),
+                            "Status":   r.get("status",""),
+                            "PKT Size": nff.get("pkt_size",""),
+                            "IAT":      nff.get("iat",""),
+                            "Entropy":  nff.get("entropy",""),
+                            "Symmetry": nff.get("symmetry",""),
+                        })
+                    st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
+
+                # ── Status banner + remediation ───────────────────────────────────
+                st.markdown("<br>", unsafe_allow_html=True)
+                if status == "CRITICAL":
+                    st.error("🚨 CRITICAL — Active SYN Flood Attack Detected on Pi", icon="🚨")
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        if st.button("🛡️ Initiate Remediation", type="primary",
+                                     use_container_width=True, key="pi_remediate"):
+                            import requests as _req
+                            with st.spinner("Applying iptables rules on Pi via SSH..."):
+                                try:
+                                    r = _req.post("http://localhost:5000/api/pi/remediate", timeout=15)
+                                    result = r.json()
+                                    if result.get("success"):
+                                        st.success("✅ Remediation applied!")
+                                        for rule in result["event"]["rules_applied"]:
+                                            st.markdown(f"- {rule}")
+                                        st.balloons()
+                                    else:
+                                        st.error("SSH failed — check PI_HOST in flask_server.py")
+                                except Exception as e:
+                                    st.error(f"Error: {e}")
+                    with col2:
+                        if st.button("🔓 Clear Rules", use_container_width=True, key="pi_clear"):
+                            import requests as _req
+                            _req.post("http://localhost:5000/api/pi/clear_rules", timeout=10)
+                            st.info("iptables rules cleared on Pi")
+                elif status == "WARNING":
+                    st.warning("⚠️ WARNING — Unusual activity detected", icon="⚠️")
+                else:
+                    st.success("✅ System Secure — No active threats", icon="🛡️")
+
+
+    st.divider()
+    st.info("💡 Pro-Tip: Ensure `flask_server.py` is running and the Pi is sending telemetry to see the sample counter increase.")
 
 
 # ---------------------------------------------------------------------------

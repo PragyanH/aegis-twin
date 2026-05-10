@@ -18,6 +18,9 @@ Requirements:
 from __future__ import annotations
 
 import json
+import psutil
+import paho.mqtt.client as mqtt
+from flask import Flask, jsonify, request
 import os
 import threading
 import time
@@ -35,10 +38,13 @@ load_dotenv()
 from isolation_model import (
     add_baseline_sample,
     get_status,
+    get_training_status,
+    get_training_estimate,
     get_trust_score,
     load_model,
     score_sample,
     train_model,
+    reset_training,
 )
 
 # ── App setup ─────────────────────────────────────────────────────────────────
@@ -188,13 +194,23 @@ def _process_telemetry(data: dict) -> dict:
 
     if _phase == "learning":
         add_baseline_sample(features)
-        if elapsed >= LEARNING_DURATION:
+        
+        # Check progress
+        status_info = get_status()
+        baseline_count = status_info.get("baseline_samples", 0)
+        
+        if elapsed >= LEARNING_DURATION and baseline_count >= 100:
             try:
                 summary = train_model()
                 _phase = "monitoring"
                 print(f"[Aegis] Auto-trained after {elapsed:.0f}s | {summary}")
             except Exception as e:
                 print(f"[Aegis] Auto-train failed: {e}")
+        elif elapsed >= LEARNING_DURATION:
+             # Wait for more samples
+             if int(elapsed) % 10 == 0:
+                 print(f"[Aegis] Waiting for more samples... ({baseline_count}/100 collected)")
+             pass
         trust  = 95.0
         status = "LEARNING"
     else:
@@ -324,6 +340,20 @@ def force_train():
         }), 400
 
 
+@app.route("/api/training/status")
+def training_status():
+    """Get current training status and progress."""
+    status = get_training_status()
+    return jsonify(status)
+
+
+@app.route("/api/training/estimate")
+def training_estimate():
+    """Get estimated training time."""
+    estimate = get_training_estimate()
+    return jsonify(estimate)
+
+
 @app.route("/api/pi/status")
 def pi_status():
     with _lock:
@@ -339,21 +369,11 @@ def pi_status():
 @app.route("/api/pi/reset", methods=["POST"])
 def reset():
     global _phase, _learning_start, _pi_telemetry_log, _attacker_ip, _last_forensic_time
-    import isolation_model as _im
-    from isolation_model import MODEL_PATH
-
-    with _im._lock:
-        _im._baseline_buffer = []
-        _im._score_window.clear()
-        _im._model     = None
-        _im._is_trained = False
-        _im._score_min  = -0.5
-        _im._score_max  = -0.1
-
-    if MODEL_PATH.exists():
-        MODEL_PATH.unlink()
-        print("[Aegis Flask] Deleted saved model.")
-
+    
+    # 1. Reset the underlying model and buffer
+    success = reset_training()
+    
+    # 2. Reset Flask server internal state
     with _lock:
         _phase              = "learning"
         _learning_start     = time.time()
@@ -361,13 +381,15 @@ def reset():
         _attacker_ip        = None
         _last_forensic_time = 0.0
 
+    # 3. Clean up the public JSON file
     if TELEMETRY_FILE.exists():
-        TELEMETRY_FILE.unlink()
+        try:
+            TELEMETRY_FILE.unlink()
+        except Exception:
+            pass
 
     print("[Aegis Flask] Full reset complete → LEARNING phase")
-    return jsonify({"success": True, "message": "Reset complete. Back to LEARNING phase."})
-
-
+    return jsonify({"success": success, "message": "Reset complete. Back to LEARNING phase."})
 @app.route("/api/telemetry/latest")
 def latest_telemetry():
     with _lock:

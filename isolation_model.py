@@ -14,9 +14,11 @@ Features (must match sniffer.py output):
 import numpy as np
 import joblib
 from sklearn.ensemble import IsolationForest
+from sklearn.model_selection import train_test_split
 from pathlib import Path
 from collections import deque
 import threading
+import time
 
 # ── Config ───────────────────────────────────────────────────────────────────
 
@@ -36,6 +38,12 @@ _score_window:     deque = deque(maxlen=WINDOW_SIZE)
 _score_min: float  = -0.5   # fallback defaults, overwritten after training
 _score_max: float  = -0.1
 
+# ── Training progress state ───────────────────────────────────────────────────
+_training_in_progress   = False
+_training_start_time    = None
+_training_status        = "idle"  # idle, in_progress, completed, failed
+_training_last_summary  = None
+
 
 # ── Baseline collection ───────────────────────────────────────────────────────
 
@@ -48,13 +56,30 @@ def add_baseline_sample(features: list[float]) -> None:
 
 # ── Training ──────────────────────────────────────────────────────────────────
 
+def estimate_training_time(num_samples: int) -> dict:
+    """
+    Estimate training time based on number of samples.
+    Returns estimated seconds and formatted string.
+    """
+    # Isolation Forest scales roughly linearly with samples for this size
+    # Empirically: ~0.005 sec per sample for N_ESTIMATORS=100 on Pi/x86
+    base_time = 0.005 * num_samples
+    
+    return {
+        "estimated_seconds": max(1, int(base_time)),
+        "estimated_minutes": round(base_time / 60, 2),
+        "formatted": f"{max(1, int(base_time))}s" if base_time < 60 else f"{round(base_time / 60, 1)}m"
+    }
+
+
 def train_model() -> dict:
     """
-    Train Isolation Forest on collected baseline samples.
+    Train Isolation Forest on collected baseline samples with train/test split.
     Call this after ~2 minutes of normal traffic collection.
-    Returns training summary dict.
+    Returns training summary dict with test scores.
     """
-    global _model, _is_trained, _score_min, _score_max
+    global _model, _is_trained, _score_min, _score_max, _training_in_progress
+    global _training_status, _training_start_time, _training_last_summary
 
     with _lock:
         data = np.array(_baseline_buffer, dtype=np.float32)
@@ -65,44 +90,100 @@ def train_model() -> dict:
             "Let the device run longer in baseline mode."
         )
 
-    model = IsolationForest(
-        n_estimators=N_ESTIMATORS,
-        contamination=CONTAMINATION,
-        random_state=42,
-        n_jobs=-1,   # use all cores (Raspberry Pi has 4)
-    )
-    model.fit(data)
-
-    # Compute real score bounds from YOUR data — no hardcoded guesses
-    scores = -model.score_samples(data)   # flip sign: higher = more anomalous
-    p5  = float(np.percentile(scores, 5))    # floor: most normal end
-    p95 = float(np.percentile(scores, 95))   # ceiling: edge of normal
-
+    # Mark training as in progress
     with _lock:
-        _model      = model
-        _is_trained = True
-        _score_min  = p5
-        _score_max  = p95
+        _training_in_progress = True
+        _training_start_time = time.time()
+        _training_status = "in_progress"
 
-    # Save model + bounds together so load_model() restores everything
-    joblib.dump(
-        {"model": model, "score_min": _score_min, "score_max": _score_max},
-        MODEL_PATH,
-    )
-    print(
-        f"[IsolationForest] Trained on {len(data)} samples → saved to {MODEL_PATH}\n"
-        f"  score_min (p5)  = {p5:.4f}\n"
-        f"  score_max (p95) = {p95:.4f}"
-    )
+    try:
+        # Split data: 80% train, 20% test
+        X_train, X_test = train_test_split(
+            data, test_size=0.2, random_state=42
+        )
 
-    return {
-        "samples_trained":     len(data),
-        "score_mean":          float(np.mean(scores)),
-        "score_std":           float(np.std(scores)),
-        "score_min":           _score_min,
-        "score_max":           _score_max,
-        "threshold_suggested": p95,
-    }
+        model = IsolationForest(
+            n_estimators=N_ESTIMATORS,
+            contamination=CONTAMINATION,
+            random_state=42,
+            n_jobs=-1,   # use all cores (Raspberry Pi has 4)
+        )
+        model.fit(X_train)
+
+        # Compute real score bounds from training data
+        train_scores = -model.score_samples(X_train)
+        test_scores = -model.score_samples(X_test)
+        
+        p5  = float(np.percentile(train_scores, 5))    # floor: most normal end
+        p95 = float(np.percentile(train_scores, 95))   # ceiling: edge of normal
+
+        # Calculate test metrics
+        test_mean = float(np.mean(test_scores))
+        test_std = float(np.std(test_scores))
+        test_min = float(np.min(test_scores))
+        test_max = float(np.max(test_scores))
+        
+        # Detection rate on test set (anomalies detected)
+        test_predictions = model.predict(X_test)
+        anomaly_count = int(np.sum(test_predictions == -1))
+        anomaly_rate = (anomaly_count / len(X_test)) * 100
+
+        elapsed = time.time() - _training_start_time
+
+        with _lock:
+            _model      = model
+            _is_trained = True
+            _score_min  = p5
+            _score_max  = p95
+            _training_status = "completed"
+
+        # Save model + bounds together
+        joblib.dump(
+            {"model": model, "score_min": _score_min, "score_max": _score_max},
+            MODEL_PATH,
+        )
+
+        summary = {
+            "success":              True,
+            "samples_total":        len(data),
+            "samples_trained":      len(X_train),
+            "samples_tested":       len(X_test),
+            "training_time_sec":    round(elapsed, 2),
+            "score_min":            _score_min,
+            "score_max":            _score_max,
+            "train_score_mean":     float(np.mean(train_scores)),
+            "train_score_std":      float(np.std(train_scores)),
+            "test_score_mean":      test_mean,
+            "test_score_std":       test_std,
+            "test_score_min":       test_min,
+            "test_score_max":       test_max,
+            "test_anomaly_rate":    round(anomaly_rate, 2),
+            "threshold_suggested":  float(p95),
+        }
+
+        with _lock:
+            _training_last_summary = summary
+
+        print(
+            f"[IsolationForest] Trained in {elapsed:.2f}s on {len(X_train)} samples\n"
+            f"  Test Results:\n"
+            f"    Score Mean: {test_mean:.4f}, Std: {test_std:.4f}\n"
+            f"    Score Range: [{test_min:.4f}, {test_max:.4f}]\n"
+            f"    Anomaly Rate: {anomaly_rate:.2f}%\n"
+            f"  Bounds: [{p5:.4f}, {p95:.4f}]"
+        )
+
+        return summary
+
+    except Exception as e:
+        with _lock:
+            _training_status = "failed"
+            _training_in_progress = False
+        print(f"[IsolationForest] Training failed: {e}")
+        raise
+    finally:
+        with _lock:
+            _training_in_progress = False
 
 
 # ── Load from disk ────────────────────────────────────────────────────────────
@@ -210,6 +291,87 @@ def get_status() -> dict:
         "ready_to_train":    len(_baseline_buffer) >= MIN_TRAIN_SAMPLES,
         "score_min":         _score_min,
         "score_max":         _score_max,
+    }
+
+
+def get_training_status() -> dict:
+    """Get current training progress and status."""
+    with _lock:
+        in_progress = _training_in_progress
+        status = _training_status
+        start_time = _training_start_time
+        summary = _training_last_summary
+        baseline_count = len(_baseline_buffer)
+        is_trained = _is_trained
+    
+    # Map trained state to monitoring status if idle
+    display_status = status
+    if status == "idle" and is_trained:
+        display_status = "monitoring"
+    elif status == "idle" and baseline_count > 0:
+        display_status = "learning"
+
+    result = {
+        "status": display_status,
+        "in_progress": in_progress,
+        "baseline_samples": baseline_count,
+        "ready_to_train": baseline_count >= MIN_TRAIN_SAMPLES,
+        "min_samples_required": MIN_TRAIN_SAMPLES,
+        "is_trained": is_trained
+    }
+    
+    if in_progress and start_time:
+        elapsed = time.time() - start_time
+        result["elapsed_seconds"] = round(elapsed, 2)
+    
+    if summary:
+        result["last_summary"] = summary
+    
+    return result
+
+
+def reset_training() -> bool:
+    """Reset the model and training buffer to start fresh."""
+    global _baseline_buffer, _is_trained, _model, _training_last_summary, _training_status
+    with _lock:
+        _baseline_buffer = []
+        _is_trained = False
+        _model = None
+        _training_last_summary = None
+        _training_status = "idle"
+        _score_window.clear()
+        
+    # Delete model file if it exists
+    if MODEL_PATH.exists():
+        try:
+            MODEL_PATH.unlink()
+            print(f"[IsolationForest] Deleted model file: {MODEL_PATH}")
+            return True
+        except Exception as e:
+            print(f"[IsolationForest] Error deleting model file: {e}")
+            return False
+    return True
+
+
+def get_training_estimate(num_samples: int = None) -> dict:
+    """Get time estimate for training based on sample count."""
+    with _lock:
+        samples = num_samples or len(_baseline_buffer)
+    
+    if samples < MIN_TRAIN_SAMPLES:
+        return {
+            "can_train": False,
+            "estimated_seconds": 0,
+            "message": f"Need {MIN_TRAIN_SAMPLES - samples} more samples"
+        }
+    
+    estimate = estimate_training_time(samples)
+    return {
+        "can_train": True,
+        "estimated_seconds": estimate["estimated_seconds"],
+        "estimated_minutes": estimate["estimated_minutes"],
+        "formatted": estimate["formatted"],
+        "sample_count": samples,
     }
 
 

@@ -44,4 +44,10 @@ SESSION_DEFAULTS = {
     "hw_calibrating":                False,
     "hw_mac":                        "",
     "hw_iface":                      "",
+    "selected_hw_device":            None,
+    # isolation forest training
+    "training_in_progress":          False,
+    "training_completed":            False,
+    "training_error":                None,
+    "last_training_summary":         None,
 }
